@@ -19,7 +19,7 @@ public class MockInterceptor implements Interceptor {
         MockResponse mockResonse = Mox.getInstance().mock(request);
         if (mockResonse == null) {
             Response proceed = chain.proceed(request);
-            Mox.log(request, proceed);
+            Mox.getInstance().log(request, proceed);
             return proceed;
         } else {
             if (mockResonse.cover && mockResonse.covers != null && !mockResonse.covers.isEmpty()) {

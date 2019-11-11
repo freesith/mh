@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mox" >
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+    <application>
+
+        <provider
+            android:authorities="${applicationId}.mox"
+            android:name=".InitProvider">
+
+        </provider>
+        <activity android:name=".ui.SettingActivity" />
+    </application>
+
+
+</manifest>

@@ -1,0 +1,11 @@
+package com.example.mox.db.bean;
+
+import java.util.Map;
+
+public class MockResponse {
+    //如果true,直接返回data,
+    //如果false,请求网络,替换covers里的字段
+    public String data;
+    public boolean cover = true;
+    public Map<String, Object> covers;
+}

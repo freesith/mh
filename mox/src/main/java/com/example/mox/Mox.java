@@ -32,6 +32,9 @@ public class Mox {
     private ConcurrentHashMap<String, LinkedList<Mock>> enableMockMap = new ConcurrentHashMap<>();
 
     public static Mox getInstance() {
+        if (mox == null) {
+            mox = new Mox();
+        }
         return mox;
     }
 
@@ -65,13 +68,13 @@ public class Mox {
 
 
     public MockResponse mock (Request request) {
-        String method = request.method();
+        String method = request.method().toLowerCase();
         HttpUrl url = request.url();
         String path = url.encodedPath();
         if (enableMockMap.isEmpty()) {
             return null;
         }
-        LinkedList<Mock> mocks = enableMockMap.get(method + url);
+        LinkedList<Mock> mocks = enableMockMap.get(method + path);
         if (mocks == null || mocks.isEmpty()) {
             return null;
         }
@@ -160,7 +163,7 @@ public class Mox {
 
         Cursor cursor = db.rawQuery(mockSql, null);
         while (cursor.moveToNext()) {
-            String method = cursor.getString(cursor.getColumnIndex("method"));
+            String method = cursor.getString(cursor.getColumnIndex("method")).toLowerCase();
             String path = cursor.getString(cursor.getColumnIndex("path"));
             int status = cursor.getInt(cursor.getColumnIndex("status"));
             String json = cursor.getString(cursor.getColumnIndex("json"));

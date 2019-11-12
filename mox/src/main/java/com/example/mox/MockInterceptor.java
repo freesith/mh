@@ -7,6 +7,7 @@ import java.io.IOException;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -24,6 +25,7 @@ public class MockInterceptor implements Interceptor {
         } else {
             if (mockResonse.cover && mockResonse.covers != null && !mockResonse.covers.isEmpty()) {
                 Response proceed = chain.proceed(request);
+                //TODO 2019-11-12 by WangChao 改变其中某些字段
 //                String bodyString = proceed.body().toString();
 //                JSONObject jsonObject = JSON.parseObject(bodyString);
 //
@@ -43,9 +45,8 @@ public class MockInterceptor implements Interceptor {
 //                }
                 return proceed;
             } else {
-                ResponseBody mockBody = ResponseBody.create(MediaType.get("json"), mockResonse.data);
-                Response mockedResponse = new Response.Builder().request(request).body(mockBody).build();
-                return mockedResponse;
+                ResponseBody mockBody = ResponseBody.create(MediaType.get("application/json"), mockResonse.data);
+                return new Response.Builder().protocol(Protocol.HTTP_1_1).code(200).message("Success").request(request).body(mockBody).build();
             }
         }
     }

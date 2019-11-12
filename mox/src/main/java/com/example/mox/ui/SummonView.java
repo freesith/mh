@@ -1,7 +1,6 @@
 package com.example.mox.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,7 +10,6 @@ import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.annotation.RequiresApi;
 
@@ -47,12 +45,9 @@ public class SummonView extends View implements View.OnTouchListener {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        Log.d("xxx", "dispatchTouchEvent event = " + MotionEvent.actionToString(event.getActionMasked()));
         if (lastAction == event.getAction() && lastX == event.getX() && lastY == event.getY()) {
-            Log.d("xxx", "oldEvent");
             return super.dispatchTouchEvent(event);
         } else {
-            Log.d("xxx", "newEvent");
             lastAction = event.getAction();
             lastX = event.getX();
             lastY = event.getY();
@@ -66,17 +61,8 @@ public class SummonView extends View implements View.OnTouchListener {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.d("xxx", "onTouchEvent event = " + MotionEvent.actionToString(event.getActionMasked()));
-
-        return super.onTouchEvent(event);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
     public boolean onTouch(View view, MotionEvent event) {
 
-        Log.d("xxx", "onTouch    " + MotionEvent.actionToString(event.getActionMasked()));
         int x = (int) event.getX();
         int y = (int) event.getY();
 
@@ -127,7 +113,6 @@ public class SummonView extends View implements View.OnTouchListener {
         int width = right.x - left.x;
         int height = bottom.y - top.y;
 
-        context.startActivity(new Intent(context, SettingActivity.class));
 
         if (Math.abs(width - height) < width * 0.3f && Math.abs(left.y - right.y) < width * 0.3f && Math.abs(top.x - bottom.x) < width * 0.3f) {
             Log.d("xxx", "isCircle");

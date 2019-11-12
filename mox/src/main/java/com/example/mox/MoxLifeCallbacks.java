@@ -3,9 +3,6 @@ package com.example.mox;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -15,16 +12,23 @@ import com.example.mox.ui.SummonView;
 
 public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks {
 
+
     @Override
-    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+
     }
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
         FrameLayout content = activity.findViewById(android.R.id.content);
+        int childCount = content.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            if (content.getChildAt(i) instanceof SummonView) {
+                return;
+            }
+        }
         SummonView summonView = new SummonView(activity);
         content.addView(summonView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-
     }
 
     @Override

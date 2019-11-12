@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import kotlin.text.Regex;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okio.Buffer;
@@ -55,7 +54,7 @@ public class MockRequest {
             buffer.close();
         }
 
-        if (!TextUtils.isEmpty(this.method) && !this.method.equals(method)) {
+        if (!TextUtils.isEmpty(this.method) && !this.method.equalsIgnoreCase(method)) {
             return false;
         }
         if (!TextUtils.isEmpty(this.path) && !this.path.equals(path)) {

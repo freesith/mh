@@ -156,7 +156,7 @@ class MockOkHttpPlugin extends Transform implements Plugin<Project> {
      */
     static boolean checkClassFile(String name) {
         //只处理需要的class文件
-        return '''okhttp3/OkHttpClient$Builder.class''' == name
+        return '''okhttp3/OkHttpClient.class''' == name
     }
 
 }

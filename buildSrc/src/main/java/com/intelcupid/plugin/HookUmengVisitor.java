@@ -21,10 +21,10 @@ class HookUmengVisitor extends ClassVisitor implements Opcodes {
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        System.out.println("LifecycleClassVisitor : visitMethod : " + name + "  ClassName = " + this.mClassName);
+        System.out.println("LifecycleClassVisitor : visitMethod : " + name + "  desc = " + desc);
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if("okhttp3/OkHttpClient$Builder".equals(this.mClassName)) {
-            if ("build".equals(name) ) {
+        if("okhttp3/OkHttpClient".equals(this.mClassName) ) {
+            if ("<init>".equals(name) && "(Lokhttp3/OkHttpClient$Builder;)V".equals(desc)) {
                 return new FieldManagerHooker(mv);
             }
         }

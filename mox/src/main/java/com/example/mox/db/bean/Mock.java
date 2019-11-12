@@ -1,14 +1,26 @@
 package com.example.mox.db.bean;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class Mock implements Comparable<Mock> {
 
-public class Mock {
     public boolean enable = false;
+    public String title;
     public String desc;
+    public int priority;
     public MockRequest request;
     public MockResponse response;
+
+    @Override
+    public int compareTo(Mock o) {
+        if (o == null) {
+            return 1;
+        }
+        if (priority > o.priority) {
+            return 1;
+        } else if (priority < o.priority) {
+            return -1;
+        }
+        return 0;
+    }
 }
 
 

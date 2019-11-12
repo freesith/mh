@@ -10,9 +10,11 @@ import com.example.mox.db.bean.Mock;
 import com.example.mox.db.bean.MockRequest;
 import com.example.mox.db.bean.MockResponse;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -183,5 +185,22 @@ public class Mox {
             mocks.add(mock);
         }
         cursor.close();
+    }
+
+    public List<Mock> getMocks() {
+        Cursor cursor = db.rawQuery("SELECT * FROM table_mock ORDER BY status DESC", null);
+        List<Mock> mockList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex("name")).toLowerCase();
+            int status = cursor.getInt(cursor.getColumnIndex("status"));
+            String json = cursor.getString(cursor.getColumnIndex("json"));
+
+            Mock mock = JSON.parseObject(json, Mock.class);
+            mock.name = name;
+            mock.enable = (status & 1) == 1;
+            mockList.add(mock);
+        }
+        cursor.close();
+        return mockList;
     }
 }

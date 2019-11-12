@@ -37,6 +37,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
 
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+
     implementation 'com.alibaba:fastjson:1.2.61'
     implementation 'androidx.core:core-ktx:1.0.2'
     testImplementation 'junit:junit:4.12'

@@ -1,89 +1,93 @@
 package com.example.mox.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewAnimationUtils;
+import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-public class SummonView extends View implements View.OnTouchListener {
+import com.example.mox.R;
 
-    public static final String TAG = "xxx";
+public class CoverLayout extends FrameLayout implements View.OnTouchListener {
+
+    private static final String TAG = "xxx";
+
     private float downX = -1;
     private float downY = -1;
     private Point left = new Point();
     private Point right = new Point();
     private Point top = new Point();
     private Point bottom = new Point();
+    private float lastX;
+    private float lastY;
+    private int lastAction;
 
-    private int direction = -1;
+    private MonitorView vMonitorView;
 
-    private Path path = new Path();
-    private Paint paint = new Paint();
-
-    private Context context;
-    private OnDrawCircleListener onDrawCircleListener;
-
-    public void setOnDrawCircleListener(OnDrawCircleListener onDrawCircleListener) {
-        this.onDrawCircleListener = onDrawCircleListener;
-    }
-
-    public SummonView(Context context) {
+    public CoverLayout(Context context) {
         super(context);
         init(context);
     }
 
-    public SummonView(Context context, @Nullable AttributeSet attrs) {
+    public CoverLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public SummonView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CoverLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public SummonView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CoverLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
 
     private void init(Context context) {
-        this.context = context;
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_cover, this);
         setOnTouchListener(this);
-        paint.setColor(Color.BLUE);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setStrokeWidth(30);
+        vMonitorView = view.findViewById(R.id.vMonitor);
     }
 
-    private float lastX;
-    private float lastY;
-    private int lastAction;
+    private void showMonitorView(int left, int top, int right, int bottom) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Animator circularReveal = ViewAnimationUtils.createCircularReveal(vMonitorView, (left + right) / 2, (top + bottom) / 2, (bottom - top + right - left) / 4, getHeight());
+            circularReveal.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    vMonitorView.setVisibility(View.VISIBLE);
+                }
 
-
-    private ViewGroup content;
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        content = (ViewGroup) getParent().getParent();
-
+            });
+            circularReveal.setDuration(1000).start();
+        } else {
+            vMonitorView.setVisibility(View.VISIBLE);
+        }
     }
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+
+        if (vMonitorView.getVisibility() == View.VISIBLE) {
+            return super.dispatchTouchEvent(event);
+        }
+
         if (lastAction == event.getAction() && lastX == event.getX() && lastY == event.getY()) {
             return super.dispatchTouchEvent(event);
         } else {
@@ -108,8 +112,6 @@ public class SummonView extends View implements View.OnTouchListener {
         switch (event.getActionMasked()) {
 
             case MotionEvent.ACTION_DOWN:
-                path.rewind();
-                path.moveTo(x, y);
                 downX = event.getX();
                 downY = event.getY();
                 resetDots(x, y);
@@ -132,10 +134,6 @@ public class SummonView extends View implements View.OnTouchListener {
                 if (y > bottom.y) {
                     bottom.set(x, y);
                 }
-
-                path.lineTo(x, y);
-                path.moveTo(x, y);
-                invalidate();
                 break;
 
             case MotionEvent.ACTION_UP:
@@ -148,17 +146,19 @@ public class SummonView extends View implements View.OnTouchListener {
         return false;
     }
 
+
     private void checkCircle() {
         int width = right.x - left.x;
         int height = bottom.y - top.y;
 
+        if (width < 100 || height < 100) {
+            return;
+        }
+
         if (Math.abs(width - height) < Math.max(height, width) * 0.3f) {
             if (Math.abs(top.y + height / 2 - left.y) < height * 0.3f && Math.abs(top.y + height / 2 - right.y) < height * 0.3f) {
                 if (Math.abs(left.x + width / 2 - top.x) < width * 0.3f && Math.abs(left.x + width / 2 - bottom.x) < width * 0.3f) {
-                    Log.d(TAG, "checkCircle: CIRCLE");
-                    if (onDrawCircleListener != null) {
-                        onDrawCircleListener.onCircleDrawn(left.x, top.y, right.x, bottom.y);
-                    }
+                    showMonitorView(left.x, top.y, right.x, bottom.y);
                 }
             }
         }
@@ -169,15 +169,5 @@ public class SummonView extends View implements View.OnTouchListener {
         right.set(x, y);
         top.set(x, y);
         bottom.set(x, y);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawPath(path, paint);
-    }
-
-    public interface OnDrawCircleListener {
-        void onCircleDrawn(int left, int top, int right, int bottom);
     }
 }

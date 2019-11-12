@@ -8,10 +8,11 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.mox.ui.SummonView;
+import com.example.mox.ui.CoverLayout;
 
 public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks {
 
+    private Activity resumeActivity;
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
@@ -23,22 +24,25 @@ public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks 
         FrameLayout content = activity.findViewById(android.R.id.content);
         int childCount = content.getChildCount();
         for (int i = 0; i < childCount; i++) {
-            if (content.getChildAt(i) instanceof SummonView) {
+            if (content.getChildAt(i) instanceof CoverLayout) {
                 return;
             }
         }
-        SummonView summonView = new SummonView(activity);
+        CoverLayout summonView = new CoverLayout(activity);
         content.addView(summonView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+
     }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
-
+        resumeActivity = activity;
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
-
+        if (activity == resumeActivity) {
+            resumeActivity = null;
+        }
     }
 
     @Override
@@ -46,7 +50,7 @@ public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks 
         FrameLayout content = activity.findViewById(android.R.id.content);
         int childCount = content.getChildCount();
         for (int i = 0; i < childCount; i++) {
-            if (content.getChildAt(i) instanceof SummonView) {
+            if (content.getChildAt(i) instanceof CoverLayout) {
                 content.removeViewAt(i);
                 return;
             }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="manhole_white">#FFFFFF</color>
+    <color name="manhole_black">#333333</color>
+    <color name="manhole_pure_black">#000000</color>
+    <color name="manhole_f7">#F7F7F7</color>
+    <color name="manhole_99">#999999</color>
+
+    <color name="manhole_get">#018f56</color>
+    <color name="manhole_post">#3498a0</color>
+
+    <color name="manhole_case">#2e7b30</color>
+    <color name="manhole_mock">#33398a</color>
+    <color name="manhole_case33">#332e7b30</color>
+    <color name="manhole_mock33">#3333398a</color>
+
+    <color name="manhole_mock_enable">#9999ff</color>
+
+
+</resources>

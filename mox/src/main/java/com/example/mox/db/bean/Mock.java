@@ -3,12 +3,16 @@ package com.example.mox.db.bean;
 public class Mock implements Comparable<Mock> {
 
     public String name; // 文件名
-    public boolean enable = false;
     public String title;
     public String desc;
     public int priority;
     public MockRequest request;
     public MockResponse response;
+
+    //local
+    public boolean passive = false;
+    public boolean enable = false;
+
 
     @Override
     public int compareTo(Mock o) {

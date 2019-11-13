@@ -1,6 +1,7 @@
 package com.example.mox;
 
 import java.util.List;
+import java.util.Set;
 
 public class Util {
 
@@ -23,4 +24,24 @@ public class Util {
         }
         return builder.toString();
     }
+
+
+    public static String setToSelection(Set<String> set) {
+        if (set == null || set.isEmpty()) {
+            return "";
+        }
+        boolean first = true;
+        StringBuilder builder = new StringBuilder();
+        for (String caseName : set) {
+            if (!first) {
+                builder.append(",");
+            } else {
+                first = false;
+            }
+            builder.append("'").append(caseName).append("'");
+        }
+        return builder.toString();
+    }
+
+
 }

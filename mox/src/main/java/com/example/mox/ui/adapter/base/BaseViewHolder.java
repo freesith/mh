@@ -1,4 +1,4 @@
-package com.example.mox.ui.base;
+package com.example.mox.ui.adapter.base;
 
 import android.util.SparseArray;
 import android.view.View;
@@ -23,6 +23,10 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
             viewCache.put(id, view);
         }
         return (V) view;
+    }
+
+    public View getItemView() {
+        return itemView;
     }
 
     public void setText(int viewId, String text) {

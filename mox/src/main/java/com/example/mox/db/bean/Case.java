@@ -3,7 +3,13 @@ package com.example.mox.db.bean;
 import java.util.List;
 
 public class Case {
-    public boolean enable;
+    public String name;
+    public String title;
     public String desc;
     public List<String> mocks;
+
+    //local
+    public boolean enable;
+    public boolean passive;
+
 }

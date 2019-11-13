@@ -1,4 +1,4 @@
-package com.example.mox.ui.base;
+package com.example.mox.ui.adapter.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseAdater<T> extends RecyclerView.Adapter<BaseViewHolder<T>> {
+public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> {
 
-    Context context;
+    public BaseAdapter(Context context) {
+        this.context = context;
+    }
+
+    protected Context context;
     protected List<T> mList = new ArrayList<>();
-
-
 
 
     public void setList(List<T> list) {
@@ -31,9 +33,16 @@ public abstract class BaseAdater<T> extends RecyclerView.Adapter<BaseViewHolder<
         mList.add(t);
     }
 
+    public T get(int position) {
+        if (position >= 0 && position < mList.size()) {
+            return mList.get(position);
+        }
+        return null;
+    }
+
     protected abstract int getLayoutId(int viewType);
 
-    protected abstract void bindView(BaseViewHolder<T> holder, T t);
+    protected abstract void bindView(BaseViewHolder<T> holder, T t, int position);
 
     @NonNull
     @Override
@@ -45,7 +54,7 @@ public abstract class BaseAdater<T> extends RecyclerView.Adapter<BaseViewHolder<
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder<T> holder, int position) {
         T t = mList.get(position);
-        bindView(holder, t);
+        bindView(holder, t, position);
     }
 
     @Override

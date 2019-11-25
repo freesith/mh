@@ -61,6 +61,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, F
     private TextView tvCase;
     private TextView tvMock;
 
+    private View llMock;
     private SettingView settingView;
     private ViewStub vbSetting;
 
@@ -72,10 +73,12 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, F
         tvFlow = view.findViewById(R.id.tvFlow);
         tvCase = view.findViewById(R.id.tvCase);
         tvMock = view.findViewById(R.id.tvMock);
+        llMock = view.findViewById(R.id.llMock);
         vbSetting = view.findViewById(R.id.vbSetting);
 
         view.findViewById(R.id.tvClose).setOnClickListener(this);
         view.findViewById(R.id.tabSetting).setOnClickListener(this);
+        view.findViewById(R.id.tabMock).setOnClickListener(this);
         tvFlow.setOnClickListener(this);
         tvCase.setOnClickListener(this);
         tvMock.setOnClickListener(this);
@@ -99,17 +102,26 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, F
         } else if (v.getId() == R.id.tvMock) {
             showMock();
         } else if (v.getId() == R.id.tabSetting) {
-            showSetting();
+            switchSetting();
+        } else if (v.getId() == R.id.tabMock) {
+            switchMock();
         }
     }
 
-    private void showSetting() {
+    private void switchSetting() {
         if (settingView == null) {
             vbSetting.inflate();
             settingView = findViewById(R.id.vSetting);
         }
-
+        llMock.setVisibility(View.GONE);
         settingView.setVisibility(View.VISIBLE);
+    }
+
+    private void switchMock() {
+        if (settingView != null) {
+            settingView.setVisibility(View.GONE);
+        }
+        llMock.setVisibility(View.VISIBLE);
     }
 
     private void showFlow() {

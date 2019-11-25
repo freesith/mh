@@ -18,6 +18,7 @@ public class InitProvider extends ContentProvider {
         if (context instanceof Application) {
             ((Application)context).registerActivityLifecycleCallbacks(new MoxLifeCallbacks());
             Mox.init();
+            Mox.getInstance().sp = new Sp(context);
         }
         return false;
     }

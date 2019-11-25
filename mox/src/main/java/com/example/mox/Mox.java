@@ -3,6 +3,7 @@ package com.example.mox;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mox.db.bean.Case;
@@ -40,6 +41,7 @@ public class Mox {
 
     private ConcurrentHashMap<String, LinkedList<Mock>> enableMockMap = new ConcurrentHashMap<>();
 
+    public Sp sp;
 
     public static Mox getInstance() {
         if (mox == null) {
@@ -60,6 +62,7 @@ public class Mox {
     }
 
     public synchronized void initDb(Context context, String dbPath) {
+        Log.d(TAG, "initDb path = " +dbPath);
         if (db != null) {
             db.close();
         }

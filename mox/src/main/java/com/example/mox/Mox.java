@@ -62,7 +62,7 @@ public class Mox {
     }
 
     public synchronized void initDb(Context context, String dbPath) {
-        Log.d(TAG, "initDb path = " +dbPath);
+        Log.d(TAG, "initDb path = " + dbPath);
         if (db != null) {
             db.close();
         }
@@ -116,8 +116,8 @@ public class Mox {
             return;
         }
 
-        String mockSql = "SELECT * FROM table_case WHERE status& ? = ? OR status& ? = ?";
-        Cursor cursor = db.rawQuery(mockSql, new String[]{String.valueOf(FLAG_PASSIVE), String.valueOf(FLAG_PASSIVE), String.valueOf(FLAG_ENABLE), String.valueOf(FLAG_ENABLE)});
+        String mockSql = "SELECT * FROM table_mock WHERE status& " + FLAG_PASSIVE + " = " + FLAG_PASSIVE + " OR status& " + FLAG_ENABLE + " = " + FLAG_ENABLE;
+        Cursor cursor = db.rawQuery(mockSql, null);
         while (cursor.moveToNext()) {
             String method = cursor.getString(cursor.getColumnIndex("method")).toLowerCase();
             String path = cursor.getString(cursor.getColumnIndex("path"));
@@ -211,7 +211,7 @@ public class Mox {
 
     public void updateFlowEnable(String flowName, boolean enable) {
         if (db == null) {
-            return ;
+            return;
         }
         if (enable) {
             db.execSQL("UPDATE table_flow SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, flowName});
@@ -224,7 +224,7 @@ public class Mox {
 
     public void updateCaseEnable(String caseName, boolean enable) {
         if (db == null) {
-            return ;
+            return;
         }
         if (enable) {
             db.execSQL("UPDATE table_case SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, caseName});
@@ -237,7 +237,7 @@ public class Mox {
 
     public void updateMockEnable(String mockName, boolean enable) {
         if (db == null) {
-            return ;
+            return;
         }
         if (enable) {
             db.execSQL("UPDATE table_mock SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, mockName});
@@ -250,7 +250,7 @@ public class Mox {
 
     private void refreshPassive() {
         if (db == null) {
-            return ;
+            return;
         }
 
         HashSet<String> passiveCases = new HashSet<>();
@@ -282,10 +282,10 @@ public class Mox {
 
         String passiveMockNames = Util.setToSelection(passiveMocks);
         db.execSQL("UPDATE table_mock SET status = CASE \n" +
-                "WHEN name IN ("+passiveMockNames+") THEN \n" +
-                "status | "+FLAG_PASSIVE+" \n" +
+                "WHEN name IN (" + passiveMockNames + ") THEN \n" +
+                "status | " + FLAG_PASSIVE + " \n" +
                 "ELSE \n" +
-                "status& "+~FLAG_PASSIVE+" \n" +
+                "status& " + ~FLAG_PASSIVE + " \n" +
                 "END;", new Object[]{});
     }
 

@@ -1,2 +1,2 @@
-include ':app', ':mox', ':buildSrc'
+include ':app_moxy', ':mox', ':buildSrc'
 rootProject.name='Moxy'

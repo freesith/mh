@@ -136,6 +136,9 @@ public class Mox {
     }
 
     public List<Mock> getMocks() {
+        if (db == null) {
+            return null;
+        }
         Cursor cursor = db.rawQuery("SELECT * FROM table_mock ORDER BY status DESC", null);
         List<Mock> mockList = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -154,6 +157,9 @@ public class Mox {
     }
 
     public List<Case> getCases() {
+        if (db == null) {
+            return null;
+        }
         Cursor cursor = db.rawQuery("SELECT * FROM table_case ORDER BY status DESC", null);
         List<Case> caseList = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -175,6 +181,9 @@ public class Mox {
     }
 
     public List<Flow> getFlows() {
+        if (db == null) {
+            return null;
+        }
         Cursor cursor = db.rawQuery("SELECT * FROM table_flow ORDER BY status DESC", null);
         List<Flow> flowList = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -198,6 +207,9 @@ public class Mox {
 
 
     public void updateFlowEnable(String flowName, boolean enable) {
+        if (db == null) {
+            return ;
+        }
         if (enable) {
             db.execSQL("UPDATE table_flow SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, flowName});
         } else {
@@ -208,6 +220,9 @@ public class Mox {
     }
 
     public void updateCaseEnable(String caseName, boolean enable) {
+        if (db == null) {
+            return ;
+        }
         if (enable) {
             db.execSQL("UPDATE table_case SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, caseName});
         } else {
@@ -218,6 +233,9 @@ public class Mox {
     }
 
     public void updateMockEnable(String mockName, boolean enable) {
+        if (db == null) {
+            return ;
+        }
         if (enable) {
             db.execSQL("UPDATE table_mock SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, mockName});
         } else {
@@ -228,6 +246,9 @@ public class Mox {
 
 
     private void refreshPassive() {
+        if (db == null) {
+            return ;
+        }
 
         HashSet<String> passiveCases = new HashSet<>();
         HashSet<String> passiveMocks = new HashSet<>();

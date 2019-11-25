@@ -67,12 +67,14 @@ public class CoverLayout extends FrameLayout implements View.OnTouchListener {
                 @Override
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
+                    vMonitorView.show();
                     vMonitorView.setVisibility(View.VISIBLE);
                 }
 
             });
             circularReveal.setDuration(1000).start();
         } else {
+            vMonitorView.show();
             vMonitorView.setVisibility(View.VISIBLE);
         }
     }

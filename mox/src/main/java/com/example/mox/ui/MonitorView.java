@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -83,7 +82,9 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, F
 
 
         rvMock.setLayoutManager(new LinearLayoutManager(context));
+    }
 
+    public void show() {
         showFlow();
     }
 

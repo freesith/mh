@@ -4,4 +4,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <EditText
+        android:id="@+id/etPath"
+        android:hint="输入文件路径或网址"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnEdit"
+        android:text="编辑"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnRefresh"
+        android:text="刷新"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

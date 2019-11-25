@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,6 +62,9 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, F
     private TextView tvCase;
     private TextView tvMock;
 
+    private SettingView settingView;
+    private ViewStub vbSetting;
+
     private void init(Context context) {
         this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_monitor, this);
@@ -69,8 +73,10 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, F
         tvFlow = view.findViewById(R.id.tvFlow);
         tvCase = view.findViewById(R.id.tvCase);
         tvMock = view.findViewById(R.id.tvMock);
+        vbSetting = view.findViewById(R.id.vbSetting);
 
         view.findViewById(R.id.tvClose).setOnClickListener(this);
+        view.findViewById(R.id.tabSetting).setOnClickListener(this);
         tvFlow.setOnClickListener(this);
         tvCase.setOnClickListener(this);
         tvMock.setOnClickListener(this);
@@ -91,7 +97,18 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, F
             showCase();
         } else if (v.getId() == R.id.tvMock) {
             showMock();
+        } else if (v.getId() == R.id.tabSetting) {
+            showSetting();
         }
+    }
+
+    private void showSetting() {
+        if (settingView == null) {
+            vbSetting.inflate();
+            settingView = findViewById(R.id.vSetting);
+        }
+
+        settingView.setVisibility(View.VISIBLE);
     }
 
     private void showFlow() {

@@ -29,30 +29,7 @@ public class MainActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            InputStream inputStream = getAssets().open("moc.db");
-            File file = new File(getFilesDir() + "/moc.db");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileOutputStream  fileOutputStream = new FileOutputStream(file);
-
-
-            byte[] buffer = new byte[1024];
-            int readBytes = 0;
-            while ((readBytes = inputStream.read(buffer)) != -1) {
-                fileOutputStream.write(buffer, 0, readBytes);
-            }
-            inputStream.close();
-            fileOutputStream.close();
-
-            Log.d(TAG, "onCreate: start init DB");
-            Mox.getInstance().initDb(this.getApplicationContext(), file.getAbsolutePath());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

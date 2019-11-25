@@ -11,6 +11,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.File;
+
 public class InitProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
@@ -19,6 +21,10 @@ public class InitProvider extends ContentProvider {
             ((Application)context).registerActivityLifecycleCallbacks(new MoxLifeCallbacks());
             Mox.init();
             Mox.getInstance().sp = new Sp(context);
+            File dbFile = new File(context.getFilesDir() + File.separator + ManholeConstants.DB_NAME);
+            if (dbFile.exists()) {
+                Mox.getInstance().initDb(context, dbFile.getAbsolutePath());
+            }
         }
         return false;
     }

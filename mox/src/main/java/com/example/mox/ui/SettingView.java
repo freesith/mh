@@ -116,7 +116,7 @@ public class SettingView extends LinearLayout implements View.OnClickListener {
     }
 
     private void  downloadDbFile(String url) {
-        final Request request = new Request.Builder().url(url).get().build();
+        final Request request = new Request.Builder().url(url).header("Cache-Control","no-cache").get().build();
         OkHttpClient client = new OkHttpClient.Builder().build();
         client.newCall(request).enqueue(new Callback() {
 

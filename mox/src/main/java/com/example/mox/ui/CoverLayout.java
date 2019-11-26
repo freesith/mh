@@ -6,10 +6,12 @@ import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
@@ -17,7 +19,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.mox.R;
 
-public class CoverLayout extends FrameLayout implements View.OnTouchListener {
+public class CoverLayout extends FrameLayout{
 
     private static final String TAG = "xxx";
 
@@ -56,7 +58,6 @@ public class CoverLayout extends FrameLayout implements View.OnTouchListener {
 
     private void init(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_cover, this);
-        setOnTouchListener(this);
         vMonitorView = view.findViewById(R.id.vMonitor);
     }
 
@@ -85,29 +86,16 @@ public class CoverLayout extends FrameLayout implements View.OnTouchListener {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-
         if (vMonitorView.getVisibility() == View.VISIBLE) {
             return super.dispatchTouchEvent(event);
         }
-
-        if (lastAction == event.getAction() && lastX == event.getX() && lastY == event.getY()) {
-            return super.dispatchTouchEvent(event);
-        } else {
-            lastAction = event.getAction();
-            lastX = event.getX();
-            lastY = event.getY();
-            if (lastAction == MotionEvent.ACTION_UP) {
-                return super.dispatchTouchEvent(event);
-            }
-            ((View) getParent()).dispatchTouchEvent(event);
-            return true;
-        }
+        ((ViewGroup) getParent()).getChildAt(0).dispatchTouchEvent(event);
+        onCoverTouch(event);
+        return true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public boolean onTouch(View view, MotionEvent event) {
-
+    public boolean onCoverTouch(MotionEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
 

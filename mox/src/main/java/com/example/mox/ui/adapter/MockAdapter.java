@@ -1,6 +1,7 @@
 package com.example.mox.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -67,11 +68,22 @@ public class MockAdapter extends BaseAdapter<Mock> {
             }
         });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mockListener != null) {
+                    mockListener.onMockClick(mock);
+                }
+            }
+        });
+
     }
 
     public interface MockListener {
 
         void onMockEnableChanged(String name, boolean enable, int position);
+
+        void onMockClick(Mock mock);
     }
 
 }

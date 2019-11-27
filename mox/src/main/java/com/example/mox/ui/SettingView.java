@@ -121,8 +121,13 @@ public class SettingView extends LinearLayout implements View.OnClickListener {
         client.newCall(request).enqueue(new Callback() {
 
             @Override
-            public void onFailure(Call call, IOException e) {
-                Toast.makeText(context,"fail:" + e.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call call, final IOException e) {
+                post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context,"fail:" + e.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -152,6 +157,12 @@ public class SettingView extends LinearLayout implements View.OnClickListener {
                             outputStream.write(buffer,0,len);
                         }
                         Mox.getInstance().initDb(context, context.getFilesDir().getAbsolutePath() + File.separator + ManholeConstants.DB_NAME);
+                        post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "complete",Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {

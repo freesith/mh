@@ -1,9 +1,14 @@
 package com.example.mox;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mox.db.bean.Case;
@@ -30,10 +35,14 @@ public class Mox {
     public static final int FLAG_ENABLE = 1;
     public static final int FLAG_PASSIVE = 1 << 1;
 
+    public static final int ACTION_SHOW_MOCK = 1;
+
     private SQLiteDatabase db;
 
     private static volatile Mox mox;
     private static volatile boolean inited = false;
+
+    private Handler handler;
 
     private ConcurrentHashMap<String, Flow> flowMap = new ConcurrentHashMap<>();
     private ConcurrentHashMap<String, Case> caseMap = new ConcurrentHashMap<>();
@@ -51,6 +60,29 @@ public class Mox {
     }
 
     private Mox() {
+        initHandler();
+    }
+
+    private void initHandler() {
+        handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case ACTION_SHOW_MOCK:
+                        String name = (String) msg.obj;
+
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void showMock(String name) {
+        Message message = Message.obtain();
+        message.what = ACTION_SHOW_MOCK;
+        message.obj = name;
+        handler.sendMessage(message);
     }
 
     static void init() {

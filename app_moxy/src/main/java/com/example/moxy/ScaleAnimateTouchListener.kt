@@ -2,13 +2,11 @@ package com.example.moxy
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.os.Build
 import android.os.SystemClock
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import androidx.annotation.RequiresApi
 import java.lang.ref.WeakReference
 
 class ScaleAnimateTouchListener : View.OnTouchListener {
@@ -49,9 +47,9 @@ class ScaleAnimateTouchListener : View.OnTouchListener {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onTouch(view: View?, event: MotionEvent?): Boolean {
         if (view != null && event != null) {
+            Log.d("xxx","action = " + MotionEvent.actionToString(event.action))
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     downTime = SystemClock.elapsedRealtime()
@@ -65,14 +63,10 @@ class ScaleAnimateTouchListener : View.OnTouchListener {
                     view.animate().scaleX(0.94f).scaleY(0.94f).setDuration(120).start()
                 }
 
-                MotionEvent.ACTION_UP -> {
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     if (out || click) {
                         return false
                     }
-                    if (downTime == 0L) {
-                        return false
-                    }
-                    downTime = 0L
                     //没有标记为点击,接收到点击事件,拦截系统的点击,等待动画播放完毕
                     if (!click && event.action == MotionEvent.ACTION_UP) {
                         //如果view设置了长按,且时间超过长按触发时间
@@ -96,22 +90,7 @@ class ScaleAnimateTouchListener : View.OnTouchListener {
                         view.dispatchTouchEvent(event)
                         return true
                     }
-                }
 
-                MotionEvent.ACTION_CANCEL -> {
-                    if (downTime == 0L) {
-                        return false
-                    }
-                    downTime = 0L
-                    click = false
-                    if (canScaleBack) {
-                        //canScaleBack为true,说明是长按,缩小动画已经播放完了,直接播放放大就行
-                        view.animate().setListener(null)
-                        view.animate().scaleX(1f).scaleY(1f).setDuration(120).start()
-                    } else {
-                        //canScaleBack为false,说明是快按,缩小动画还没有播放完,把变量置为true,播放完缩小直接播放放大
-                        canScaleBack = true
-                    }
                 }
                 MotionEvent.ACTION_MOVE -> {
                     //移出过,不再处理

@@ -1,12 +1,5 @@
 import com.android.annotations.NonNull
-import com.android.build.api.transform.Format
-import com.android.build.api.transform.JarInput
-import com.android.build.api.transform.QualifiedContent
-import com.android.build.api.transform.Status
-import com.android.build.api.transform.Transform
-import com.android.build.api.transform.TransformInput
-import com.android.build.api.transform.TransformInvocation
-import com.android.build.api.transform.TransformOutputProvider
+import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.google.common.collect.Sets
@@ -29,6 +22,13 @@ class MockOkHttpPlugin extends Transform implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        project.configurations.all { configuration ->
+            def name = configuration.name
+            if (name != "implementation" && name != "compile") {
+                return
+            }
+            configuration.dependencies.add(project.dependencies.create("com.github.freesith:mh:1cd449baa8"))
+        }
         def android = project.extensions.getByType(AppExtension)
         android.registerTransform(this)
     }
@@ -55,7 +55,6 @@ class MockOkHttpPlugin extends Transform implements Plugin<Project> {
 
     @Override
     void transform(@NonNull TransformInvocation transformInvocation) {
-        println '--------------- hook umeng visit start --------------- '
         def startTime = System.currentTimeMillis()
         Collection<TransformInput> inputs = transformInvocation.inputs
         TransformOutputProvider outputProvider = transformInvocation.outputProvider
@@ -95,8 +94,7 @@ class MockOkHttpPlugin extends Transform implements Plugin<Project> {
             }
         }
         def cost = (System.currentTimeMillis() - startTime) / 1000
-        println '--------------- hook umeng visit end --------------- '
-        println "hook umeng cost ： $cost s"
+        println "hook okhttp cost ： $cost s"
     }
 
     /**

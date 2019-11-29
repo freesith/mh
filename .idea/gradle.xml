@@ -11,7 +11,6 @@
             <option value="$PROJECT_DIR$/app_moxy" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/manhole" />
-            <option value="$PROJECT_DIR$/manhole-plugin" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

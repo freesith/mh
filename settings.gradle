@@ -1,2 +1,2 @@
-include ':app_moxy', ':mox', ':buildSrc', ':JsonVision'
+include ':app_moxy', ':mox', ':buildSrc', ':JsonVision', ':manhole-plugin'
 rootProject.name='Moxy'

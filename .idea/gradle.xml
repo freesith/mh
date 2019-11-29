@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/JsonVision" />
             <option value="$PROJECT_DIR$/app_moxy" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/manhole-plugin" />
             <option value="$PROJECT_DIR$/mox" />
           </set>
         </option>

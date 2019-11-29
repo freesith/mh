@@ -17,7 +17,7 @@ import com.freesith.manhole.Mox;
 import com.example.mox.R;
 import com.freesith.manhole.Util;
 import com.freesith.manhole.db.bean.Mock;
-import com.freesith.jsonvision.JsonVisionView;
+//import com.freesith.jsonvision.JsonVisionView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class MockView extends LinearLayout {
     private TextView tvHost;
     private TextView tvQuery;
 
-    private JsonVisionView v_json;
+//    private JsonVisionView v_json;
 
     public MockView(Context context) {
         super(context);
@@ -67,7 +67,7 @@ public class MockView extends LinearLayout {
         switchMock = view.findViewById(R.id.switchMock);
         tvHost = view.findViewById(R.id.tvHost);
         tvQuery = view.findViewById(R.id.tvQuery);
-        v_json = view.findViewById(R.id.v_json);
+//        v_json = view.findViewById(R.id.v_json);
 
     }
 
@@ -112,7 +112,7 @@ public class MockView extends LinearLayout {
             tvQuery.setText(builder.toString());
         }
 
-        v_json.showJson(mock.response.data);
+//        v_json.showJson(mock.response.data);
 
     }
 }

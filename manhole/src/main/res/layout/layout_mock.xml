@@ -128,9 +128,9 @@
         android:layout_height="1dp"/>
 
 
-    <com.freesith.jsonvision.JsonVisionView
-        android:id="@+id/v_json"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+<!--    <com.freesith.jsonvision.JsonVisionView-->
+<!--        android:id="@+id/v_json"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 
 </LinearLayout>

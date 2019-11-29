@@ -1,9 +1,8 @@
-import com.freesith.manhole.plugin.ManholePlugin
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: ManholePlugin
+apply plugin: 'plugin.manhole-plugin'
 
 
 android {

@@ -28,7 +28,7 @@ class ManholePlugin extends Transform implements Plugin<Project> {
             if (name != "implementation" && name != "compile") {
                 return
             }
-            configuration.dependencies.add(project.dependencies.create("com.github.freesith:mh:e1fea74918"))
+            configuration.dependencies.add(project.dependencies.create("com.github.freesith:mh:d4b4587d12"))
         }
         def android = project.extensions.getByType(AppExtension)
         android.registerTransform(this)

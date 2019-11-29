@@ -22,7 +22,7 @@ class OkHttpVisitor extends ClassVisitor implements Opcodes  {
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions)
         if ("okhttp3/OkHttpClient" == this.mClassName) {
-            if ("<init>" == name && "(Lokhttp3/OkHttpClient$Builder;)V" == desc) {
+            if ("<init>" == name && '''(Lokhttp3/OkHttpClient$Builder;)V''' == desc) {
                 return OkHttpMethodVisitor(mv)
             }
         }

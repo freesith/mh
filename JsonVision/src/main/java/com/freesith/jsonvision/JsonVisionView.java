@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.liuxiangdong.jsonview.DefaultJsonView;
-import com.yuyh.jsonviewer.library.JsonRecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,9 +67,6 @@ public class JsonVisionView extends LinearLayout {
         if (jsonObject  == null) {
             return;
         }
-
-        Iterator<String> keys = jsonObject.keys();
-
     }
 
     private void parseJsonObject(JSONObject jsonObject) {

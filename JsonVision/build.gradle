@@ -32,7 +32,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.yuyh.json:jsonviewer:1.0.6'
     implementation 'com.liuxiangdong.jsonview:library:1.0.0@aar'
 
     testImplementation 'junit:junit:4.12'

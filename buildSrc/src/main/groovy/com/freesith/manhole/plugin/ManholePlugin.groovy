@@ -1,9 +1,10 @@
+package com.freesith.manhole.plugin
+
 import com.android.annotations.NonNull
 import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.google.common.collect.Sets
-import com.intelcupid.plugin.HookUmengVisitor
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
@@ -18,24 +19,24 @@ import java.util.jar.JarFile
 import java.util.jar.JarOutputStream
 import java.util.zip.ZipEntry
 
-class MockOkHttpPlugin extends Transform implements Plugin<Project> {
+class ManholePlugin extends Transform implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.configurations.all { configuration ->
-            def name = configuration.name
-            if (name != "implementation" && name != "compile") {
-                return
-            }
-            configuration.dependencies.add(project.dependencies.create("com.github.freesith:mh:1cd449baa8"))
-        }
+//        project.configurations.all { configuration ->
+//            def name = configuration.name
+//            if (name != "implementation" && name != "compile") {
+//                return
+//            }
+//            configuration.dependencies.add(project.dependencies.create("com.github.freesith:mh:e1fea74918"))
+//        }
         def android = project.extensions.getByType(AppExtension)
         android.registerTransform(this)
     }
 
     @Override
     String getName() {
-        return "MockOkHttpPlugin"
+        return "ManholePlugin"
     }
 
     @Override
@@ -122,12 +123,10 @@ class MockOkHttpPlugin extends Transform implements Plugin<Project> {
                 ZipEntry zipEntry = new ZipEntry(entryName)
                 InputStream inputStream = jarFile.getInputStream(jarEntry)
                 if (checkClassFile(entryName)) {
-                    //class文件处理
-                    println '----------- deal with "jar" class file <' + entryName + '> -----------'
                     jarOutputStream.putNextEntry(zipEntry)
                     ClassReader classReader = new ClassReader(IOUtils.toByteArray(inputStream))
                     ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
-                    ClassVisitor cv = new HookUmengVisitor(classWriter)
+                    ClassVisitor cv = new OkHttpVisitor(classWriter)
                     classReader.accept(cv, ClassReader.EXPAND_FRAMES)
                     byte[] code = classWriter.toByteArray()
                     jarOutputStream.write(code)

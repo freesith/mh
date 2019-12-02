@@ -100,7 +100,7 @@ public class MockView extends LinearLayout {
         }
 
         tvHost.setText(Util.join(mock.request.host, "\n"));
-        HashMap<String, String> query = mock.request.query;
+        HashMap<String, String> query = mock.request.urlQuery;
         if (query != null && query.size() > 0) {
             StringBuilder builder = new StringBuilder();
             for (Map.Entry<String,String> entry: query.entrySet()) {

@@ -17,7 +17,8 @@ public class MockRequest {
     public List<String> host;
     public String path;
     //"page=1&cursor=<>"
-    public HashMap<String, String> query;
+    public HashMap<String, String> urlQuery;
+    public List<String> requestBody;
 
 
     public boolean matches(Request request) {
@@ -25,17 +26,19 @@ public class MockRequest {
         HttpUrl url = request.url();
         String path = url.encodedPath();
         String host = url.host();
-        HashMap<String, String> requestQueryMap = new HashMap<>();
+        HashMap<String, String> urlQueryMap = new HashMap<>();
         String query = url.query();
+        String bodyString = "";
         if (query != null && !query.isEmpty()) {
             String[] split = query.split("&");
             for (String urlQuery : split) {
                 String[] split1 = urlQuery.split("=");
                 if (split1.length == 2) {
-                    requestQueryMap.put(split1[0], split1[1]);
+                    urlQueryMap.put(split1[0], split1[1]);
                 }
             }
         }
+
         if (request.body() != null) {
             Buffer buffer = new Buffer();
             try {
@@ -43,15 +46,7 @@ public class MockRequest {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String bodyString = buffer.toString();
-            String[] split = bodyString.split("&");
-            for (String urlQuery : split) {
-                String[] split1 = urlQuery.split("=");
-                if (split1.length == 2) {
-                    requestQueryMap.put(split1[0], split1[1]);
-                }
-            }
-            buffer.close();
+            bodyString = buffer.toString();
         }
 
         if (!TextUtils.isEmpty(this.method) && !this.method.equalsIgnoreCase(method)) {
@@ -64,12 +59,12 @@ public class MockRequest {
             return false;
         }
 
-        if (this.query != null && !this.query.isEmpty()) {
-            for (Map.Entry<String, String> entry : this.query.entrySet()) {
+        if (this.urlQuery != null && !this.urlQuery.isEmpty()) {
+            for (Map.Entry<String, String> entry : this.urlQuery.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 if (value != null && !value.isEmpty()) {
-                    String requestQueryValue = requestQueryMap.get(key);
+                    String requestQueryValue = urlQueryMap.get(key);
                     if (requestQueryValue == null) {
                         requestQueryValue = "";
                     }
@@ -83,6 +78,21 @@ public class MockRequest {
                         if (!value.equals(requestQueryValue)) {
                             return false;
                         }
+                    }
+                }
+            }
+        }
+
+        if (this.requestBody != null && !this.requestBody.isEmpty()) {
+            for (String bodyRegex : requestBody) {
+                if (bodyRegex.startsWith("<") && bodyRegex.endsWith(">")) {
+                    Pattern compile = Pattern.compile(bodyRegex.substring(1, bodyRegex.length() - 1));
+                    if (!compile.matcher(bodyString).matches()) {
+                        return false;
+                    }
+                } else {
+                    if (!bodyString.contains(bodyRegex)) {
+                        return false;
                     }
                 }
             }

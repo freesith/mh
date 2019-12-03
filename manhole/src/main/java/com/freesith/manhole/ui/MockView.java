@@ -5,35 +5,42 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.freesith.manhole.Mox;
 import com.example.mox.R;
+import com.freesith.manhole.Mox;
 import com.freesith.manhole.Util;
 import com.freesith.manhole.db.bean.Mock;
-//import com.freesith.jsonvision.JsonVisionView;
+import com.freesith.manhole.db.bean.MockChoice;
+import com.freesith.manhole.ui.adapter.ChoiceAdapter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MockView extends LinearLayout {
+//import com.freesith.jsonvision.JsonVisionView;
+
+public class MockView extends LinearLayout implements ChoiceAdapter.ChoiceListener {
+
+    private Context context;
 
     private TextView tvName;
     private TextView tvTitle;
     private TextView tvDesc;
     private TextView tvMethod;
     private TextView tvPath;
-    private Switch switchMock;
     private TextView tvHost;
-    private TextView tvQuery;
+    private RecyclerView rvChoice;
 
 //    private JsonVisionView v_json;
+
 
     public MockView(Context context) {
         super(context);
@@ -57,6 +64,7 @@ public class MockView extends LinearLayout {
     }
 
     private void init(Context context) {
+        this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_mock, this);
 
         tvName = view.findViewById(R.id.tvName);
@@ -64,9 +72,15 @@ public class MockView extends LinearLayout {
         tvDesc = view.findViewById(R.id.tvDesc);
         tvMethod = view.findViewById(R.id.tvMethod);
         tvPath = view.findViewById(R.id.tvPath);
-        switchMock = view.findViewById(R.id.switchMock);
         tvHost = view.findViewById(R.id.tvHost);
-        tvQuery = view.findViewById(R.id.tvQuery);
+        rvChoice = view.findViewById(R.id.rvChoice);
+
+        findViewById(R.id.tvClose).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ViewGroup) getParent()).removeView(MockView.this);
+            }
+        });
 //        v_json = view.findViewById(R.id.v_json);
 
     }
@@ -86,33 +100,40 @@ public class MockView extends LinearLayout {
             tvPath.setBackgroundResource(R.drawable.manhole_right_circle_stroke_post);
         }
 
-        switchMock.setOnCheckedChangeListener(null);
-        switchMock.setChecked(mock.enable);
-        if (mock.enable) {
-            switchMock.setEnabled(false);
-            switchMock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Mox.getInstance().updateMockEnable(mock.name, isChecked);
-                    mock.enable = isChecked;
-                }
-            });
-        }
+        List<MockChoice> choices = Mox.getInstance().getChoicesByMock(mock.name);
+        ChoiceAdapter adapter = new ChoiceAdapter(context);
+        rvChoice.setLayoutManager(new LinearLayoutManager(context));
+        rvChoice.setAdapter(adapter);
+        adapter.setList(choices);
+        adapter.notifyDataSetChanged();
+
+        adapter.setChoiceListener(this);
+
 
         tvHost.setText(Util.join(mock.request.host, "\n"));
-        HashMap<String, String> query = mock.request.urlQuery;
-        if (query != null && query.size() > 0) {
-            StringBuilder builder = new StringBuilder();
-            for (Map.Entry<String,String> entry: query.entrySet()) {
-                if (builder.length() > 0) {
-                    builder.append("\n");
-                }
-                builder.append(entry.getKey()).append(" : ").append(entry.getValue());
-            }
-            tvQuery.setText(builder.toString());
-        }
+//        HashMap<String, String> query = mock.request.urlQuery;
+//        if (query != null && query.size() > 0) {
+//            StringBuilder builder = new StringBuilder();
+//            for (Map.Entry<String,String> entry: query.entrySet()) {
+//                if (builder.length() > 0) {
+//                    builder.append("\n");
+//                }
+//                builder.append(entry.getKey()).append(" : ").append(entry.getValue());
+//            }
+//            tvQuery.setText(builder.toString());
+//        }
 
 //        v_json.showJson(mock.response.data);
+
+    }
+
+    @Override
+    public void onChoiceEnableChanged(MockChoice choice, boolean enable, int position) {
+        Mox.getInstance().updateMockChoiceEnable(choice.mockName, choice.index, enable);
+    }
+
+    @Override
+    public void onChoiceClick(MockChoice mock) {
 
     }
 }

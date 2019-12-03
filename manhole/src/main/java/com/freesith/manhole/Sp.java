@@ -20,6 +20,9 @@ public class Sp {
     public String getString(final  String key) {
         return sharedPreferences.getString(key, "");
     }
+    public String getString(final  String key, String defaultValue) {
+        return sharedPreferences.getString(key, defaultValue);
+    }
 
 
 }

@@ -7,20 +7,20 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.mox.R;
-import com.freesith.manhole.db.bean.Mock;
+import com.freesith.manhole.db.bean.MockChoice;
 import com.freesith.manhole.ui.adapter.base.BaseAdapter;
 import com.freesith.manhole.ui.adapter.base.BaseViewHolder;
 
-public class MockAdapter extends BaseAdapter<Mock> {
+public class ChoiceAdapter extends BaseAdapter<MockChoice> {
 
-    public MockAdapter(Context context) {
+    public ChoiceAdapter(Context context) {
         super(context);
     }
 
-    private MockListener mockListener;
+    private ChoiceListener  choiceListener;
 
-    public void setMockListener(MockListener mockListener) {
-        this.mockListener = mockListener;
+    public void setChoiceListener(ChoiceListener choiceListener) {
+        this.choiceListener = choiceListener;
     }
 
     @Override
@@ -29,14 +29,14 @@ public class MockAdapter extends BaseAdapter<Mock> {
     }
 
     @Override
-    protected void bindView(BaseViewHolder<Mock> holder, final Mock mock, final int position) {
-        String method = mock.request.method;
+    protected void bindView(BaseViewHolder<MockChoice> holder, final MockChoice mock, final int position) {
+        String method = mock.method;
 
         holder.setText(R.id.tvName, mock.name);
         holder.setText(R.id.tvTitle, mock.title);
         holder.setText(R.id.tvDesc, mock.desc);
         holder.setText(R.id.tvMethod, method.toUpperCase());
-        holder.setText(R.id.tvPath, mock.request.path);
+        holder.setText(R.id.tvPath, mock.path);
 
         TextView tvPath = holder.getView(R.id.tvPath);
         //only support get & post for now
@@ -59,8 +59,8 @@ public class MockAdapter extends BaseAdapter<Mock> {
         switchMock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (mockListener != null) {
-                    mockListener.onMockEnableChanged(mock.name, isChecked, position);
+                if (choiceListener != null) {
+                    choiceListener.onChoiceEnableChanged(mock, isChecked, position);
                 }
             }
         });
@@ -68,19 +68,18 @@ public class MockAdapter extends BaseAdapter<Mock> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mockListener != null) {
-                    mockListener.onMockClick(mock);
+                if (choiceListener != null) {
+                    choiceListener.onChoiceClick(mock);
                 }
             }
         });
 
     }
 
-    public interface MockListener {
+    public interface ChoiceListener {
 
-        void onMockEnableChanged(String name, boolean enable, int position);
+        void onChoiceEnableChanged(MockChoice choice, boolean enable, int position);
 
-        void onMockClick(Mock mock);
+        void onChoiceClick(MockChoice mock);
     }
-
 }

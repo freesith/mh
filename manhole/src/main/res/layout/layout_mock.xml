@@ -2,8 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/manhole_white"
     android:orientation="vertical"
     android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvClose"
+        android:layout_gravity="right"
+        android:text="╳"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 
     <TextView
@@ -49,11 +60,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-
-        <Switch
-            android:id="@+id/switchMock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -126,6 +132,11 @@
         android:background="@color/manhole_99"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChoice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 <!--    <com.freesith.jsonvision.JsonVisionView-->

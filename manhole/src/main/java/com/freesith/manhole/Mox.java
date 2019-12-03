@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.freesith.manhole.db.bean.Case;
 import com.freesith.manhole.db.bean.Flow;
 import com.freesith.manhole.db.bean.Mock;
+import com.freesith.manhole.db.bean.MockChoice;
 import com.freesith.manhole.db.bean.MockRequest;
 import com.freesith.manhole.db.bean.MockResponse;
 
@@ -43,11 +45,9 @@ public class Mox {
 
     private Handler handler;
 
-    private ConcurrentHashMap<String, Flow> flowMap = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, Case> caseMap = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, Mock> mockMap = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<String, LinkedList<Mock>> enableMockMap = new ConcurrentHashMap<>();
+    public ConcurrentHashMap<String, LinkedList<MockChoice>> enableMockMap = new ConcurrentHashMap<>();
+
 
     public Sp sp;
 
@@ -119,13 +119,17 @@ public class Mox {
         if (enableMockMap.isEmpty()) {
             return null;
         }
-        LinkedList<Mock> mocks = enableMockMap.get(method + path);
-        if (mocks == null || mocks.isEmpty()) {
+        LinkedList<MockChoice> mockChoices = enableMockMap.get(method + path);
+        if (mockChoices == null || mockChoices.isEmpty()) {
             return null;
         }
-        for (Mock mock : mocks) {
-            if (mock.request != null && mock.request.matches(request)) {
-                return mock.response;
+        for (MockChoice mockChoice : mockChoices) {
+            if (mockChoice.matches(request)) {
+                MockResponse mockResponse = new MockResponse();
+                mockResponse.code = mockChoice.code;
+                mockResponse.message = mockChoice.message;
+                mockResponse.data = mockChoice.data;
+                return mockResponse;
             }
         }
 
@@ -151,20 +155,28 @@ public class Mox {
         Cursor cursor = db.rawQuery(mockSql, null);
         while (cursor.moveToNext()) {
             String method = cursor.getString(cursor.getColumnIndex("method")).toLowerCase();
+            String host = cursor.getString(cursor.getColumnIndex("host")).toLowerCase();
             String path = cursor.getString(cursor.getColumnIndex("path"));
             int status = cursor.getInt(cursor.getColumnIndex("status"));
             String json = cursor.getString(cursor.getColumnIndex("json"));
 
-            MockRequest mockRequest = new MockRequest();
-            mockRequest.method = method;
-            mockRequest.path = path;
-            Mock mock = JSON.parseObject(json, Mock.class);
-            LinkedList<Mock> mocks = enableMockMap.get(method + path);
+            MockChoice mockChoice = JSON.parseObject(json, MockChoice.class);
+            mockChoice.method = method;
+            mockChoice.path = path;
+            if (!TextUtils.isEmpty(host)) {
+                String[] split = host.split(",");
+                mockChoice.host = Arrays.asList(split);
+            }
+
+            mockChoice.enable = (status & FLAG_ENABLE) == FLAG_ENABLE;
+            mockChoice.passive = (status & FLAG_PASSIVE) == FLAG_PASSIVE;
+
+            LinkedList<MockChoice> mocks = enableMockMap.get(method + path);
             if (mocks == null) {
                 mocks = new LinkedList<>();
                 enableMockMap.put(method + path, mocks);
             }
-            mocks.add(mock);
+            mocks.add(mockChoice);
         }
         cursor.close();
     }
@@ -173,17 +185,31 @@ public class Mox {
         if (db == null) {
             return null;
         }
-        Cursor cursor = db.rawQuery("SELECT * FROM table_mock ORDER BY status DESC", null);
+        Cursor cursor = db.rawQuery("SELECT DISTINCT name, title, description, method, path FROM table_mock ORDER BY status DESC", null);
         List<Mock> mockList = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
-            int status = cursor.getInt(cursor.getColumnIndex("status"));
-            String json = cursor.getString(cursor.getColumnIndex("json"));
+            String title = cursor.getString(cursor.getColumnIndex("title"));
+            String desc = cursor.getString(cursor.getColumnIndex("description"));
+//            int status = cursor.getInt(cursor.getColumnIndex("status"));
+//            String json = cursor.getString(cursor.getColumnIndex("json"));
+            String method  = cursor.getString(cursor.getColumnIndex("method"));
+            String path  = cursor.getString(cursor.getColumnIndex("path"));
 
-            Mock mock = JSON.parseObject(json, Mock.class);
+//            Mock mock = JSON.parseObject(json, Mock.class);
+
+
+            Mock mock = new Mock();
+            MockRequest mockRequest = new MockRequest();
+            mockRequest.method = method;
+            mockRequest.path = path;
+
             mock.name = name;
-            mock.enable = (status & FLAG_ENABLE) == FLAG_ENABLE;
-            mock.passive = (status & FLAG_PASSIVE) == FLAG_PASSIVE;
+            mock.title = title;
+            mock.desc = desc;
+            mock.request = mockRequest;
+//            mock.enable = (status & FLAG_ENABLE) == FLAG_ENABLE;
+//            mock.passive = (status & FLAG_PASSIVE) == FLAG_PASSIVE;
             mockList.add(mock);
         }
         cursor.close();
@@ -194,19 +220,17 @@ public class Mox {
         if (db == null) {
             return null;
         }
-        Cursor cursor = db.rawQuery("SELECT * FROM table_case ORDER BY status DESC", null);
+        Cursor cursor = db.rawQuery("SELECT DISTINCT name, title ,status FROM table_case ORDER BY status DESC", null);
         List<Case> caseList = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
             int status = cursor.getInt(cursor.getColumnIndex("status"));
-            String mocks = cursor.getString(cursor.getColumnIndex("mocks"));
             String title = cursor.getString(cursor.getColumnIndex("title"));
 
             Case caze = new Case();
             caze.name = name;
             caze.enable = (status & FLAG_ENABLE) == FLAG_ENABLE;
             caze.passive = (status & FLAG_PASSIVE) == FLAG_PASSIVE;
-            caze.mocks = Arrays.asList(mocks.split(","));
             caze.title = title;
             caseList.add(caze);
         }
@@ -218,20 +242,16 @@ public class Mox {
         if (db == null) {
             return null;
         }
-        Cursor cursor = db.rawQuery("SELECT * FROM table_flow ORDER BY status DESC", null);
+        Cursor cursor = db.rawQuery("SELECT DISTINCT name,title,status FROM table_flow ORDER BY status DESC", null);
         List<Flow> flowList = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
             int status = cursor.getInt(cursor.getColumnIndex("status"));
-            String mocks = cursor.getString(cursor.getColumnIndex("mocks"));
-            String cases = cursor.getString(cursor.getColumnIndex("cases"));
             String title = cursor.getString(cursor.getColumnIndex("title"));
 
             Flow flow = new Flow();
             flow.name = name;
             flow.enable = (status & FLAG_ENABLE) == FLAG_ENABLE;
-            flow.mocks = Arrays.asList(mocks.split(","));
-            flow.cases = Arrays.asList(cases.split(","));
             flow.title = title;
             flowList.add(flow);
         }
@@ -285,14 +305,20 @@ public class Mox {
         }
 
         HashSet<String> passiveCases = new HashSet<>();
-        HashSet<String> passiveMocks = new HashSet<>();
+        HashSet<String> passiveChoices = new HashSet<>();
 
+        //找出开启的flow
         Cursor cursorFlow = db.rawQuery("SELECT * FROM table_flow WHERE status&" + FLAG_ENABLE + " = " + FLAG_ENABLE, null);
         while (cursorFlow.moveToNext()) {
-            String cases = cursorFlow.getString(cursorFlow.getColumnIndex("cases"));
-            passiveCases.addAll(Arrays.asList(cases.split(",")));
-            String mocks = cursorFlow.getString(cursorFlow.getColumnIndex("mocks"));
-            passiveMocks.addAll(Arrays.asList(mocks.split(",")));
+            String caseName = cursorFlow.getString(cursorFlow.getColumnIndex("caseName"));
+            if (!TextUtils.isEmpty(caseName)) {
+                passiveCases.add(caseName);
+            }
+
+            String choice = cursorFlow.getString(cursorFlow.getColumnIndex("choice"));
+            if (!TextUtils.isEmpty(choice)) {
+                passiveChoices.add(choice);
+            }
         }
         cursorFlow.close();
 
@@ -306,14 +332,16 @@ public class Mox {
         db.execSQL(sql, new Object[]{});
         Cursor cursorCases = db.rawQuery("SELECT * FROM table_case WHERE status& " + FLAG_ENABLE + " = " + FLAG_ENABLE + " OR status& " + FLAG_PASSIVE + " = " + FLAG_PASSIVE, null);
         while (cursorCases.moveToNext()) {
-            String mocks = cursorCases.getString(cursorCases.getColumnIndex("mocks"));
-            passiveMocks.addAll(Arrays.asList(mocks.split(",")));
+            String choice = cursorCases.getString(cursorCases.getColumnIndex("choice"));
+            if (!TextUtils.isEmpty(choice)) {
+                passiveChoices.add(choice);
+            }
         }
         cursorCases.close();
 
-        String passiveMockNames = Util.setToSelection(passiveMocks);
+        String passiveMockNames = Util.setToSelection(passiveChoices);
         db.execSQL("UPDATE table_mock SET status = CASE \n" +
-                "WHEN name IN (" + passiveMockNames + ") THEN \n" +
+                "WHEN choice IN (" + passiveMockNames + ") THEN \n" +
                 "status | " + FLAG_PASSIVE + " \n" +
                 "ELSE \n" +
                 "status& " + ~FLAG_PASSIVE + " \n" +
@@ -325,4 +353,37 @@ public class Mox {
 
     }
 
+    public List<MockChoice> getChoicesByMock(String name) {
+        if (db == null) {
+            return null;
+        }
+        String sql = "SELECT * FROM table_mock WHERE name='" + name + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        List<MockChoice> list = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            String json = cursor.getString(cursor.getColumnIndex("json"));
+            String method = cursor.getString(cursor.getColumnIndex("method"));
+            String path = cursor.getString(cursor.getColumnIndex("path"));
+            int status = cursor.getInt(cursor.getColumnIndex("status"));
+            MockChoice mockChoice = JSON.parseObject(json, MockChoice.class);
+            mockChoice.method = method;
+            mockChoice.path = path;
+            mockChoice.enable = (status & FLAG_ENABLE) == FLAG_ENABLE;
+            mockChoice.passive = (status & FLAG_PASSIVE) == FLAG_PASSIVE;
+            list.add(mockChoice);
+        }
+        return list;
+    }
+
+    public void  updateMockChoiceEnable(String mockName, int index, boolean enable) {
+        if (db == null) {
+            return;
+        }
+        if (enable) {
+            db.execSQL("UPDATE table_mock SET status = status | ? WHERE name = ? AND choice = ?", new Object[]{FLAG_ENABLE, mockName, mockName + "_" + index});
+        } else {
+            db.execSQL("UPDATE table_mock SET status = status & ? WHERE name = ? AND choice = ?", new Object[]{~FLAG_ENABLE, mockName, mockName + "_" + index});
+        }
+        refreshMocks();
+    }
 }

@@ -3,13 +3,17 @@ package com.freesith.manhole.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -19,6 +23,8 @@ import com.freesith.manhole.db.bean.Mock;
 import com.freesith.manhole.ui.interfaces.MonitorListener;
 
 public class MonitorView extends LinearLayout implements View.OnClickListener, MonitorListener {
+
+    private Context context;
 
     public MonitorView(Context context) {
         super(context);
@@ -46,34 +52,47 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     private MockView v_mock;
     private ViewStub vbSetting;
 
+    private TextView tabMock;
+    private TextView tabSetting;
+
     private void init(Context context) {
+        this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_monitor, this);
 
         ll_mock = view.findViewById(R.id.ll_mock);
         vbSetting = view.findViewById(R.id.vbSetting);
         v_mock = view.findViewById(R.id.v_mock);
+        tabMock = view.findViewById(R.id.tabMock);
+        tabSetting = view.findViewById(R.id.tabSetting);
 
         ll_mock.setMonitorListener(this);
 
         view.findViewById(R.id.tvClose).setOnClickListener(this);
-        view.findViewById(R.id.tabSetting).setOnClickListener(this);
-        view.findViewById(R.id.tabMock).setOnClickListener(this);
+        tabSetting.setOnClickListener(this);
+        tabMock.setOnClickListener(this);
 
     }
 
     public void show() {
-        ll_mock.showFlow();
+        ll_mock.show();
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tvClose) {
             hideMonitorView();
-        }  else if (v.getId() == R.id.tabSetting) {
+        } else if (v.getId() == R.id.tabSetting) {
             switchSetting();
+            updateTabs(v);
         } else if (v.getId() == R.id.tabMock) {
             switchMock();
+            updateTabs(v);
         }
+    }
+
+    private void updateTabs(View v) {
+        tabMock.setBackgroundColor(v.getId() == R.id.tabMock ? Color.WHITE : Color.TRANSPARENT);
+        tabSetting.setBackgroundColor(v.getId() == R.id.tabSetting ? Color.WHITE : Color.TRANSPARENT);
     }
 
 
@@ -114,9 +133,9 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
 
     @Override
     public void onShowSingleMock(Mock mock) {
-        v_mock.showMock(mock);
-        v_mock.setVisibility(View.VISIBLE);
-        ll_mock.setVisibility(View.GONE);
+        MockView mockView = new MockView(context);
+        ((ViewGroup) getParent()).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        mockView.showMock(mock);
     }
 
 }

@@ -74,8 +74,8 @@ public class SettingView extends LinearLayout implements View.OnClickListener {
         btnRefresh.setOnClickListener(this);
 
 
-        etPath.setText(Mox.getInstance().sp.getString(ManholeConstants.KEY_DB_PATH));
-
+        etPath.setText(Mox.getInstance().sp.getString(ManholeConstants.KEY_DB_PATH, "http://apk.minim.red/moc.db"));
+        btnEdit.setVisibility(View.GONE);
     }
 
     @Override

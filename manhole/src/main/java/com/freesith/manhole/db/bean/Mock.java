@@ -1,5 +1,7 @@
 package com.freesith.manhole.db.bean;
 
+import java.util.List;
+
 public class Mock implements Comparable<Mock> {
 
     public String name; // 文件名
@@ -7,7 +9,7 @@ public class Mock implements Comparable<Mock> {
     public String desc;
     public int priority;
     public MockRequest request;
-    public MockResponse response;
+    public List<MockChoice> mockChoice;
 
     //local
     public boolean passive = false;

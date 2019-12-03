@@ -3,7 +3,6 @@ package com.freesith.manhole.db.bean;
 import android.text.TextUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,14 +12,34 @@ import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okio.Buffer;
 
-public class MockRequest {
+public class MockChoice{
+
+    public String name;
+    public String title;
+    public String desc;
+    public int index;
+
     public String method;
-    public List<String> host = new ArrayList<>();
     public String path;
-    //"page=1&cursor=<>"
+    public List<String> host;
     public HashMap<String, String> urlQuery;
     public List<String> requestBody;
 
+
+    //如果true,直接返回data,
+    //如果false,请求网络,替换covers里的字段
+    public String data;
+    //httpCode
+    public int code;
+    //httpMessage
+    public String message;
+    public boolean cover = false;
+    public Map<String, Object> covers;
+
+
+    public boolean enable;
+    public boolean passive;
+    public String mockName;
 
     public boolean matches(Request request) {
         String method = request.method();
@@ -30,6 +49,17 @@ public class MockRequest {
         HashMap<String, String> urlQueryMap = new HashMap<>();
         String query = url.query();
         String bodyString = "";
+
+        if (!TextUtils.isEmpty(this.method) && !this.method.equalsIgnoreCase(method)) {
+            return false;
+        }
+        if (!TextUtils.isEmpty(this.path) && !this.path.equals(path)) {
+            return false;
+        }
+        if (this.host != null && !this.host.isEmpty() && this.host.indexOf(host) == -1) {
+            return false;
+        }
+
         if (query != null && !query.isEmpty()) {
             String[] split = query.split("&");
             for (String urlQuery : split) {
@@ -44,21 +74,12 @@ public class MockRequest {
             Buffer buffer = new Buffer();
             try {
                 request.body().writeTo(buffer);
+                bodyString = buffer.readUtf8();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            bodyString = buffer.toString();
         }
 
-        if (!TextUtils.isEmpty(this.method) && !this.method.equalsIgnoreCase(method)) {
-            return false;
-        }
-        if (!TextUtils.isEmpty(this.path) && !this.path.equals(path)) {
-            return false;
-        }
-        if (this.host != null && !this.host.isEmpty() && this.host.indexOf(host) == -1) {
-            return false;
-        }
 
         if (this.urlQuery != null && !this.urlQuery.isEmpty()) {
             for (Map.Entry<String, String> entry : this.urlQuery.entrySet()) {

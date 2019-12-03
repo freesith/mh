@@ -1,5 +1,6 @@
 package com.freesith.manhole.ui.adapter.base;
 
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
@@ -33,6 +34,18 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
         TextView textView = getView(viewId);
         if (textView != null) {
             textView.setText(text);
+        }
+    }
+
+    public void setEmptyGoneText(int viewId, String text) {
+        TextView textView = getView(viewId);
+        if (textView != null) {
+            textView.setText(text);
+            if (TextUtils.isEmpty(text)) {
+                textView.setVisibility(View.GONE);
+            } else {
+                textView.setVisibility(View.VISIBLE);
+            }
         }
     }
 

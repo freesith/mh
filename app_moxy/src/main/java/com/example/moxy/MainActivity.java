@@ -15,12 +15,16 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.freesith.manhole.MockInterceptor;
+
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends Activity {
@@ -37,37 +41,42 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("xxx","click11111");
-                Button newButton = new Button(MainActivity.this);
-                newButton.setText("BUTTON");
-                newButton.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Log.d(TAG, "onClick: 3333333333");
-                        Toast.makeText(MainActivity.this,"xxxxxx",Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });
-                newButton.setOnTouchListener(new ScaleAnimateTouchListener());
-                showImportantWindow(newButton);
-                newButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d(TAG, "onClick: 22222222222");
-                        Toast.makeText(MainActivity.this,"hahaha",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                request1();
+//                Log.d("xxx","click11111");
+//                Button newButton = new Button(MainActivity.this);
+//                newButton.setText("BUTTON");
+//                newButton.setOnLongClickListener(new View.OnLongClickListener() {
+//                    @Override
+//                    public boolean onLongClick(View v) {
+//                        Log.d(TAG, "onClick: 3333333333");
+//                        Toast.makeText(MainActivity.this,"xxxxxx",Toast.LENGTH_SHORT).show();
+//                        return true;
+//                    }
+//                });
+//                newButton.setOnTouchListener(new ScaleAnimateTouchListener());
+//                showImportantWindow(newButton);
+//                newButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.d(TAG, "onClick: 22222222222");
+//                        Toast.makeText(MainActivity.this,"hahaha",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         });
         button.setOnTouchListener(new ScaleAnimateTouchListener());
 
-        okHttpClient = new OkHttpClient.Builder().build();
+        okHttpClient = new OkHttpClient.Builder().addInterceptor(new MockInterceptor()).build();
 
     }
 
 
     private void request1 () {
-        okHttpClient.newCall(new Request.Builder().url("http://www.baidu.com").get().build()).enqueue(new Callback() {
+        RequestBody body = RequestBody.create(MediaType.get("application/json"),"a=1&b=2&json={'gaega':1,'gageagageag':'gaegeaehrhshsh'}&tt=ggpaehgpehigaigepgpeag");
+        Request request = new Request.Builder().url("http://www.baidu.com/app/v1/pass")
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 

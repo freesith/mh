@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.TextureView;
 
 import androidx.annotation.NonNull;
 
@@ -385,5 +386,30 @@ public class Mox {
             db.execSQL("UPDATE table_mock SET status = status & ? WHERE name = ? AND choice = ?", new Object[]{~FLAG_ENABLE, mockName, mockName + "_" + index});
         }
         refreshMocks();
+    }
+
+    public Mock findMockByName(String name) {
+        if (db == null) {
+            return null;
+        }
+        String sql = "SELECT DISTINCT name,title,description,method,path,host,module FROM table_mock WHERE name = '" + name + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        Mock mock = null;
+        if (cursor.moveToFirst()) {
+            mock = new Mock();
+            mock.name = Util.getCursorString(cursor,"name");
+            mock.title = Util.getCursorString(cursor,"title");
+            mock.desc = Util.getCursorString(cursor,"description");
+            mock.desc = Util.getCursorString(cursor,"description");
+            mock.request = new MockRequest();
+            mock.request.method = Util.getCursorString(cursor,"method");
+            String host = Util.getCursorString(cursor, "host");
+            if (!TextUtils.isEmpty(host)){
+                mock.request.host = Arrays.asList(host.split(","));
+            }
+            mock.request.path = Util.getCursorString(cursor,"path");
+        }
+        return mock;
+
     }
 }

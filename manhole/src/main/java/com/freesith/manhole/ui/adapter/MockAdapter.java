@@ -34,7 +34,7 @@ public class MockAdapter extends BaseAdapter<Mock> {
 
         holder.setText(R.id.tvName, mock.name);
         holder.setText(R.id.tvTitle, mock.title);
-        holder.setText(R.id.tvDesc, mock.desc);
+        holder.setEmptyGoneText(R.id.tvDesc, mock.desc);
         holder.setText(R.id.tvMethod, method.toUpperCase());
         holder.setText(R.id.tvPath, mock.request.path);
 

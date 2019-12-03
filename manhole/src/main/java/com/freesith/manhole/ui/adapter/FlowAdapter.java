@@ -33,7 +33,7 @@ public class FlowAdapter extends BaseAdapter<Flow> {
     @Override
     protected void bindView(BaseViewHolder<Flow> holder, final Flow flow, final int position) {
         holder.setText(R.id.tvName, flow.name);
-        holder.setText(R.id.tvDesc, flow.desc);
+        holder.setEmptyGoneText(R.id.tvDesc, flow.desc);
         holder.setText(R.id.tvTitle, flow.title);
 
         String caseText = Util.join(flow.cases, ", ");

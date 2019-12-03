@@ -2,6 +2,7 @@ package com.freesith.manhole.ui;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +20,14 @@ import com.freesith.manhole.Mox;
 import com.freesith.manhole.Util;
 import com.freesith.manhole.db.bean.Mock;
 import com.freesith.manhole.db.bean.MockChoice;
-import com.freesith.manhole.ui.adapter.ChoiceAdapter;
+import com.freesith.manhole.ui.adapter.EnableChoiceAdapter;
+import com.freesith.manhole.ui.adapter.MockChoiceAdapter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //import com.freesith.jsonvision.JsonVisionView;
 
-public class MockView extends LinearLayout implements ChoiceAdapter.ChoiceListener {
+public class MockView extends LinearLayout implements EnableChoiceAdapter.ChoiceListener {
 
     private Context context;
 
@@ -101,35 +101,28 @@ public class MockView extends LinearLayout implements ChoiceAdapter.ChoiceListen
         }
 
         List<MockChoice> choices = Mox.getInstance().getChoicesByMock(mock.name);
-        ChoiceAdapter adapter = new ChoiceAdapter(context);
+        MockChoiceAdapter adapter = new MockChoiceAdapter(context);
         rvChoice.setLayoutManager(new LinearLayoutManager(context));
         rvChoice.setAdapter(adapter);
         adapter.setList(choices);
         adapter.notifyDataSetChanged();
 
         adapter.setChoiceListener(this);
-
-
-        tvHost.setText(Util.join(mock.request.host, "\n"));
-//        HashMap<String, String> query = mock.request.urlQuery;
-//        if (query != null && query.size() > 0) {
-//            StringBuilder builder = new StringBuilder();
-//            for (Map.Entry<String,String> entry: query.entrySet()) {
-//                if (builder.length() > 0) {
-//                    builder.append("\n");
-//                }
-//                builder.append(entry.getKey()).append(" : ").append(entry.getValue());
-//            }
-//            tvQuery.setText(builder.toString());
-//        }
-
-//        v_json.showJson(mock.response.data);
-
+        String join = Util.join(mock.request.host, "\n");
+        if (TextUtils.isEmpty(join)) {
+            join = "*";
+        }
+        tvHost.setText(join);
     }
 
     @Override
     public void onChoiceEnableChanged(MockChoice choice, boolean enable, int position) {
         Mox.getInstance().updateMockChoiceEnable(choice.mockName, choice.index, enable);
+    }
+
+    @Override
+    public void onMockNameClick(String name) {
+        //do nothing
     }
 
     @Override

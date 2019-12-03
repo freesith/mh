@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import com.example.mox.R;
 import com.freesith.manhole.db.bean.Mock;
 import com.freesith.manhole.ui.interfaces.MonitorListener;
+import com.freesith.manhole.ui.util.ViewUtil;
 
 public class MonitorView extends LinearLayout implements View.OnClickListener, MonitorListener {
 
@@ -134,7 +135,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     @Override
     public void onShowSingleMock(Mock mock) {
         MockView mockView = new MockView(context);
-        ((ViewGroup) getParent()).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        ViewUtil.findCoverLayout(this).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         mockView.showMock(mock);
     }
 

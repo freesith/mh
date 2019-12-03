@@ -1,5 +1,7 @@
 package com.freesith.manhole;
 
+import android.database.Cursor;
+
 import java.util.List;
 import java.util.Set;
 
@@ -41,6 +43,10 @@ public class Util {
             builder.append("'").append(caseName).append("'");
         }
         return builder.toString();
+    }
+
+    public static String getCursorString(Cursor cursor, String name) {
+        return cursor.getString(cursor.getColumnIndex(name));
     }
 
 

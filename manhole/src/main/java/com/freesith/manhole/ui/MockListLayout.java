@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,17 +22,18 @@ import com.freesith.manhole.db.bean.Flow;
 import com.freesith.manhole.db.bean.Mock;
 import com.freesith.manhole.db.bean.MockChoice;
 import com.freesith.manhole.ui.adapter.CaseAdapter;
-import com.freesith.manhole.ui.adapter.ChoiceAdapter;
+import com.freesith.manhole.ui.adapter.EnableChoiceAdapter;
 import com.freesith.manhole.ui.adapter.FlowAdapter;
 import com.freesith.manhole.ui.adapter.MockAdapter;
 import com.freesith.manhole.ui.interfaces.MonitorListener;
+import com.freesith.manhole.ui.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MockListLayout extends LinearLayout implements View.OnClickListener, FlowAdapter.FlowListener, CaseAdapter.CaseListener, MockAdapter.MockListener, ChoiceAdapter.ChoiceListener {
+public class MockListLayout extends LinearLayout implements View.OnClickListener, FlowAdapter.FlowListener, CaseAdapter.CaseListener, MockAdapter.MockListener, EnableChoiceAdapter.ChoiceListener {
 
     private Context context;
 
@@ -39,7 +41,7 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
     private MockAdapter mockAdapter;
     private CaseAdapter caseAdapter;
     private FlowAdapter flowAdapter;
-    private ChoiceAdapter enableAdapter;
+    private EnableChoiceAdapter enableAdapter;
 
     private TextView tvEnable;
     private TextView tvFlow;
@@ -100,7 +102,7 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
 
     private void showEnable() {
         if (enableAdapter == null) {
-            enableAdapter = new ChoiceAdapter(context);
+            enableAdapter = new EnableChoiceAdapter(context);
             enableAdapter.setChoiceListener(this);
         }
         ConcurrentHashMap<String, LinkedList<MockChoice>> enableMockMap = Mox.getInstance().enableMockMap;
@@ -213,6 +215,16 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
     @Override
     public void onChoiceEnableChanged(MockChoice choice, boolean enable, int position) {
         Mox.getInstance().updateMockChoiceEnable(choice.mockName, choice.index, enable);
+    }
+
+    @Override
+    public void onMockNameClick(String name) {
+        MockView mockView = new MockView(context);
+        Mock mock = Mox.getInstance().findMockByName(name);
+        if (mock != null) {
+            ViewUtil.findCoverLayout(this).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            mockView.showMock(mock);
+        }
     }
 
     @Override

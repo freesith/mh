@@ -343,7 +343,7 @@ public class Manhole {
 
         String passiveMockNames = Util.setToSelection(passiveChoices);
         db.execSQL("UPDATE table_mock SET status = CASE \n" +
-                "WHEN choice IN (" + passiveMockNames + ") THEN \n" +
+                "WHEN choice IN " + passiveMockNames + " THEN \n" +
                 "status | " + FLAG_PASSIVE + " \n" +
                 "ELSE \n" +
                 "status& " + ~FLAG_PASSIVE + " \n" +

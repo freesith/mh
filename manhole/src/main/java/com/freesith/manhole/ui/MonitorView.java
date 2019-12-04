@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -19,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.mox.R;
-import com.freesith.manhole.db.bean.Mock;
+import com.freesith.manhole.bean.Mock;
 import com.freesith.manhole.ui.interfaces.MonitorListener;
 import com.freesith.manhole.ui.util.ViewUtil;
 

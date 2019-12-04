@@ -7,17 +7,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.TextureView;
 
 import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
-import com.freesith.manhole.db.bean.Case;
-import com.freesith.manhole.db.bean.Flow;
-import com.freesith.manhole.db.bean.Mock;
-import com.freesith.manhole.db.bean.MockChoice;
-import com.freesith.manhole.db.bean.MockRequest;
-import com.freesith.manhole.db.bean.MockResponse;
+import com.freesith.manhole.bean.Case;
+import com.freesith.manhole.bean.Flow;
+import com.freesith.manhole.bean.Mock;
+import com.freesith.manhole.bean.MockChoice;
+import com.freesith.manhole.bean.MockRequest;
+import com.freesith.manhole.bean.MockResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;

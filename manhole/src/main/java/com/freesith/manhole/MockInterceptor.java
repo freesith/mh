@@ -1,6 +1,6 @@
 package com.freesith.manhole;
 
-import com.freesith.manhole.db.bean.MockResponse;
+import com.freesith.manhole.bean.MockResponse;
 
 import java.io.IOException;
 

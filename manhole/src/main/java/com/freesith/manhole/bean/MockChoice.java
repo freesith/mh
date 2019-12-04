@@ -1,4 +1,4 @@
-package com.freesith.manhole.db.bean;
+package com.freesith.manhole.bean;
 
 import android.text.TextUtils;
 

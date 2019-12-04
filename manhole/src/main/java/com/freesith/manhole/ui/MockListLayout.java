@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.freesith.manhole.Mox;
 import com.example.mox.R;
-import com.freesith.manhole.db.bean.Case;
-import com.freesith.manhole.db.bean.Flow;
-import com.freesith.manhole.db.bean.Mock;
-import com.freesith.manhole.db.bean.MockChoice;
+import com.freesith.manhole.bean.Case;
+import com.freesith.manhole.bean.Flow;
+import com.freesith.manhole.bean.Mock;
+import com.freesith.manhole.bean.MockChoice;
 import com.freesith.manhole.ui.adapter.CaseAdapter;
 import com.freesith.manhole.ui.adapter.EnableChoiceAdapter;
 import com.freesith.manhole.ui.adapter.FlowAdapter;

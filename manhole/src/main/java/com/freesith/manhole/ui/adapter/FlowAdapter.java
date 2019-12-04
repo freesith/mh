@@ -8,7 +8,7 @@ import android.widget.Switch;
 
 import com.example.mox.R;
 import com.freesith.manhole.Util;
-import com.freesith.manhole.db.bean.Flow;
+import com.freesith.manhole.bean.Flow;
 import com.freesith.manhole.ui.adapter.base.BaseAdapter;
 import com.freesith.manhole.ui.adapter.base.BaseViewHolder;
 

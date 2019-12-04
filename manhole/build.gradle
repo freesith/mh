@@ -21,15 +21,6 @@ android {
         }
     }
 
-//    task mox {
-//        println "------- task mox -------"
-//        exec {
-//            commandLine 'sh','./mox.sh'
-//        }
-//    }
-
-//    mox.mustRunAfter preBuild
-
 }
 
 dependencies {

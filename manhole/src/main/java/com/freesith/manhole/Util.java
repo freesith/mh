@@ -2,6 +2,7 @@ package com.freesith.manhole;
 
 import android.database.Cursor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class Util {
     }
 
 
-    public static String setToSelection(Set<String> set) {
+    public static String setToSelection(Collection<String> set) {
         if (set == null || set.isEmpty()) {
             return "";
         }
@@ -39,14 +40,20 @@ public class Util {
                 builder.append(",");
             } else {
                 first = false;
+                builder.append("(");
             }
             builder.append("'").append(caseName).append("'");
         }
+        builder.append(")");
         return builder.toString();
     }
 
     public static String getCursorString(Cursor cursor, String name) {
-        return cursor.getString(cursor.getColumnIndex(name));
+        int columnIndex = cursor.getColumnIndex(name);
+        if (columnIndex < 0) {
+            return null;
+        }
+        return cursor.getString(columnIndex);
     }
 
 

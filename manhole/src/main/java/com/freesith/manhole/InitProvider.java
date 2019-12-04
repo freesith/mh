@@ -18,11 +18,11 @@ public class InitProvider extends ContentProvider {
         Context context = getContext();
         if (context instanceof Application) {
             ((Application)context).registerActivityLifecycleCallbacks(new MoxLifeCallbacks());
-            Mox.init();
-            Mox.getInstance().sp = new Sp(context);
+            Manhole.init();
+            Manhole.getInstance().sp = new Sp(context);
             File dbFile = new File(context.getFilesDir() + File.separator + ManholeConstants.DB_NAME);
             if (dbFile.exists()) {
-                Mox.getInstance().initDb(context, dbFile.getAbsolutePath());
+                Manhole.getInstance().initDb(context, dbFile.getAbsolutePath());
             }
         }
         return false;

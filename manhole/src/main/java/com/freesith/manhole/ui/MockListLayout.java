@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.freesith.manhole.Mox;
-import com.example.mox.R;
+import com.freesith.manhole.Manhole;
+import com.freesith.manhole.R;
 import com.freesith.manhole.bean.Case;
 import com.freesith.manhole.bean.Flow;
 import com.freesith.manhole.bean.Mock;
@@ -105,7 +105,7 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
             enableAdapter = new EnableChoiceAdapter(context);
             enableAdapter.setChoiceListener(this);
         }
-        ConcurrentHashMap<String, LinkedList<MockChoice>> enableMockMap = Mox.getInstance().enableMockMap;
+        ConcurrentHashMap<String, LinkedList<MockChoice>> enableMockMap = Manhole.getInstance().enableMockMap;
         List<MockChoice> choiceList = new ArrayList<>();
         if (!enableMockMap.isEmpty()) {
             for(LinkedList linkedList : enableMockMap.values()) {
@@ -123,7 +123,7 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
             flowAdapter = new FlowAdapter(context);
             flowAdapter.setFlowListener(this);
         }
-        List<Flow> flows = Mox.getInstance().getFlows();
+        List<Flow> flows = Manhole.getInstance().getFlows();
         flowAdapter.setList(flows);
         rvMock.setAdapter(flowAdapter);
         flowAdapter.notifyDataSetChanged();
@@ -134,7 +134,7 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
             caseAdapter = new CaseAdapter(context);
             caseAdapter.setCaseListener(this);
         }
-        List<Case> cases = Mox.getInstance().getCases();
+        List<Case> cases = Manhole.getInstance().getCases();
         caseAdapter.setList(cases);
         rvMock.setAdapter(caseAdapter);
         caseAdapter.notifyDataSetChanged();
@@ -145,7 +145,7 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
             mockAdapter = new MockAdapter(context);
             mockAdapter.setMockListener(this);
         }
-        List<Mock> mocks = Mox.getInstance().getMocks();
+        List<Mock> mocks = Manhole.getInstance().getMocks();
         mockAdapter.setList(mocks);
         rvMock.setAdapter(mockAdapter);
         mockAdapter.notifyDataSetChanged();
@@ -182,25 +182,39 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
     public void onFlowEnableChanged(String name, boolean enable, int position) {
         Flow flow = flowAdapter.get(position);
         if (flow != null) {
-            Mox.getInstance().updateFlowEnable(name, enable);
+            Manhole.getInstance().updateFlowEnable(name, enable);
             flow.enable = enable;
         }
+    }
+
+    @Override
+    public void onFlowClick(String name) {
+        CaseLayout caseLayout = new CaseLayout(context);
+        ViewUtil.findCoverLayout(this).addView(caseLayout, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        caseLayout.showFlow(name);
     }
 
     @Override
     public void onCaseEnableChanged(String name, boolean enable, int position) {
         Case caze = caseAdapter.get(position);
         if (caze != null) {
-            Mox.getInstance().updateCaseEnable(name, enable);
+            Manhole.getInstance().updateCaseEnable(name, enable);
             caze.enable = enable;
         }
+    }
+
+    @Override
+    public void onCaseClick(String name) {
+        CaseLayout caseLayout = new CaseLayout(context);
+        ViewUtil.findCoverLayout(this).addView(caseLayout, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        caseLayout.showCase(name);
     }
 
     @Override
     public void onMockEnableChanged(String name, boolean enable, int position) {
         Mock mock = mockAdapter.get(position);
         if (mock != null) {
-            Mox.getInstance().updateMockEnable(name, enable);
+            Manhole.getInstance().updateMockEnable(name, enable);
             mock.enable = enable;
         }
     }
@@ -214,13 +228,13 @@ public class MockListLayout extends LinearLayout implements View.OnClickListener
 
     @Override
     public void onChoiceEnableChanged(MockChoice choice, boolean enable, int position) {
-        Mox.getInstance().updateMockChoiceEnable(choice.mockName, choice.index, enable);
+        Manhole.getInstance().updateMockChoiceEnable(choice.mockName, choice.index, enable);
     }
 
     @Override
     public void onMockNameClick(String name) {
         MockView mockView = new MockView(context);
-        Mock mock = Mox.getInstance().findMockByName(name);
+        Mock mock = Manhole.getInstance().findMockByName(name);
         if (mock != null) {
             ViewUtil.findCoverLayout(this).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
             mockView.showMock(mock);

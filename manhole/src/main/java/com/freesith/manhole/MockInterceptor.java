@@ -17,32 +17,15 @@ public class MockInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        MockResponse mockResonse = Mox.getInstance().mock(request);
+        MockResponse mockResonse = Manhole.getInstance().mock(request);
         if (mockResonse == null) {
             Response proceed = chain.proceed(request);
-            Mox.getInstance().log(request, proceed);
+            Manhole.getInstance().log(request, proceed);
             return proceed;
         } else {
             if (mockResonse.cover && mockResonse.covers != null && !mockResonse.covers.isEmpty()) {
                 Response proceed = chain.proceed(request);
                 //TODO 2019-11-12 by WangChao 改变其中某些字段
-//                String bodyString = proceed.body().toString();
-//                JSONObject jsonObject = JSON.parseObject(bodyString);
-//
-//                org.json.JSONObject
-//                for (Map.Entry<String,Object> cover: mockResonse.covers.entrySet()) {
-//                    String key = cover.getKey();
-//                    String[] split = key.split(".");
-//                    for (int i = 0; i < split.length; i++) {
-//                        if (i == split.length - 1) {
-//
-//                        } else {
-//                            Object o = jsonObject.get(split[i]);
-//                            jsonObject.getInnerMap()
-//                        }
-//
-//                    }
-//                }
                 return proceed;
             } else {
                 ResponseBody mockBody = ResponseBody.create(MediaType.get("application/json"), mockResonse.data);

@@ -6,7 +6,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.mox.R;
+import com.freesith.manhole.R;
 import com.freesith.manhole.bean.Mock;
 import com.freesith.manhole.ui.adapter.base.BaseAdapter;
 import com.freesith.manhole.ui.adapter.base.BaseViewHolder;

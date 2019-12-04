@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mox.R;
-import com.freesith.manhole.Mox;
+import com.freesith.manhole.R;
+import com.freesith.manhole.Manhole;
 import com.freesith.manhole.Util;
 import com.freesith.manhole.bean.Mock;
 import com.freesith.manhole.bean.MockChoice;
@@ -100,7 +100,7 @@ public class MockView extends LinearLayout implements EnableChoiceAdapter.Choice
             tvPath.setBackgroundResource(R.drawable.manhole_right_circle_stroke_post);
         }
 
-        List<MockChoice> choices = Mox.getInstance().getChoicesByMock(mock.name);
+        List<MockChoice> choices = Manhole.getInstance().getChoicesByMock(mock.name);
         MockChoiceAdapter adapter = new MockChoiceAdapter(context);
         rvChoice.setLayoutManager(new LinearLayoutManager(context));
         rvChoice.setAdapter(adapter);
@@ -117,7 +117,7 @@ public class MockView extends LinearLayout implements EnableChoiceAdapter.Choice
 
     @Override
     public void onChoiceEnableChanged(MockChoice choice, boolean enable, int position) {
-        Mox.getInstance().updateMockChoiceEnable(choice.mockName, choice.index, enable);
+        Manhole.getInstance().updateMockChoiceEnable(choice.mockName, choice.index, enable);
     }
 
     @Override

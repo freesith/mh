@@ -20,16 +20,18 @@ import com.freesith.manhole.bean.MockResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Mox {
+public class Manhole {
 
     public static final String TAG = "xxx_mox";
 
@@ -40,7 +42,7 @@ public class Mox {
 
     private SQLiteDatabase db;
 
-    private static volatile Mox mox;
+    private static volatile Manhole manhole;
     private static volatile boolean inited = false;
 
     private Handler handler;
@@ -51,14 +53,14 @@ public class Mox {
 
     public Sp sp;
 
-    public static Mox getInstance() {
-        if (mox == null) {
-            mox = new Mox();
+    public static Manhole getInstance() {
+        if (manhole == null) {
+            manhole = new Manhole();
         }
-        return mox;
+        return manhole;
     }
 
-    private Mox() {
+    private Manhole() {
         initHandler();
     }
 
@@ -88,7 +90,7 @@ public class Mox {
         if (inited) {
             return;
         }
-        mox = new Mox();
+        manhole = new Manhole();
         inited = true;
     }
 
@@ -324,7 +326,7 @@ public class Mox {
 
         String passiveCaseNames = Util.setToSelection(passiveCases);
         String sql = "UPDATE table_case SET status = CASE \n" +
-                "WHEN name IN (" + passiveCaseNames + ") THEN \n" +
+                "WHEN name IN " + passiveCaseNames + " THEN \n" +
                 "status | " + FLAG_PASSIVE + " \n" +
                 "ELSE\n" +
                 "status & " + ~FLAG_PASSIVE + " \n" +
@@ -372,7 +374,127 @@ public class Mox {
             mockChoice.passive = (status & FLAG_PASSIVE) == FLAG_PASSIVE;
             list.add(mockChoice);
         }
+        cursor.close();
         return list;
+    }
+
+    public Case getCaseByName(String name) {
+        if (db == null) {
+            return null;
+        }
+        Case caze = new Case();
+        String sql = "SELECT * FROM table_case WHERE name='" + name + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        boolean first = true;
+        Set<String> choiceNameList = new HashSet<>();
+        while (cursor.moveToNext()) {
+            if (first) {
+                caze.title = Util.getCursorString(cursor,"title");
+                caze.name = Util.getCursorString(cursor,"name");
+                caze.module = Util.getCursorString(cursor, "module");
+                caze.desc = Util.getCursorString(cursor, "description");
+                first = false;
+            }
+            String choice = Util.getCursorString(cursor, "choice");
+            if (!TextUtils.isEmpty(choice)) {
+                choiceNameList.add(choice);
+            }
+            caze.mocks = getChoiceList(choiceNameList);
+        }
+        cursor.close();
+        return caze;
+    }
+
+    public Flow getFlowByName(String name) {
+        if (db == null) {
+            return null;
+        }
+        String sql = "SELECT * FROM table_flow WHERE name='" + name + "'";
+        Flow flow = new Flow();
+        Cursor cursor = db.rawQuery(sql, null);
+        boolean first = true;
+        Set<String> choiceNameList = new HashSet<>();
+        Set<String> caseNameList = new HashSet<>();
+        while (cursor.moveToNext()) {
+            if (first) {
+                flow.title = Util.getCursorString(cursor,"title");
+                flow.name = Util.getCursorString(cursor,"name");
+                flow.module = Util.getCursorString(cursor, "module");
+                flow.desc = Util.getCursorString(cursor, "description");
+                first = false;
+            }
+            String caseName = Util.getCursorString(cursor, "caseName");
+            String choice = Util.getCursorString(cursor, "choice");
+            if (!TextUtils.isEmpty(caseName)) {
+                caseNameList.add(caseName);
+            }
+            if (!TextUtils.isEmpty(choice)) {
+                choiceNameList.add(choice);
+            }
+
+            flow.cases = getCaseList(caseNameList);
+            flow.mocks = getChoiceList(choiceNameList);
+
+        }
+        cursor.close();
+        return flow;
+    }
+
+    public List<Case> getCaseList(Collection<String> caseNames) {
+        if (db == null) {
+            return null;
+        }
+        String selection = Util.setToSelection(caseNames);
+        if (TextUtils.isEmpty(selection)) {
+            return null;
+        }
+        List<Case> caseList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT name,title,module,description FROM table_case WHERE name IN " + selection, null);
+        while (cursor.moveToNext()) {
+            Case caze = new Case();
+            caze.name = Util.getCursorString(cursor, "name");
+            caze.title = Util.getCursorString(cursor, "title");
+            caze.module = Util.getCursorString(cursor, "module");
+            caze.desc = Util.getCursorString(cursor, "description");
+            caseList.add(caze);
+        }
+        cursor.close();
+        return caseList;
+    }
+
+    public List<MockChoice> getChoiceList(Collection<String> choiceNames) {
+        if (db == null) {
+            return null;
+        }
+        String selection = Util.setToSelection(choiceNames);
+        if (TextUtils.isEmpty(selection)) {
+            return null;
+        }
+        List<MockChoice> caseList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM table_mock WHERE choice IN " + selection, null);
+        while (cursor.moveToNext()) {
+
+
+            String method = cursor.getString(cursor.getColumnIndex("method")).toLowerCase();
+            String host = cursor.getString(cursor.getColumnIndex("host")).toLowerCase();
+            String path = cursor.getString(cursor.getColumnIndex("path"));
+            int status = cursor.getInt(cursor.getColumnIndex("status"));
+            String json = cursor.getString(cursor.getColumnIndex("json"));
+
+            MockChoice mockChoice = JSON.parseObject(json, MockChoice.class);
+            mockChoice.method = method;
+            mockChoice.path = path;
+            if (!TextUtils.isEmpty(host)) {
+                String[] split = host.split(",");
+                mockChoice.host = Arrays.asList(split);
+            }
+
+            mockChoice.enable = (status & FLAG_ENABLE) == FLAG_ENABLE;
+            mockChoice.passive = (status & FLAG_PASSIVE) == FLAG_PASSIVE;
+            caseList.add(mockChoice);
+        }
+        cursor.close();
+        return caseList;
     }
 
     public void  updateMockChoiceEnable(String mockName, int index, boolean enable) {

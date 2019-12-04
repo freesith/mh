@@ -3,20 +3,23 @@ package com.freesith.manhole.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.mox.R;
+import com.freesith.manhole.R;
 
 public class CoverLayout extends FrameLayout{
 
@@ -31,6 +34,7 @@ public class CoverLayout extends FrameLayout{
     private float lastX;
     private float lastY;
     private int lastAction;
+    private Context context;
 
     private MonitorView vMonitorView;
 
@@ -56,6 +60,7 @@ public class CoverLayout extends FrameLayout{
     }
 
     private void init(Context context) {
+        this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_cover, this);
         vMonitorView = view.findViewById(R.id.vMonitor);
     }
@@ -79,8 +84,25 @@ public class CoverLayout extends FrameLayout{
         }
     }
 
-
-
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        if (h > 0 && Build.VERSION.SDK_INT >= 17) {
+            WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            Point point = new Point();
+            Display defaultDisplay = windowManager.getDefaultDisplay();
+            if (defaultDisplay != null) {
+                defaultDisplay.getRealSize(point);
+                if (h == point.y) {
+                    Resources resources = context.getResources();
+                    int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
+                    int height = resources.getDimensionPixelSize(resourceId);
+                    setPadding(0, height, 0 ,0);
+                }
+            }
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override

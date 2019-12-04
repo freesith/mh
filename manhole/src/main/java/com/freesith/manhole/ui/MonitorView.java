@@ -17,7 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.mox.R;
+import com.freesith.manhole.R;
 import com.freesith.manhole.bean.Mock;
 import com.freesith.manhole.ui.interfaces.MonitorListener;
 import com.freesith.manhole.ui.util.ViewUtil;

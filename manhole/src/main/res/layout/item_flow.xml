@@ -37,25 +37,6 @@
         android:textColor="@color/manhole_pure_black"
         android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/tvCases"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="gegage, gasegaga ,geagaga, geagaagaegageg_gaegea_gaegag"
-        android:textColor="@color/manhole_case"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvMocks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="gegage, gasegaga ,geagaga, geagaa"
-        android:textColor="@color/manhole_mock"
-        android:textSize="14sp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvDesc"

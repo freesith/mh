@@ -15,8 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.freesith.manhole.ManholeConstants;
-import com.freesith.manhole.Mox;
-import com.example.mox.R;
+import com.freesith.manhole.Manhole;
+import com.freesith.manhole.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,7 +74,7 @@ public class SettingView extends LinearLayout implements View.OnClickListener {
         btnRefresh.setOnClickListener(this);
 
 
-        etPath.setText(Mox.getInstance().sp.getString(ManholeConstants.KEY_DB_PATH, "http://apk.minim.red/moc.db"));
+        etPath.setText(Manhole.getInstance().sp.getString(ManholeConstants.KEY_DB_PATH, "http://apk.minim.red/moc.db"));
         btnEdit.setVisibility(View.GONE);
     }
 
@@ -105,11 +105,11 @@ public class SettingView extends LinearLayout implements View.OnClickListener {
         String trim = etPath.getText().toString().trim();
         if (trim.startsWith("http")) {
             downloadDbFile(trim);
-            Mox.getInstance().sp.put(ManholeConstants.KEY_DB_PATH, trim);
+            Manhole.getInstance().sp.put(ManholeConstants.KEY_DB_PATH, trim);
         } else if (trim.startsWith("/")) {
             copyDBFile(trim);
-            Mox.getInstance().initDb(context, context.getFilesDir().getAbsolutePath() + File.separator + ManholeConstants.DB_NAME);
-            Mox.getInstance().sp.put(ManholeConstants.KEY_DB_PATH, trim);
+            Manhole.getInstance().initDb(context, context.getFilesDir().getAbsolutePath() + File.separator + ManholeConstants.DB_NAME);
+            Manhole.getInstance().sp.put(ManholeConstants.KEY_DB_PATH, trim);
         }
     }
 
@@ -154,7 +154,7 @@ public class SettingView extends LinearLayout implements View.OnClickListener {
                         while ((len = inputStream.read(buffer)) > 0) {
                             outputStream.write(buffer,0,len);
                         }
-                        Mox.getInstance().initDb(context, context.getFilesDir().getAbsolutePath() + File.separator + ManholeConstants.DB_NAME);
+                        Manhole.getInstance().initDb(context, context.getFilesDir().getAbsolutePath() + File.separator + ManholeConstants.DB_NAME);
                         post(new Runnable() {
                             @Override
                             public void run() {

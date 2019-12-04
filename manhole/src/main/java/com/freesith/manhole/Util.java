@@ -31,7 +31,7 @@ public class Util {
 
     public static String setToSelection(Collection<String> set) {
         if (set == null || set.isEmpty()) {
-            return "";
+            return "( )";
         }
         boolean first = true;
         StringBuilder builder = new StringBuilder();

@@ -14,6 +14,12 @@ public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks 
 
     private Activity resumeActivity;
 
+    String packageName;
+
+    public MoxLifeCallbacks(String packageName) {
+        this.packageName = packageName;
+    }
+
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
 
@@ -21,16 +27,17 @@ public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks 
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        FrameLayout content = activity.findViewById(android.R.id.content);
-        int childCount = content.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            if (content.getChildAt(i) instanceof CoverLayout) {
-                return;
+        if (activity.getClass().getName().startsWith(packageName)) {
+            FrameLayout content = activity.findViewById(android.R.id.content);
+            int childCount = content.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                if (content.getChildAt(i) instanceof CoverLayout) {
+                    return;
+                }
             }
+            CoverLayout summonView = new CoverLayout(activity);
+            content.addView(summonView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         }
-        CoverLayout summonView = new CoverLayout(activity);
-        content.addView(summonView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-
     }
 
     @Override

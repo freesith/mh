@@ -1,4 +1,4 @@
-package com.example.moxy;
+package com.freesith.manhole.demo;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,7 +15,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 
 import com.freesith.manhole.MockInterceptor;
-import com.freesith.manhole.demo.R;
 
 import java.io.IOException;
 
@@ -73,7 +72,7 @@ public class MainActivity extends Activity {
 
     private void request1 () {
         RequestBody body = RequestBody.create(MediaType.get("application/json"),"a=1&b=2&json={'gaega':1,'gageagageag':'gaegeaehrhshsh'}&tt=ggpaehgpehigaigepgpeag");
-        Request request = new Request.Builder().url("http://www.baidu.com/app/v1/pass")
+        Request request = new Request.Builder().url("http://www.baidu.com/")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {

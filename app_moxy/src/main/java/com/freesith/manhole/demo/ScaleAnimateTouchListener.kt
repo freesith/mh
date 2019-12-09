@@ -1,4 +1,4 @@
-package com.example.moxy
+package com.freesith.manhole.demo
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

@@ -131,6 +131,13 @@ public class Manhole {
                 mockResponse.code = mockChoice.code;
                 mockResponse.message = mockChoice.message;
                 mockResponse.data = mockChoice.data;
+                if (mockChoice.delay > 0) {
+                    try {
+                        Thread.sleep(mockChoice.delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 return mockResponse;
             }
         }

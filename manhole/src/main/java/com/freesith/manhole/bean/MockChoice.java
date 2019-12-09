@@ -33,6 +33,7 @@ public class MockChoice{
     public int code;
     //httpMessage
     public String message;
+    public int delay;
     public boolean cover = false;
     public Map<String, Object> covers;
 

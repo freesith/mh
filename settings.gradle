@@ -1,2 +1,2 @@
-include ':app_moxy', ':manhole'
+include ':app_moxy', ':manhole', ':jsonview'
 rootProject.name='Moxy'

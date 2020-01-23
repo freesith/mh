@@ -90,33 +90,45 @@ public class CoverLayout extends FrameLayout{
         super.onSizeChanged(w, h, oldw, oldh);
         if (h > 0 && Build.VERSION.SDK_INT >= 17) {
             WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            Point point = new Point();
-            Display defaultDisplay = windowManager.getDefaultDisplay();
-            if (defaultDisplay != null) {
-                defaultDisplay.getRealSize(point);
-                if (h == point.y) {
-                    Resources resources = context.getResources();
-                    int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
-                    int height = resources.getDimensionPixelSize(resourceId);
-                    setPadding(0, height, 0 ,0);
+            if (windowManager != null) {
+                Point point = new Point();
+                Display defaultDisplay = windowManager.getDefaultDisplay();
+                if (defaultDisplay != null) {
+                    defaultDisplay.getRealSize(point);
+                    if (h == point.y) {
+                        Resources resources = context.getResources();
+                        int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
+                        int height = resources.getDimensionPixelSize(resourceId);
+                        setPadding(0, height, 0 ,0);
+                    } else {
+                        setPadding(0, 0, 0, 0);
+                    }
                 }
             }
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (vMonitorView.getVisibility() == View.VISIBLE) {
             return super.dispatchTouchEvent(event);
         }
-        ((ViewGroup) getParent()).getChildAt(0).dispatchTouchEvent(event);
+        ViewGroup parent = (ViewGroup) getParent();
+        int childCount = parent.getChildCount();
+        for (int i = childCount - 1; i >= 0 ; i--) {
+            View child = parent.getChildAt(i);
+            if (child != null
+                    && child != this
+                    && child.getVisibility() == View.VISIBLE
+                    && child.dispatchTouchEvent(event)) {
+                break;
+            }
+        }
         onCoverTouch(event);
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public boolean onCoverTouch(MotionEvent event) {
+    private void onCoverTouch(MotionEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
 
@@ -130,7 +142,7 @@ public class CoverLayout extends FrameLayout{
 
             case MotionEvent.ACTION_MOVE:
                 if (downX == -1 || downY == -1) {
-                    return false;
+                    return;
                 }
 
                 if (x < left.x) {
@@ -154,7 +166,6 @@ public class CoverLayout extends FrameLayout{
 
                 break;
         }
-        return false;
     }
 
 

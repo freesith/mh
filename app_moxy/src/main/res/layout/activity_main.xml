@@ -6,7 +6,6 @@
 
 
     <Button
-        android:visibility="gone"
         android:id="@+id/button"
         android:text="航航行行或"
         android:layout_width="wrap_content"
@@ -64,6 +63,7 @@
 
     <com.freesith.jsonview.JsonView
         android:id="@+id/jsonView"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

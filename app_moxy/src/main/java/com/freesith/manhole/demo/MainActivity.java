@@ -3,6 +3,7 @@ package com.freesith.manhole.demo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.freesith.jsonview.JsonUtilKt;
 import com.freesith.jsonview.JsonView;
 import com.freesith.jsonview.bean.JsonElement;
 import com.freesith.manhole.MockInterceptor;
+import com.freesith.manhole.Util;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,6 +48,15 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                try {
+                    intent.setClass(MainActivity.this,Class.forName("com.freesith.manhole.ui.SettingActivity"));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+//                intent.setClassName("com.freesith.manhole.ui", "com.freesith.manhole.ui.SettingActivity");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
 //                request1();
 //                Log.d("xxx","click11111");
 

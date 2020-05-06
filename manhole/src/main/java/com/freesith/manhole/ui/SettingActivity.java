@@ -10,5 +10,6 @@ public class SettingActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(new MonitorView(this));
     }
 }

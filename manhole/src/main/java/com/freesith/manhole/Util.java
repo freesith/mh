@@ -5,6 +5,7 @@ import android.database.Cursor;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Util {
 

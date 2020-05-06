@@ -17,7 +17,7 @@ public class InitProvider extends ContentProvider {
     public boolean onCreate() {
         Context context = getContext();
         if (context instanceof Application) {
-            ((Application)context).registerActivityLifecycleCallbacks(new MoxLifeCallbacks(context.getPackageName()));
+//            ((Application)context).registerActivityLifecycleCallbacks(new MoxLifeCallbacks(context.getPackageName()));
             Manhole.init();
             Manhole.getInstance().sp = new Sp(context);
             File dbFile = new File(context.getFilesDir() + File.separator + ManholeConstants.DB_NAME);

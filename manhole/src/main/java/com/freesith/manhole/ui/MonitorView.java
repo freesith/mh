@@ -2,6 +2,7 @@ package com.freesith.manhole.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -80,7 +81,10 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tvClose) {
-            hideMonitorView();
+            if (context instanceof Activity) {
+                ((Activity) context).onBackPressed();
+            }
+//            hideMonitorView();
         } else if (v.getId() == R.id.tabSetting) {
             switchSetting();
             updateTabs(v);

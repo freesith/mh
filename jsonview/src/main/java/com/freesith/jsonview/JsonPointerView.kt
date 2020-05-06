@@ -13,9 +13,13 @@ class JsonPointerView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int
     View(context, attrs, defStyleAttr) {
 
     constructor(context: Context?) : this(context, null, 0)
+
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
 
     val rects = arrayListOf<List<Int>>()
+    val widths = arrayListOf<Int>()
+    val MAX_WIDTH = 500
+    val BACK_WIDTH = 100
     var transX = 0
     var transY = 0
     var jsonElements: MutableList<JsonElement<*>>? = null
@@ -55,9 +59,59 @@ class JsonPointerView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int
         invalidate()
     }
 
+
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    val x = event.x
+                    val y = event.y
+                    if (inRect(x, y)) {
+                        return true
+                    }
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+
+                }
+
+                MotionEvent.ACTION_UP -> {
+
+                }
+
+                MotionEvent.ACTION_POINTER_DOWN -> {
+
+                }
+
+                MotionEvent.ACTION_POINTER_UP -> {
+
+                }
+            }
+        }
         return super.onTouchEvent(event)
     }
+
+    private fun inRect(x: Float, y: Float): Boolean {
+
+        val size = rects.size
+        if  (size  == 0) {
+            return false
+        }
+        val totalWidth = (size - 1) * BACK_WIDTH + widths[size -1]
+        if (x + transX > totalWidth) {
+            return false
+        }
+
+        (0 until size).forEach {
+            val leftWidth = Math.max(0, it - 1) * BACK_WIDTH
+            if (x + transX > leftWidth && x + transX <= leftWidth + widths[it]) {
+//                if (y + transY < )
+            }
+        }
+
+        return false
+    }
+
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

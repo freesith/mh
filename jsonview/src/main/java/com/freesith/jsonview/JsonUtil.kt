@@ -11,6 +11,7 @@ fun parseJson(json: String?): MutableList<JsonElement<*>>? {
     }
 
     val jsonElements = mutableListOf<JsonElement<*>>()
+    //TODO 2020-02-11 by WangChao 非JsonObject,而是JsonArray
     val jsonObject = JSONObject(json) ?: return null
 
     val keys = jsonObject.keys()

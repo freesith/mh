@@ -15,14 +15,9 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 
-import com.freesith.jsonview.JsonUtilKt;
-import com.freesith.jsonview.JsonView;
-import com.freesith.jsonview.bean.JsonElement;
 import com.freesith.manhole.MockInterceptor;
-import com.freesith.manhole.Util;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -37,14 +32,14 @@ public class MainActivity extends Activity {
     OkHttpClient okHttpClient;
     public static final String TAG = "xxx";
     private Button button;
-    private JsonView jsonView;
+//    private JsonView jsonView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button = findViewById(R.id.button);
-        jsonView = findViewById(R.id.jsonView);
+//        jsonView = findViewById(R.id.jsonView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +158,7 @@ public class MainActivity extends Activity {
                 "      \"quest\": []\n" +
                 "    }";
 
-        jsonView.setJson(json);
+//        jsonView.setJson(json);
 //        List<JsonElement<?>> jsonElements = JsonUtilKt.parseJson(json);
 //
 //        for (int i = 0; i < jsonElements.size(); i++) {

@@ -61,10 +61,10 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.freesith.jsonview.JsonView
-        android:id="@+id/jsonView"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+<!--    <com.freesith.jsonview.JsonView-->
+<!--        android:id="@+id/jsonView"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 
 </LinearLayout>

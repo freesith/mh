@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 
 import com.freesith.manhole.R;
 import com.freesith.manhole.bean.Mock;
+import com.freesith.manhole.history.AllHistoryView;
 import com.freesith.manhole.ui.interfaces.MonitorListener;
 import com.freesith.manhole.ui.util.ViewUtil;
 
@@ -52,9 +53,11 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     private SettingView settingView;
     private MockView v_mock;
     private ViewStub vbSetting;
+    private AllHistoryView v_history;
 
     private TextView tabMock;
     private TextView tabSetting;
+    private TextView tabHistory;
 
     private void init(Context context) {
         this.context = context;
@@ -65,12 +68,15 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         v_mock = view.findViewById(R.id.v_mock);
         tabMock = view.findViewById(R.id.tabMock);
         tabSetting = view.findViewById(R.id.tabSetting);
+        tabHistory = view.findViewById(R.id.tabHistory);
+        v_history = view.findViewById(R.id.v_history);
 
         ll_mock.setMonitorListener(this);
 
         view.findViewById(R.id.tvClose).setOnClickListener(this);
         tabSetting.setOnClickListener(this);
         tabMock.setOnClickListener(this);
+        tabHistory.setOnClickListener(this);
 
     }
 
@@ -81,15 +87,19 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tvClose) {
-            if (context instanceof Activity) {
+            if (context instanceof SettingActivity) {
                 ((Activity) context).onBackPressed();
+            } else {
+                hideMonitorView();
             }
-//            hideMonitorView();
         } else if (v.getId() == R.id.tabSetting) {
             switchSetting();
             updateTabs(v);
         } else if (v.getId() == R.id.tabMock) {
             switchMock();
+            updateTabs(v);
+        } else if (v.getId() == R.id.tabHistory) {
+            switchHistory();
             updateTabs(v);
         }
     }
@@ -97,8 +107,8 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     private void updateTabs(View v) {
         tabMock.setBackgroundColor(v.getId() == R.id.tabMock ? Color.WHITE : Color.TRANSPARENT);
         tabSetting.setBackgroundColor(v.getId() == R.id.tabSetting ? Color.WHITE : Color.TRANSPARENT);
+        tabHistory.setBackgroundColor(v.getId() == R.id.tabHistory ? Color.WHITE : Color.TRANSPARENT);
     }
-
 
     private void hideMonitorView() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -125,6 +135,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         }
         ll_mock.setVisibility(View.GONE);
         settingView.setVisibility(View.VISIBLE);
+        v_history.setVisibility(View.GONE);
     }
 
     private void switchMock() {
@@ -133,6 +144,18 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         }
         ll_mock.setVisibility(View.VISIBLE);
         v_mock.setVisibility(GONE);
+        v_history.setVisibility(View.GONE);
+    }
+
+
+    private void switchHistory() {
+        if (settingView != null) {
+            settingView.setVisibility(View.GONE);
+        }
+        ll_mock.setVisibility(View.GONE);
+        v_mock.setVisibility(View.GONE);
+        v_history.setVisibility(View.VISIBLE);
+        v_history.show();
     }
 
     @Override

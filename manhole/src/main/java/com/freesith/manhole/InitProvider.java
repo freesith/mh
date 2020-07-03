@@ -10,6 +10,9 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.freesith.manhole.core.ManholeContext;
+import com.freesith.manhole.history.ManholeHistory;
+
 import java.io.File;
 
 public class InitProvider extends ContentProvider {
@@ -17,13 +20,14 @@ public class InitProvider extends ContentProvider {
     public boolean onCreate() {
         Context context = getContext();
         if (context instanceof Application) {
-//            ((Application)context).registerActivityLifecycleCallbacks(new MoxLifeCallbacks(context.getPackageName()));
+            ManholeContext.context = context;
+            ((Application)context).registerActivityLifecycleCallbacks(new MoxLifeCallbacks(context.getPackageName()));
             Manhole.init();
-            Manhole.getInstance().sp = new Sp(context);
-            File dbFile = new File(context.getFilesDir() + File.separator + ManholeConstants.DB_NAME);
+            File dbFile = new File(context.getFilesDir() + File.separator + ManholeConstants.MOCK_DB_NAME);
             if (dbFile.exists()) {
-                Manhole.getInstance().initDb(context, dbFile.getAbsolutePath());
+                Manhole.getInstance().initMockDb(context, dbFile.getAbsolutePath());
             }
+            ManholeHistory.INSTANCE.init(context);
         }
         return false;
     }

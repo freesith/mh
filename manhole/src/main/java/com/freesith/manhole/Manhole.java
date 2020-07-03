@@ -40,18 +40,14 @@ public class Manhole {
 
     public static final int ACTION_SHOW_MOCK = 1;
 
-    private SQLiteDatabase db;
+    private SQLiteDatabase mockDb;
 
     private static volatile Manhole manhole;
     private static volatile boolean inited = false;
 
     private Handler handler;
 
-
     public ConcurrentHashMap<String, LinkedList<MockChoice>> enableMockMap = new ConcurrentHashMap<>();
-
-
-    public Sp sp;
 
     public static Manhole getInstance() {
         if (manhole == null) {
@@ -94,14 +90,14 @@ public class Manhole {
         inited = true;
     }
 
-    public synchronized void initDb(Context context, String dbPath) {
+    public synchronized void initMockDb(Context context, String dbPath) {
         Log.d(TAG, "initDb path = " + dbPath);
-        if (db != null) {
-            db.close();
+        if (mockDb != null) {
+            mockDb.close();
         }
-        SqliteHelper sqliteHelper = new SqliteHelper(context, dbPath, null, 1);
-        db = sqliteHelper.getWritableDatabase();
-        db = SQLiteDatabase.openOrCreateDatabase(dbPath, null);
+        MockSqliteHelper sqliteHelper = new MockSqliteHelper(context, dbPath, null, 1);
+        mockDb = sqliteHelper.getWritableDatabase();
+        mockDb = SQLiteDatabase.openOrCreateDatabase(dbPath, null);
 
 //        refreshPassive();
         refreshMocks();
@@ -156,12 +152,12 @@ public class Manhole {
 
         enableMockMap.clear();
 
-        if (db == null) {
+        if (mockDb == null) {
             return;
         }
 
         String mockSql = "SELECT * FROM table_mock WHERE status& " + FLAG_PASSIVE + " = " + FLAG_PASSIVE + " OR status& " + FLAG_ENABLE + " = " + FLAG_ENABLE;
-        Cursor cursor = db.rawQuery(mockSql, null);
+        Cursor cursor = mockDb.rawQuery(mockSql, null);
         while (cursor.moveToNext()) {
             String method = cursor.getString(cursor.getColumnIndex("method")).toLowerCase();
             String host = cursor.getString(cursor.getColumnIndex("host")).toLowerCase();
@@ -191,10 +187,10 @@ public class Manhole {
     }
 
     public List<Mock> getMocks() {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
-        Cursor cursor = db.rawQuery("SELECT DISTINCT name, title, description, method, path FROM table_mock ORDER BY status DESC", null);
+        Cursor cursor = mockDb.rawQuery("SELECT DISTINCT name, title, description, method, path FROM table_mock ORDER BY status DESC", null);
         List<Mock> mockList = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -226,10 +222,10 @@ public class Manhole {
     }
 
     public List<Case> getCases() {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
-        Cursor cursor = db.rawQuery("SELECT DISTINCT name, title ,status FROM table_case ORDER BY status DESC", null);
+        Cursor cursor = mockDb.rawQuery("SELECT DISTINCT name, title ,status FROM table_case ORDER BY status DESC", null);
         List<Case> caseList = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -248,10 +244,10 @@ public class Manhole {
     }
 
     public List<Flow> getFlows() {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
-        Cursor cursor = db.rawQuery("SELECT DISTINCT name,title,status FROM table_flow ORDER BY status DESC", null);
+        Cursor cursor = mockDb.rawQuery("SELECT DISTINCT name,title,status FROM table_flow ORDER BY status DESC", null);
         List<Flow> flowList = new ArrayList<>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -270,46 +266,46 @@ public class Manhole {
 
 
     public void updateFlowEnable(String flowName, boolean enable) {
-        if (db == null) {
+        if (mockDb == null) {
             return;
         }
         if (enable) {
-            db.execSQL("UPDATE table_flow SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, flowName});
+            mockDb.execSQL("UPDATE table_flow SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, flowName});
         } else {
-            db.execSQL("UPDATE table_flow SET status = status & ? WHERE name = ?", new Object[]{~FLAG_ENABLE, flowName});
+            mockDb.execSQL("UPDATE table_flow SET status = status & ? WHERE name = ?", new Object[]{~FLAG_ENABLE, flowName});
         }
         refreshPassive();
         refreshMocks();
     }
 
     public void updateCaseEnable(String caseName, boolean enable) {
-        if (db == null) {
+        if (mockDb == null) {
             return;
         }
         if (enable) {
-            db.execSQL("UPDATE table_case SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, caseName});
+            mockDb.execSQL("UPDATE table_case SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, caseName});
         } else {
-            db.execSQL("UPDATE table_case SET status = status & ? WHERE name = ?", new Object[]{~FLAG_ENABLE, caseName});
+            mockDb.execSQL("UPDATE table_case SET status = status & ? WHERE name = ?", new Object[]{~FLAG_ENABLE, caseName});
         }
         refreshPassive();
         refreshMocks();
     }
 
     public void updateMockEnable(String mockName, boolean enable) {
-        if (db == null) {
+        if (mockDb == null) {
             return;
         }
         if (enable) {
-            db.execSQL("UPDATE table_mock SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, mockName});
+            mockDb.execSQL("UPDATE table_mock SET status = status | ? WHERE name = ?", new Object[]{FLAG_ENABLE, mockName});
         } else {
-            db.execSQL("UPDATE table_mock SET status = status & ? WHERE name = ?", new Object[]{~FLAG_ENABLE, mockName});
+            mockDb.execSQL("UPDATE table_mock SET status = status & ? WHERE name = ?", new Object[]{~FLAG_ENABLE, mockName});
         }
         refreshMocks();
     }
 
 
     private void refreshPassive() {
-        if (db == null) {
+        if (mockDb == null) {
             return;
         }
 
@@ -317,7 +313,7 @@ public class Manhole {
         HashSet<String> passiveChoices = new HashSet<>();
 
         //找出开启的flow
-        Cursor cursorFlow = db.rawQuery("SELECT * FROM table_flow WHERE status&" + FLAG_ENABLE + " = " + FLAG_ENABLE, null);
+        Cursor cursorFlow = mockDb.rawQuery("SELECT * FROM table_flow WHERE status&" + FLAG_ENABLE + " = " + FLAG_ENABLE, null);
         while (cursorFlow.moveToNext()) {
             String caseName = cursorFlow.getString(cursorFlow.getColumnIndex("caseName"));
             if (!TextUtils.isEmpty(caseName)) {
@@ -338,8 +334,8 @@ public class Manhole {
                 "ELSE\n" +
                 "status & " + ~FLAG_PASSIVE + " \n" +
                 "END;";
-        db.execSQL(sql, new Object[]{});
-        Cursor cursorCases = db.rawQuery("SELECT * FROM table_case WHERE status& " + FLAG_ENABLE + " = " + FLAG_ENABLE + " OR status& " + FLAG_PASSIVE + " = " + FLAG_PASSIVE, null);
+        mockDb.execSQL(sql, new Object[]{});
+        Cursor cursorCases = mockDb.rawQuery("SELECT * FROM table_case WHERE status& " + FLAG_ENABLE + " = " + FLAG_ENABLE + " OR status& " + FLAG_PASSIVE + " = " + FLAG_PASSIVE, null);
         while (cursorCases.moveToNext()) {
             String choice = cursorCases.getString(cursorCases.getColumnIndex("choice"));
             if (!TextUtils.isEmpty(choice)) {
@@ -349,7 +345,7 @@ public class Manhole {
         cursorCases.close();
 
         String passiveMockNames = Util.setToSelection(passiveChoices);
-        db.execSQL("UPDATE table_mock SET status = CASE \n" +
+        mockDb.execSQL("UPDATE table_mock SET status = CASE \n" +
                 "WHEN choice IN " + passiveMockNames + " THEN \n" +
                 "status | " + FLAG_PASSIVE + " \n" +
                 "ELSE \n" +
@@ -363,11 +359,11 @@ public class Manhole {
     }
 
     public List<MockChoice> getChoicesByMock(String name) {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
         String sql = "SELECT * FROM table_mock WHERE name='" + name + "'";
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mockDb.rawQuery(sql, null);
         List<MockChoice> list = new ArrayList<>();
         while (cursor.moveToNext()) {
             String json = cursor.getString(cursor.getColumnIndex("json"));
@@ -386,12 +382,12 @@ public class Manhole {
     }
 
     public Case getCaseByName(String name) {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
         Case caze = new Case();
         String sql = "SELECT * FROM table_case WHERE name='" + name + "'";
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mockDb.rawQuery(sql, null);
         boolean first = true;
         Set<String> choiceNameList = new HashSet<>();
         while (cursor.moveToNext()) {
@@ -413,12 +409,12 @@ public class Manhole {
     }
 
     public Flow getFlowByName(String name) {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
         String sql = "SELECT * FROM table_flow WHERE name='" + name + "'";
         Flow flow = new Flow();
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mockDb.rawQuery(sql, null);
         boolean first = true;
         Set<String> choiceNameList = new HashSet<>();
         Set<String> caseNameList = new HashSet<>();
@@ -448,7 +444,7 @@ public class Manhole {
     }
 
     public List<Case> getCaseList(Collection<String> caseNames) {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
         String selection = Util.setToSelection(caseNames);
@@ -456,7 +452,7 @@ public class Manhole {
             return null;
         }
         List<Case> caseList = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT DISTINCT name,title,module,description FROM table_case WHERE name IN " + selection, null);
+        Cursor cursor = mockDb.rawQuery("SELECT DISTINCT name,title,module,description FROM table_case WHERE name IN " + selection, null);
         while (cursor.moveToNext()) {
             Case caze = new Case();
             caze.name = Util.getCursorString(cursor, "name");
@@ -470,7 +466,7 @@ public class Manhole {
     }
 
     public List<MockChoice> getChoiceList(Collection<String> choiceNames) {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
         String selection = Util.setToSelection(choiceNames);
@@ -478,7 +474,7 @@ public class Manhole {
             return null;
         }
         List<MockChoice> caseList = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM table_mock WHERE choice IN " + selection, null);
+        Cursor cursor = mockDb.rawQuery("SELECT * FROM table_mock WHERE choice IN " + selection, null);
         while (cursor.moveToNext()) {
 
 
@@ -505,23 +501,23 @@ public class Manhole {
     }
 
     public void  updateMockChoiceEnable(String mockName, int index, boolean enable) {
-        if (db == null) {
+        if (mockDb == null) {
             return;
         }
         if (enable) {
-            db.execSQL("UPDATE table_mock SET status = status | ? WHERE name = ? AND choice = ?", new Object[]{FLAG_ENABLE, mockName, mockName + "_" + index});
+            mockDb.execSQL("UPDATE table_mock SET status = status | ? WHERE name = ? AND choice = ?", new Object[]{FLAG_ENABLE, mockName, mockName + "_" + index});
         } else {
-            db.execSQL("UPDATE table_mock SET status = status & ? WHERE name = ? AND choice = ?", new Object[]{~FLAG_ENABLE, mockName, mockName + "_" + index});
+            mockDb.execSQL("UPDATE table_mock SET status = status & ? WHERE name = ? AND choice = ?", new Object[]{~FLAG_ENABLE, mockName, mockName + "_" + index});
         }
         refreshMocks();
     }
 
     public Mock findMockByName(String name) {
-        if (db == null) {
+        if (mockDb == null) {
             return null;
         }
         String sql = "SELECT DISTINCT name,title,description,method,path,host,module FROM table_mock WHERE name = '" + name + "'";
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mockDb.rawQuery(sql, null);
         Mock mock = null;
         if (cursor.moveToFirst()) {
             mock = new Mock();

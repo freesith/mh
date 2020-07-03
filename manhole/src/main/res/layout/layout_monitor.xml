@@ -20,6 +20,13 @@
             android:text="MOCK" />
 
         <TextView
+            android:id="@+id/tabHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="HISTORY" />
+
+        <TextView
             android:id="@+id/tabSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +65,12 @@
 
         <com.freesith.manhole.ui.MockView
             android:id="@+id/v_mock"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.freesith.manhole.history.AllHistoryView
+            android:id="@+id/v_history"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

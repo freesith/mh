@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.freesith.manhole.R;
+import com.freesith.manhole.history.HistoryShortcut;
+import com.freesith.manhole.util.ManholeSp;
 
 public class CoverLayout extends FrameLayout{
 
@@ -35,8 +37,10 @@ public class CoverLayout extends FrameLayout{
     private float lastY;
     private int lastAction;
     private Context context;
+    private boolean enableSummon = ManholeSp.INSTANCE.getEnableSummon();
 
     private MonitorView vMonitorView;
+    private HistoryShortcut vHistoryShortcut;
 
     public CoverLayout(Context context) {
         super(context);
@@ -63,6 +67,7 @@ public class CoverLayout extends FrameLayout{
         this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_cover, this);
         vMonitorView = view.findViewById(R.id.vMonitor);
+        vHistoryShortcut = view.findViewById(R.id.vHistoryShortcut);
     }
 
     private void showMonitorView(int left, int top, int right, int bottom) {
@@ -110,6 +115,9 @@ public class CoverLayout extends FrameLayout{
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        if (!enableSummon) {
+            return super.dispatchTouchEvent(event);
+        }
         if (vMonitorView.getVisibility() == View.VISIBLE) {
             return super.dispatchTouchEvent(event);
         }
@@ -191,5 +199,13 @@ public class CoverLayout extends FrameLayout{
         right.set(x, y);
         top.set(x, y);
         bottom.set(x, y);
+    }
+
+    public void onStart() {
+        vHistoryShortcut.onStart();
+    }
+
+    public void onStop() {
+        vHistoryShortcut.onStop();
     }
 }

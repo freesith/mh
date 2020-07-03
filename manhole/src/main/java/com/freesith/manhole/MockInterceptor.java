@@ -1,15 +1,15 @@
 package com.freesith.manhole;
 
-import android.util.Log;
-
 import com.freesith.manhole.bean.MockResponse;
+import com.freesith.manhole.history.HistoryShortcutPool;
+import com.freesith.manhole.history.HttpHistory;
+import com.freesith.manhole.history.ManholeHistory;
+import com.freesith.manhole.util.ManholeSp;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Map;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -24,10 +24,23 @@ public class MockInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
+        HttpHistory history = null;
+        if (ManholeSp.INSTANCE.getEnableHistoryShortcut()) {
+            history = new HttpHistory();
+            history.setUrl(request.url().toString());
+            HistoryShortcutPool.INSTANCE.newRequest(history);
+        }
         MockResponse mockResonse = Manhole.getInstance().mock(request);
         if (mockResonse == null) {
             Response proceed = chain.proceed(request);
             Manhole.getInstance().log(request, proceed);
+            if (ManholeSp.INSTANCE.getEnableHistory()) {
+                ManholeHistory.INSTANCE.recordHistory(false, request, proceed);
+            }
+            if (history != null) {
+                history.setCode(proceed.code());
+                HistoryShortcutPool.INSTANCE.requestFinish(history);
+            }
             return proceed;
         } else {
             if (mockResonse.cover && mockResonse.covers != null && !mockResonse.covers.isEmpty()) {
@@ -44,7 +57,7 @@ public class MockInterceptor implements Interceptor {
                         JSONObject jsonObject = new JSONObject(string);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        builder.body(ResponseBody.create(mediaType,string));
+                        builder.body(ResponseBody.create(mediaType, string));
                     }
 
                     return builder.build();
@@ -54,7 +67,16 @@ public class MockInterceptor implements Interceptor {
                 }
             } else {
                 ResponseBody mockBody = ResponseBody.create(MediaType.get("application/json"), mockResonse.data);
-                return new Response.Builder().protocol(Protocol.HTTP_1_1).code(200).message("Success").request(request).body(mockBody).build();
+                Response response = new Response.Builder().protocol(Protocol.HTTP_1_1).code(200).message("Success").request(request).body(mockBody).build();
+                if (ManholeSp.INSTANCE.getEnableHistory()) {
+                    ManholeHistory.INSTANCE.recordHistory(true, request, response);
+                }
+                if (history != null) {
+                    history.setCode(response.code());
+                    history.setMock(true);
+                    HistoryShortcutPool.INSTANCE.requestFinish(history);
+                }
+                return response;
             }
         }
     }

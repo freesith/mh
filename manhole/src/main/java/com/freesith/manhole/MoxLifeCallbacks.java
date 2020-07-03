@@ -3,6 +3,7 @@ package com.freesith.manhole;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -31,12 +32,15 @@ public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks 
             FrameLayout content = activity.findViewById(android.R.id.content);
             int childCount = content.getChildCount();
             for (int i = 0; i < childCount; i++) {
-                if (content.getChildAt(i) instanceof CoverLayout) {
+                View child = content.getChildAt(i);
+                if (child instanceof CoverLayout) {
+                    ((CoverLayout)child).onStart();
                     return;
                 }
             }
             CoverLayout summonView = new CoverLayout(activity);
             content.addView(summonView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            summonView.onStart();
         }
     }
 
@@ -54,14 +58,15 @@ public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks 
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
-//        FrameLayout content = activity.findViewById(android.R.id.content);
-//        int childCount = content.getChildCount();
-//        for (int i = 0; i < childCount; i++) {
-//            if (content.getChildAt(i) instanceof CoverLayout) {
-//                content.removeViewAt(i);
-//                return;
-//            }
-//        }
+        FrameLayout content = activity.findViewById(android.R.id.content);
+        int childCount = content.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = content.getChildAt(i);
+            if (child instanceof CoverLayout) {
+                ((CoverLayout) child).onStop();
+                return;
+            }
+        }
     }
 
     @Override

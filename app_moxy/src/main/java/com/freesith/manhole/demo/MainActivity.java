@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
     OkHttpClient okHttpClient;
     public static final String TAG = "xxx";
     private Button button;
+    private Button btnRequest;
 //    private JsonView jsonView;
 
     @Override
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button = findViewById(R.id.button);
+        btnRequest = findViewById(R.id.btnRequest);
 //        jsonView = findViewById(R.id.jsonView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +78,12 @@ public class MainActivity extends Activity {
         });
         button.setOnTouchListener(new ScaleAnimateTouchListener());
 
+        btnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                request1();
+            }
+        });
 
         Button newButton = new Button(MainActivity.this);
         newButton.setText("BUTTON");
@@ -186,7 +194,6 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String string = response.body().string();
-                Log.d(TAG, "onResponse: response = " + string);
             }
         });
     }

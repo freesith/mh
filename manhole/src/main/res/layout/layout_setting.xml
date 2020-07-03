@@ -22,4 +22,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <Switch
+        android:id="@+id/swHistory"
+        android:text="开启历史记录"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Switch
+        android:id="@+id/swShortcut"
+        android:text="开启请求提示"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Switch
+        android:layout_marginTop="10dp"
+        android:id="@+id/swSummon"
+        android:text="开启传送门"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -161,7 +162,12 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     @Override
     public void onShowSingleMock(Mock mock) {
         MockView mockView = new MockView(context);
-        ViewUtil.findCoverLayout(this).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        ContainerLayout coverLayout = ViewUtil.findCoverLayout(this);
+        if (coverLayout != null) {
+            coverLayout.addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        } else {
+            ((ViewGroup)getParent()).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        }
         mockView.showMock(mock);
     }
 

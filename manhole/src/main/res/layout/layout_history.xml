@@ -17,15 +17,20 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/tvHistory"
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
 
+                <com.freesith.jsonview.JsonView
+                    android:id="@+id/v_json"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
-
     </HorizontalScrollView>
 
 </LinearLayout>

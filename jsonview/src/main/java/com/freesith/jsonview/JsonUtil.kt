@@ -39,6 +39,10 @@ fun parseValue(jsonElements: MutableList<JsonElement<*>>, level: Int, name: Stri
             parseNumber(jsonElements, level, name, value)
         }
 
+        is Boolean -> {
+            parseBoolean(jsonElements, level, name, value)
+        }
+
         else -> {
             parseOthers(jsonElements, level, name, value)
         }
@@ -56,6 +60,7 @@ fun parseJsonObject(
     jsonElement.line = jsonElements.size
     jsonElement.level = level
     jsonElement.value = "{}"
+    jsonElement.valueColor = JsonElement.COLOR_HINT
     jsonElements.add(jsonElement)
 
     val keys = jsonObject.keys()
@@ -68,7 +73,7 @@ fun parseJsonObject(
             parseValue(jsonElements, level + 1, key, value)
             count++
         }
-        jsonElement.value = "{${count}}"
+        jsonElement.value = "Object{${count}}"
         jsonElement.childEnd = jsonElements.size
     }
 }
@@ -82,6 +87,7 @@ fun parseJsonArray(
     val jsonElement = JsonElement<String>()
     jsonElement.name = name
     jsonElement.value = "[]"
+    jsonElement.valueColor = JsonElement.COLOR_HINT
     jsonElement.line = jsonElements.size
     jsonElement.level = level
     jsonElements.add(jsonElement)
@@ -89,7 +95,7 @@ fun parseJsonArray(
 
     val length = jsonArray.length()
     if (length > 0) {
-        jsonElement.value = "[${length}]"
+        jsonElement.value = "Array[${length}]"
         jsonElement.hasChild = true
         jsonElement.childStart = jsonElements.size
         (0 until length).forEach {
@@ -111,6 +117,22 @@ fun parseString(
     jsonElement.value = "\"${value}\""
     jsonElement.line = jsonElements.size
     jsonElement.level = level
+    jsonElement.valueColor = JsonElement.COLOR_STRING
+    jsonElements.add(jsonElement)
+}
+
+fun parseBoolean(
+    jsonElements: MutableList<JsonElement<*>>,
+    level: Int,
+    name: String,
+    value: Boolean
+) {
+    val jsonElement = JsonElement<Boolean>()
+    jsonElement.name = name
+    jsonElement.value = value
+    jsonElement.line = jsonElements.size
+    jsonElement.level = level
+    jsonElement.valueColor = JsonElement.COLOR_BOOLEAN
     jsonElements.add(jsonElement)
 }
 
@@ -125,6 +147,7 @@ fun parseNumber(
     jsonElement.value = value
     jsonElement.line = jsonElements.size
     jsonElement.level = level
+    jsonElement.valueColor = JsonElement.COLOR_NUMBER
     jsonElements.add(jsonElement)
 }
 

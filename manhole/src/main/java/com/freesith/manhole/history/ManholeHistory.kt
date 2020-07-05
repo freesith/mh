@@ -52,6 +52,21 @@ object ManholeHistory {
         } else {
             ""
         }
+//        val case = Case()
+//        case.desc = "xgagea"
+//        case.enable = false
+//        case.module = "gageage"
+//        case.name = "gaegaoighae"
+//        case.title = "geajfioaifa"
+//
+//        val mock = MockChoice()
+//        mock.desc = "xxxxxxxxxxxxxx"
+//        mock.enable = true
+//        mock.name = "gageag"
+//        mock.title = "zzzzzzzzzzzzzzzzz"
+//        case.mocks = mutableListOf(mock)
+//        responseBodyString = JSON.toJSONString(case)
+//        Log.d("xxx","response = " + responseBodyString)
         writeHistoryDatabase(mocked, url, requestBodyString, code, responseBodyString)
     }
 

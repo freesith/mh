@@ -27,7 +27,11 @@ class AllHistoryView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int)
     }
 
     override fun onItemClick(t: HttpHistory?, position: Int) {
-        tvHistory.setText(t?.responseBody)
+        t?.responseBody?.let {
+            if (it.startsWith("{")) {
+                v_json.setJson(it)
+            }
+        }
     }
 
     fun show() {

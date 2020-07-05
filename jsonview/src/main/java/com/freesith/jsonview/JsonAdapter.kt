@@ -1,6 +1,11 @@
 package com.freesith.jsonview
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +25,7 @@ class JsonAdapter (private val context: Context): RecyclerView.Adapter<JsonAdapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JsonViewHolder {
         val textView = TextView(context)
+        textView.setTextColor(Color.parseColor("#1e194d"))
         return JsonViewHolder(textView)
     }
 
@@ -32,12 +38,16 @@ class JsonAdapter (private val context: Context): RecyclerView.Adapter<JsonAdapt
 
         fun bindJsonLine(jsonElement: JsonElement<*>) {
             val level = jsonElement.level
-            val builder = StringBuilder()
+            val spannableStringBuilder = SpannableStringBuilder()
             (0 .. level).forEach {
-                builder.append("     ")
+                spannableStringBuilder.append("  ")
             }
-            builder.append(jsonElement.name).append(" : ").append(jsonElement.value.toString())
-            itemText.setText(builder.toString())
+            spannableStringBuilder.append(jsonElement.name).append(":")
+            val headLength = spannableStringBuilder.length
+            spannableStringBuilder.append(jsonElement.value.toString())
+            spannableStringBuilder.setSpan(ForegroundColorSpan(jsonElement.valueColor), headLength, spannableStringBuilder.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            itemText.typeface = Typeface.MONOSPACE
+            itemText.setText(spannableStringBuilder)
             itemText.setPadding(0 ,0 ,0, 12)
         }
     }

@@ -23,7 +23,7 @@ import com.freesith.manhole.R;
 import com.freesith.manhole.history.HistoryShortcut;
 import com.freesith.manhole.util.ManholeSp;
 
-public class CoverLayout extends FrameLayout{
+public class CoverLayout extends ContainerLayout{
 
     private static final String TAG = "xxx";
 
@@ -54,12 +54,6 @@ public class CoverLayout extends FrameLayout{
 
     public CoverLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public CoverLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
 

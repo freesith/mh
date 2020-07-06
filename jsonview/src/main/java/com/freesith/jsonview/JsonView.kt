@@ -3,6 +3,7 @@ package com.freesith.jsonview
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,10 @@ class JsonView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         jsonRecycler.adapter = jsonAdapter
 
 
+    }
+
+    fun setHeaderView(view: View) {
+        jsonAdapter.setHeaderView(view)
     }
 
     fun setJson(json: String?) {

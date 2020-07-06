@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.freesith.manhole.history.AllHistoryView
+        <com.freesith.manhole.history.HistoryListView
             android:id="@+id/v_history"
             android:visibility="gone"
             android:layout_width="match_parent"

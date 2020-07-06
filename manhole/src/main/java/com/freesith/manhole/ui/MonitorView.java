@@ -21,7 +21,8 @@ import androidx.annotation.RequiresApi;
 
 import com.freesith.manhole.R;
 import com.freesith.manhole.bean.Mock;
-import com.freesith.manhole.history.AllHistoryView;
+import com.freesith.manhole.history.HistoryDetailView;
+import com.freesith.manhole.history.HistoryListView;
 import com.freesith.manhole.ui.interfaces.MonitorListener;
 import com.freesith.manhole.ui.util.ViewUtil;
 
@@ -54,7 +55,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     private SettingView settingView;
     private MockView v_mock;
     private ViewStub vbSetting;
-    private AllHistoryView v_history;
+    private HistoryListView v_history;
 
     private TextView tabMock;
     private TextView tabSetting;
@@ -73,6 +74,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         v_history = view.findViewById(R.id.v_history);
 
         ll_mock.setMonitorListener(this);
+        v_history.setMonitorListener(this);
 
         view.findViewById(R.id.tvClose).setOnClickListener(this);
         tabSetting.setOnClickListener(this);
@@ -162,13 +164,14 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     @Override
     public void onShowSingleMock(Mock mock) {
         MockView mockView = new MockView(context);
-        ContainerLayout coverLayout = ViewUtil.findCoverLayout(this);
-        if (coverLayout != null) {
-            coverLayout.addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        } else {
-            ((ViewGroup)getParent()).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        }
+        ViewUtil.findCoverLayout(this).addView(mockView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         mockView.showMock(mock);
     }
 
+    @Override
+    public void onShowHistoryDetail(int historyId) {
+        HistoryDetailView historyDetailView = new HistoryDetailView(context);
+        ViewUtil.findCoverLayout(this).addView(historyDetailView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        historyDetailView.showHistory(historyId);
+    }
 }

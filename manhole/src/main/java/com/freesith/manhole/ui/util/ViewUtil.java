@@ -1,16 +1,18 @@
 package com.freesith.manhole.ui.util;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.freesith.manhole.ui.ContainerLayout;
+import com.freesith.manhole.ui.CoverLayout;
 
 public class ViewUtil {
 
-    public static ContainerLayout findCoverLayout(View view) {
+    public static ViewGroup findCoverLayout(View view) {
         ViewParent parent = view.getParent();
-        if (parent instanceof ContainerLayout) {
-            return (ContainerLayout)parent;
+        if (parent instanceof CoverLayout) {
+            return (CoverLayout)parent;
         } else if (parent instanceof View){
             return findCoverLayout((View) parent);
         } else {

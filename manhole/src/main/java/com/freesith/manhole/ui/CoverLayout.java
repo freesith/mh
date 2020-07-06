@@ -109,9 +109,6 @@ public class CoverLayout extends ContainerLayout{
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (!enableSummon) {
-            return super.dispatchTouchEvent(event);
-        }
         if (vMonitorView.getVisibility() == View.VISIBLE) {
             return super.dispatchTouchEvent(event);
         }

@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
 //                });
             }
         });
-        button.setOnTouchListener(new ScaleAnimateTouchListener());
+//        button.setOnTouchListener(new ScaleAnimateTouchListener());
 
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override

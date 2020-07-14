@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.freesith.manhole.bean.Mock;
 import com.freesith.manhole.bean.MockChoice;
 import com.freesith.manhole.ui.adapter.EnableChoiceAdapter;
 import com.freesith.manhole.ui.adapter.MockChoiceAdapter;
+import com.freesith.manhole.ui.util.ViewUtil;
 
 import java.util.List;
 
@@ -127,6 +129,8 @@ public class MockView extends LinearLayout implements EnableChoiceAdapter.Choice
 
     @Override
     public void onChoiceClick(MockChoice mock) {
-
+        ChoiceLayout choiceLayout = new ChoiceLayout(context);
+        ViewUtil.findCoverLayout(this).addView(choiceLayout, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        choiceLayout.showChoice(mock);
     }
 }

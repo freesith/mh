@@ -11,8 +11,8 @@ public class ViewUtil {
 
     public static ViewGroup findCoverLayout(View view) {
         ViewParent parent = view.getParent();
-        if (parent instanceof CoverLayout) {
-            return (CoverLayout)parent;
+        if (parent instanceof ContainerLayout) {
+            return (ContainerLayout)parent;
         } else if (parent instanceof View){
             return findCoverLayout((View) parent);
         } else {

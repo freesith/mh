@@ -35,7 +35,11 @@ public class MockInterceptor implements Interceptor {
             Response proceed = chain.proceed(request);
             Manhole.getInstance().log(request, proceed);
             if (ManholeSp.INSTANCE.getEnableHistory()) {
-                ManholeHistory.INSTANCE.recordHistory(false, request, proceed);
+                try {
+                    ManholeHistory.INSTANCE.recordHistory(false, request, proceed);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             if (history != null) {
                 history.setCode(proceed.code());
@@ -69,7 +73,11 @@ public class MockInterceptor implements Interceptor {
                 ResponseBody mockBody = ResponseBody.create(MediaType.get("application/json"), mockResonse.data);
                 Response response = new Response.Builder().protocol(Protocol.HTTP_1_1).code(200).message("Success").request(request).body(mockBody).build();
                 if (ManholeSp.INSTANCE.getEnableHistory()) {
-                    ManholeHistory.INSTANCE.recordHistory(true, request, response);
+                    try {
+                        ManholeHistory.INSTANCE.recordHistory(true, request, response);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (history != null) {
                     history.setCode(response.code());

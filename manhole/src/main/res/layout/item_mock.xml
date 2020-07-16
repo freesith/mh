@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingLeft="16dp"
+    android:paddingTop="8dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/tvName"
@@ -12,6 +15,7 @@
         android:text="mock_gage_asgaega"
         android:textColor="@color/manhole_pure_black"
         android:textSize="15sp" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="26dp"
@@ -24,10 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/manhole_left_circle_get"
+            android:gravity="center"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="GET"
-            android:gravity="center"
             android:textColor="@color/manhole_white"
             android:textStyle="bold" />
 
@@ -37,41 +41,43 @@
             android:layout_height="match_parent"
             android:background="@drawable/manhole_right_circle_stroke_get"
             android:gravity="center_vertical"
-            android:textSize="14sp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="/gageag/eagge"
-            android:textColor="@color/manhole_pure_black" />
+            android:textColor="@color/manhole_pure_black"
+            android:textSize="14sp" />
+
         <View
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Switch
-            android:visibility="gone"
             android:id="@+id/switchMock"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="哈哈哈"
         android:textColor="@color/manhole_pure_black"
         android:textSize="13sp" />
+
     <TextView
-        android:layout_marginTop="5dp"
         android:id="@+id/tvDesc"
-        android:textColor="@color/manhole_99"
-        android:textSize="12sp"
-        android:maxLines="3"
-        android:ellipsize="end"
-        android:text="hoghagheia\n横哦啊横车哈工程\nhogahgeiagbobogagehgaoheigagoi\nhoghaeigaehgieahgeaoigh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="hoghagheia\n横哦啊横车哈工程\nhogahgeiagbobogagehgaoheigagoi\nhoghaeigaehgieahgeaoigh"
+        android:textColor="@color/manhole_99"
+        android:textSize="12sp" />
 
 </LinearLayout>

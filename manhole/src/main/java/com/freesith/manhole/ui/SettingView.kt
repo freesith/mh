@@ -13,6 +13,7 @@ import com.freesith.manhole.Manhole
 import com.freesith.manhole.ManholeConstants
 import com.freesith.manhole.R
 import com.freesith.manhole.ext.default
+import com.freesith.manhole.history.ManholeHistory
 import com.freesith.manhole.util.ManholeSp
 import kotlinx.android.synthetic.main.layout_setting.view.*
 import okhttp3.*
@@ -73,25 +74,34 @@ class SettingView : LinearLayout, View.OnClickListener {
         swShortcut.setOnCheckedChangeListener { buttonView, isChecked ->
             ManholeSp.enableHistoryShortcut = isChecked
         }
+        btnClear?.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
-        if (v.id == R.id.btnEdit) {
-            if (etPath!!.isEnabled) {
-                val trim = etPath!!.text.toString().trim { it <= ' ' }
-                if (lastPath != trim) {
-                    //TODO 2019-11-21 by WangChao 保存
-                    refresh()
+        when (v.id) {
+            R.id.btnEdit -> {
+                if (etPath!!.isEnabled) {
+                    val trim = etPath!!.text.toString().trim { it <= ' ' }
+                    if (lastPath != trim) {
+                        //TODO 2019-11-21 by WangChao 保存
+                        refresh()
+                    }
+                    etPath!!.isEnabled = false
+                    btnEdit!!.text = "编辑"
+                } else {
+                    etPath!!.isEnabled = true
+                    etPath!!.setSelection(etPath!!.text.length)
+                    btnEdit!!.text = "保存"
                 }
-                etPath!!.isEnabled = false
-                btnEdit!!.text = "编辑"
-            } else {
-                etPath!!.isEnabled = true
-                etPath!!.setSelection(etPath!!.text.length)
-                btnEdit!!.text = "保存"
             }
-        } else if (v.id == R.id.btnRefresh) {
-            refresh()
+            R.id.btnRefresh -> {
+                refresh()
+            }
+
+            R.id.btnClear -> {
+                ManholeHistory.clearDb()
+                Toast.makeText(thisContext, "已清空", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

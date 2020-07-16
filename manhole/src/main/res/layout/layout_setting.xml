@@ -40,5 +40,10 @@
         android:text="开启传送门"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnClear"
+        android:text="清空请求历史"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

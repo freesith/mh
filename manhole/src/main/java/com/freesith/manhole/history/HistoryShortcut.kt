@@ -57,18 +57,16 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
         (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
     }
 
-    override fun onRequestFinish(history: HttpHistory) {
+    override fun onRequestFinish(history: HttpHistory, position: Int) {
         Log.d("xxx","receive finish")
-        launch(Dispatchers.IO) {
-            historyAdapter.list.forEachIndexed { index, httpHistory ->
-                if (history.hashCode() == httpHistory.hashCode()) {
-                    Log.d("xxx","find change request code = " + history.code)
-                    launch(Dispatchers.Main) {
-                        historyAdapter.notifyItemChanged(index)
-                    }
-                    return@forEachIndexed
-                }
-            }
+        historyAdapter.notifyItemChanged(position)
+    }
+
+    override fun onHistoryRemove(position: Int) {
+        if (historyAdapter.list.size > position) {
+            historyAdapter.list.removeAt(position)
+            historyAdapter.notifyItemRemoved(position)
+            historyAdapter.notifyItemRangeChanged(position, 1)
         }
     }
 }

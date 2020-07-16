@@ -152,6 +152,10 @@ object ManholeHistory {
         return null
     }
 
+    fun clearDb() {
+        historyDb?.execSQL("DELETE FROM $TABLE_HISTORY")
+    }
+
 }
 
 class HistorySqliteHelper(

@@ -21,9 +21,9 @@
             android:id="@+id/tvEnable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
+            android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:paddingRight="20dp"
+            android:paddingRight="15dp"
             android:paddingBottom="10dp"
             android:text="启用的" />
 
@@ -31,32 +31,32 @@
             android:id="@+id/tvMock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
+            android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:paddingRight="20dp"
+            android:paddingRight="15dp"
             android:paddingBottom="10dp"
-            android:text="MOCK" />
+            android:text="Mock" />
 
         <TextView
             android:id="@+id/tvCase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
+            android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:paddingRight="20dp"
+            android:paddingRight="15dp"
             android:paddingBottom="10dp"
-            android:text="CASE" />
+            android:text="Case" />
 
 
         <TextView
             android:id="@+id/tvFlow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
+            android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:paddingRight="20dp"
+            android:paddingRight="15dp"
             android:paddingBottom="10dp"
-            android:text="FLOW" />
+            android:text="Flow" />
 
     </LinearLayout>
 </LinearLayout>

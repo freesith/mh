@@ -44,7 +44,7 @@ public class CaseAdapter extends BaseAdapter<Case> {
                 }
             }
         });
-        holder.itemView.setBackgroundColor(context.getResources().getColor(aCase.passive ? R.color.manhole_case33 : R.color.manhole_white));
+        holder.itemView.setBackgroundColor(getContext().getResources().getColor(aCase.passive ? R.color.manhole_case33 : R.color.manhole_white));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

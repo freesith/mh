@@ -122,8 +122,29 @@ object ManholeHistory {
         return historyList
     }
 
-    fun readMoreHistory(id: Int, count: Int) {
-
+    fun readMoreHistory(id: Int, count: Int) : List<HttpHistory> {
+        val sql = """SELECT $COLUMN_ID, $COLUMN_URL, $COLUMN_METHOD, $COLUMN_CODE, $COLUMN_TIME, $COLUMN_MOCK FROM $TABLE_HISTORY  WHERE $COLUMN_ID < $id ORDER BY id DESC LIMIT $count"""
+        val historyList = mutableListOf<HttpHistory>()
+        var cursor: Cursor? = null
+        try {
+            cursor = historyDb?.rawQuery(sql, null)
+            while (cursor?.moveToNext() == true) {
+                val httpHistory = HttpHistory()
+                httpHistory.id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID))
+                httpHistory.url = cursor.getString(cursor.getColumnIndex(COLUMN_URL))
+                httpHistory.method = cursor.getString(cursor.getColumnIndex(COLUMN_METHOD))
+                httpHistory.code = cursor.getInt(cursor.getColumnIndex(COLUMN_CODE))
+                val mocked = cursor.getInt(cursor.getColumnIndex(COLUMN_MOCK))
+                httpHistory.time = cursor.getLong(cursor.getColumnIndex(COLUMN_TIME))
+                httpHistory.mock = mocked == 1
+                historyList.add(httpHistory)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            cursor?.close()
+        }
+        return historyList
     }
 
     fun getHistoryById(historyId: Int): HttpHistory? {

@@ -54,7 +54,7 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
 
     override fun onNewRequest(history: HttpHistory) {
         Log.d("xxx", "onNewRequest")
-        if (!historyAdapter.list.contains(history)) {
+        if (!historyAdapter.mList.contains(history)) {
             historyAdapter.add(history, 0)
             historyAdapter.notifyItemInserted(0)
             (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
@@ -67,8 +67,8 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
     }
 
     override fun onHistoryRemove(position: Int) {
-        if (historyAdapter.list.size > position) {
-            historyAdapter.list.removeAt(position)
+        if (historyAdapter.mList.size > position) {
+            historyAdapter.mList.removeAt(position)
             historyAdapter.notifyItemRemoved(position)
             historyAdapter.notifyItemRangeChanged(position, 1)
         }

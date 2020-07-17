@@ -49,9 +49,9 @@ public class EnableChoiceAdapter extends BaseAdapter<MockChoice> {
             tvPath.setBackgroundResource(R.drawable.manhole_right_circle_stroke_post);
         }
         if (mock.passive) {
-            holder.getItemView().setBackgroundColor(context.getResources().getColor(R.color.manhole_mock33));
+            holder.getItemView().setBackgroundColor(getContext().getResources().getColor(R.color.manhole_mock33));
         } else {
-            holder.getItemView().setBackgroundColor(context.getResources().getColor(R.color.manhole_white));
+            holder.getItemView().setBackgroundColor(getContext().getResources().getColor(R.color.manhole_white));
         }
 
         Switch switchMock = holder.getView(R.id.switchMock);

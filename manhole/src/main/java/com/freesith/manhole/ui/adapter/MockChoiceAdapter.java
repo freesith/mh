@@ -46,9 +46,9 @@ public class MockChoiceAdapter extends BaseAdapter<MockChoice> {
             }
         });
         if (mock.passive) {
-            holder.getItemView().setBackgroundColor(context.getResources().getColor(R.color.manhole_mock33));
+            holder.getItemView().setBackgroundColor(getContext().getResources().getColor(R.color.manhole_mock33));
         } else {
-            holder.getItemView().setBackgroundColor(context.getResources().getColor(R.color.manhole_white));
+            holder.getItemView().setBackgroundColor(getContext().getResources().getColor(R.color.manhole_white));
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

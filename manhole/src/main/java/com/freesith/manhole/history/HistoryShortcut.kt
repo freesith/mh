@@ -42,6 +42,7 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
     }
 
     override fun onHistoryReplace(list: List<HttpHistory>) {
+        Log.d("xxx", "onHistoryReplace size = " + list.size)
         launch(Dispatchers.IO) {
             historyAdapter.clear()
             historyAdapter.addList(list)
@@ -52,9 +53,12 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
     }
 
     override fun onNewRequest(history: HttpHistory) {
-        historyAdapter.add(history, 0)
-        historyAdapter.notifyItemInserted(0)
-        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+        Log.d("xxx", "onNewRequest")
+        if (!historyAdapter.list.contains(history)) {
+            historyAdapter.add(history, 0)
+            historyAdapter.notifyItemInserted(0)
+            (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+        }
     }
 
     override fun onRequestFinish(history: HttpHistory, position: Int) {

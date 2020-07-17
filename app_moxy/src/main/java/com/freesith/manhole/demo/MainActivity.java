@@ -29,10 +29,10 @@ import okhttp3.Response;
 
 public class MainActivity extends Activity {
 
-    OkHttpClient okHttpClient;
     public static final String TAG = "xxx";
     private Button button;
     private Button btnRequest;
+    private Button btnJump;
 //    private JsonView jsonView;
 
     @Override
@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         button = findViewById(R.id.button);
         btnRequest = findViewById(R.id.btnRequest);
+        btnJump = findViewById(R.id.btnJump);
 //        jsonView = findViewById(R.id.jsonView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,11 +86,16 @@ public class MainActivity extends Activity {
             }
         });
 
+        btnJump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SecondActivity.class));
+            }
+        });
+
         Button newButton = new Button(MainActivity.this);
         newButton.setText("BUTTON");
 //        showImportantWindow(newButton);
-
-        okHttpClient = new OkHttpClient.Builder().addInterceptor(new MockInterceptor()).build();
 
         String json = "{\n" +
                 "      \"success\": true,\n" +
@@ -185,7 +191,7 @@ public class MainActivity extends Activity {
         Request request = new Request.Builder().url("http://www.baidu.com/")
                 .post(body)
                 .build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
+        Client.INSTANCE.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 

@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.freesith.manhole.Manhole;
+import com.freesith.manhole.ManholeMock;
 import com.freesith.manhole.R;
 import com.freesith.manhole.bean.Case;
 import com.freesith.manhole.bean.Flow;
@@ -79,7 +79,7 @@ public class CaseLayout extends LinearLayout implements CaseAdapter.CaseListener
     }
 
     public void showCase(String caseName) {
-        Case caze = Manhole.getInstance().getCaseByName(caseName);
+        Case caze = ManholeMock.INSTANCE.getCaseByName(caseName);
         if (caze != null) {
             tvName.setText(caze.name);
             tvTitle.setText(caze.title);
@@ -90,7 +90,7 @@ public class CaseLayout extends LinearLayout implements CaseAdapter.CaseListener
     }
 
     public void showFlow(String flowName) {
-        Flow flow = Manhole.getInstance().getFlowByName(flowName);
+        Flow flow = ManholeMock.INSTANCE.getFlowByName(flowName);
         if (flow != null) {
             tvName.setText(flow.name);
             tvTitle.setText(flow.title);

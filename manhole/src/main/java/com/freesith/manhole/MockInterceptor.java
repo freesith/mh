@@ -30,10 +30,10 @@ public class MockInterceptor implements Interceptor {
             history.setUrl(request.url().toString());
             HistoryShortcutPool.INSTANCE.newRequest(history);
         }
-        MockResponse mockResonse = Manhole.getInstance().mock(request);
+        MockResponse mockResonse = ManholeMock.INSTANCE.mock(request);
         if (mockResonse == null) {
             Response proceed = chain.proceed(request);
-            Manhole.getInstance().log(request, proceed);
+            ManholeMock.INSTANCE.log(request, proceed);
             if (ManholeSp.INSTANCE.getEnableHistory()) {
                 try {
                     ManholeHistory.INSTANCE.recordHistory(false, request, proceed);

@@ -98,6 +98,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvRequestBodyStart" />
 
     <TextView
+        android:id="@+id/tvResponseBodyStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"

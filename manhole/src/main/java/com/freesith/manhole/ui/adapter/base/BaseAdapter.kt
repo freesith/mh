@@ -18,20 +18,25 @@ abstract class BaseAdapter<T>(protected var context: Context) :
         onItemClickListener = itemClickListener
     }
 
-    fun setList(list: MutableList<T>) {
-        mList = list
+    fun setList(list: List<T>?) {
+        list?.let {
+            mList.clear()
+            mList.addAll(it)
+        }
     }
 
     fun addList(list: List<T>?) {
-        mList!!.addAll(list!!)
+        list?.let {
+            mList.addAll(it)
+        }
     }
 
     fun add(t: T) {
-        mList!!.add(t)
+        mList.add(t)
     }
 
     fun add(t: T, index: Int) {
-        mList!!.add(index, t)
+        mList.add(index, t)
     }
 
 

@@ -22,10 +22,9 @@ public class InitProvider extends ContentProvider {
         if (context instanceof Application) {
             ManholeContext.context = context;
             ((Application)context).registerActivityLifecycleCallbacks(new MoxLifeCallbacks(context.getPackageName()));
-            Manhole.init();
             File dbFile = new File(context.getFilesDir() + File.separator + ManholeConstants.MOCK_DB_NAME);
             if (dbFile.exists()) {
-                Manhole.getInstance().initMockDb(context, dbFile.getAbsolutePath());
+                ManholeMock.INSTANCE.initMockDb(context, dbFile.getAbsolutePath());
             }
             ManholeHistory.INSTANCE.init(context);
         }

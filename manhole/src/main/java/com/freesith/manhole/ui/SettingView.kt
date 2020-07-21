@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.freesith.manhole.Manhole
+import com.freesith.manhole.ManholeMock
 import com.freesith.manhole.ManholeConstants
 import com.freesith.manhole.R
 import com.freesith.manhole.ext.default
@@ -112,7 +112,7 @@ class SettingView : LinearLayout, View.OnClickListener {
             ManholeSp.dbPath = trim
         } else if (trim.startsWith("/")) {
             copyDBFile(trim)
-            Manhole.getInstance().initMockDb(
+            ManholeMock.initMockDb(
                 thisContext,
                 thisContext!!.filesDir
                     .absolutePath + File.separator + ManholeConstants.MOCK_DB_NAME
@@ -164,7 +164,7 @@ class SettingView : LinearLayout, View.OnClickListener {
                         while ((inputStream!!.read(buffer).also { len = it }) > 0) {
                             outputStream.write(buffer, 0, len)
                         }
-                        Manhole.getInstance().initMockDb(
+                        ManholeMock.initMockDb(
                             thisContext,
                             thisContext!!.filesDir
                                 .absolutePath + File.separator + ManholeConstants.MOCK_DB_NAME

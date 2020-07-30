@@ -89,6 +89,7 @@ public class MainActivity extends Activity {
         btnJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int a = 1/ 0;
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });

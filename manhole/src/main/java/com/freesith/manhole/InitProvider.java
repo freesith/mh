@@ -10,6 +10,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.freesith.manhole.crash.ManholeCrash;
 import com.freesith.manhole.core.ManholeContext;
 import com.freesith.manhole.history.ManholeHistory;
 
@@ -27,6 +28,17 @@ public class InitProvider extends ContentProvider {
                 ManholeMock.INSTANCE.initMockDb(context, dbFile.getAbsolutePath());
             }
             ManholeHistory.INSTANCE.init(context);
+            ManholeCrash.INSTANCE.init(context);
+            final Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
+                    ManholeCrash.INSTANCE.uncaughtException(t, e);
+                    if (defaultUncaughtExceptionHandler != null) {
+                        defaultUncaughtExceptionHandler.uncaughtException(t, e);
+                    }
+                }
+            });
         }
         return false;
     }

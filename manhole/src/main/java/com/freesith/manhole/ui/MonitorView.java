@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -21,6 +20,8 @@ import androidx.annotation.RequiresApi;
 
 import com.freesith.manhole.R;
 import com.freesith.manhole.bean.Mock;
+import com.freesith.manhole.history.CrashDetailView;
+import com.freesith.manhole.history.CrashListView;
 import com.freesith.manhole.history.HistoryDetailView;
 import com.freesith.manhole.history.HistoryListView;
 import com.freesith.manhole.ui.interfaces.MonitorListener;
@@ -56,10 +57,12 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     private MockView v_mock;
     private ViewStub vbSetting;
     private HistoryListView v_history;
+    private CrashListView vCrashList;
 
     private TextView tabMock;
     private TextView tabSetting;
     private TextView tabHistory;
+    private TextView tabCrash;
 
     private void init(Context context) {
         this.context = context;
@@ -72,15 +75,18 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         tabSetting = view.findViewById(R.id.tabSetting);
         tabHistory = view.findViewById(R.id.tabHistory);
         v_history = view.findViewById(R.id.v_history);
+        tabCrash = view.findViewById(R.id.tabCrash);
+        vCrashList = view.findViewById(R.id.vCrash);
 
         ll_mock.setMonitorListener(this);
         v_history.setMonitorListener(this);
+        vCrashList.setMonitorListener(this);
 
         view.findViewById(R.id.tvClose).setOnClickListener(this);
         tabSetting.setOnClickListener(this);
         tabMock.setOnClickListener(this);
         tabHistory.setOnClickListener(this);
-
+        tabCrash.setOnClickListener(this);
     }
 
     public void show() {
@@ -104,13 +110,18 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         } else if (v.getId() == R.id.tabHistory) {
             switchHistory();
             updateTabs(v);
+        } else if (v.getId() == R.id.tabCrash) {
+            switchCrash();
+            updateTabs(v);
         }
     }
+
 
     private void updateTabs(View v) {
         tabMock.setBackgroundColor(v.getId() == R.id.tabMock ? Color.WHITE : Color.TRANSPARENT);
         tabSetting.setBackgroundColor(v.getId() == R.id.tabSetting ? Color.WHITE : Color.TRANSPARENT);
         tabHistory.setBackgroundColor(v.getId() == R.id.tabHistory ? Color.WHITE : Color.TRANSPARENT);
+        tabCrash.setBackgroundColor(v.getId() == R.id.tabCrash ? Color.WHITE : Color.TRANSPARENT);
     }
 
     private void hideMonitorView() {
@@ -137,6 +148,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
             settingView = findViewById(R.id.vSetting);
         }
         ll_mock.setVisibility(View.GONE);
+        vCrashList.setVisibility(View.GONE);
         settingView.setVisibility(View.VISIBLE);
         v_history.setVisibility(View.GONE);
     }
@@ -147,6 +159,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         }
         ll_mock.setVisibility(View.VISIBLE);
         v_mock.setVisibility(GONE);
+        vCrashList.setVisibility(View.GONE);
         v_history.setVisibility(View.GONE);
     }
 
@@ -157,8 +170,20 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         }
         ll_mock.setVisibility(View.GONE);
         v_mock.setVisibility(View.GONE);
+        vCrashList.setVisibility(View.GONE);
         v_history.setVisibility(View.VISIBLE);
         v_history.show();
+    }
+
+    private void switchCrash() {
+        if (settingView != null) {
+            settingView.setVisibility(View.GONE);
+        }
+        ll_mock.setVisibility(View.GONE);
+        v_mock.setVisibility(View.GONE);
+        v_history.setVisibility(View.GONE);
+        vCrashList.setVisibility(View.VISIBLE);
+        vCrashList.show();
     }
 
     @Override
@@ -173,5 +198,12 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         HistoryDetailView historyDetailView = new HistoryDetailView(context);
         ViewUtil.findCoverLayout(this).addView(historyDetailView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         historyDetailView.showHistory(historyId);
+    }
+
+    @Override
+    public void onShowCrashDetail(int crashId) {
+        CrashDetailView crashDetailView = new CrashDetailView(context);
+        ViewUtil.findCoverLayout(this).addView(crashDetailView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        crashDetailView.showCrash(crashId);
     }
 }

@@ -33,6 +33,16 @@
             android:paddingRight="15dp"
             android:paddingBottom="10dp"
             android:text="History" />
+        <TextView
+            android:id="@+id/tabCrash"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="10dp"
+            android:text="Crash" />
 
         <TextView
             android:id="@+id/tabSetting"
@@ -86,6 +96,11 @@
 
         <com.freesith.manhole.history.HistoryListView
             android:id="@+id/v_history"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <com.freesith.manhole.history.CrashListView
+            android:id="@+id/vCrash"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

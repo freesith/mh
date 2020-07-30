@@ -5,4 +5,5 @@ import com.freesith.manhole.bean.Mock
 interface MonitorListener {
     fun onShowSingleMock(mock: Mock?)
     fun onShowHistoryDetail(historyId: Int)
+    fun onShowCrashDetail(crashId: Int)
 }

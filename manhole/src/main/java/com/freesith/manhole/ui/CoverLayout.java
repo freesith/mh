@@ -20,10 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.freesith.manhole.R;
+import com.freesith.manhole.core.ManholeContext;
 import com.freesith.manhole.history.HistoryShortcut;
+import com.freesith.manhole.ui.util.ViewUtil;
 import com.freesith.manhole.util.ManholeSp;
 
-public class CoverLayout extends ContainerLayout{
+public class CoverLayout extends ContainerLayout {
 
     private static final String TAG = "xxx";
 
@@ -96,11 +98,15 @@ public class CoverLayout extends ContainerLayout{
                     defaultDisplay.getRealSize(point);
                     if (h == point.y) {
                         Resources resources = context.getResources();
-                        int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
+                        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
                         int height = resources.getDimensionPixelSize(resourceId);
-                        setPadding(0, height, 0 ,0);
+                        if (height > 0) {
+                            setPadding(0, height, 0, 0);
+                        } else {
+                            setPadding(0, ViewUtil.dp2px(ManholeContext.context, 24), 0, 0);
+                        }
                     } else {
-                        setPadding(0, 0, 0, 0);
+                        setPadding(0, ViewUtil.dp2px(ManholeContext.context, 24), 0, 0);
                     }
                 }
             }
@@ -114,7 +120,7 @@ public class CoverLayout extends ContainerLayout{
         }
         ViewGroup parent = (ViewGroup) getParent();
         int childCount = parent.getChildCount();
-        for (int i = childCount - 1; i >= 0 ; i--) {
+        for (int i = childCount - 1; i >= 0; i--) {
             View child = parent.getChildAt(i);
             if (child != null
                     && child != this

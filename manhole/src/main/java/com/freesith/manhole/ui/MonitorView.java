@@ -66,7 +66,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
 
     private void init(Context context) {
         this.context = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_monitor, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.manhole_layout_monitor, this);
 
         ll_mock = view.findViewById(R.id.manhole_ll_mock);
         vbSetting = view.findViewById(R.id.manhole_vbSetting);

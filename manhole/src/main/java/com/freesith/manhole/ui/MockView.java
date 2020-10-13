@@ -67,7 +67,7 @@ public class MockView extends LinearLayout implements EnableChoiceAdapter.Choice
 
     private void init(Context context) {
         this.context = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_mock, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.manhole_layout_mock, this);
 
         tvName = view.findViewById(R.id.manhole_tvName);
         tvTitle = view.findViewById(R.id.manhole_tvTitle);

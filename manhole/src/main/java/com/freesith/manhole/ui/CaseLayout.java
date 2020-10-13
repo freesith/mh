@@ -59,7 +59,7 @@ public class CaseLayout extends LinearLayout implements CaseAdapter.CaseListener
 
     private void init(Context context) {
         this.context = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_case, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.manhole_layout_case, this);
         tvName = view.findViewById(R.id.manhole_tvName);
         tvTitle = view.findViewById(R.id.manhole_tvTitle);
         tvDesc = view.findViewById(R.id.manhole_tvDesc);

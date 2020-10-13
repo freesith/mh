@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.layout_json_view.view.*
+import kotlinx.android.synthetic.main.manhole_layout_json_view.view.*
 
 class JsonView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     FrameLayout(context, attrs, defStyleAttr) {
@@ -21,7 +21,7 @@ class JsonView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
 
     init {
-        val view = LayoutInflater.from(context).inflate(R.layout.layout_json_view, this)
+        val view = LayoutInflater.from(context).inflate(R.layout.manhole_layout_json_view, this)
         jsonRecycler = view.findViewById(R.id.json_recycler)
         jsonRecycler.layoutManager = LinearLayoutManager(context)
         jsonAdapter = JsonAdapter(context)

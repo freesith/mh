@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.freesith.manhole.R
-import kotlinx.android.synthetic.main.layout_history_detail.view.*
-import kotlinx.android.synthetic.main.layout_history_header.view.*
+import kotlinx.android.synthetic.main.manhole_layout_history_detail.view.*
+import kotlinx.android.synthetic.main.manhole_layout_history_header.view.*
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,10 +26,10 @@ class HistoryDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: I
     constructor(context: Context?) : this(context, null, 0)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    val headerView = LayoutInflater.from(context).inflate(R.layout.layout_history_header, null)
+    val headerView = LayoutInflater.from(context).inflate(R.layout.manhole_layout_history_header, null)
     var currentHistory: HttpHistory? = null
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_history_detail, this)
+        LayoutInflater.from(context).inflate(R.layout.manhole_layout_history_detail, this)
         findViewById<View>(R.id.manhole_tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@HistoryDetailView) }
         setBackgroundColor(Color.WHITE)
         headerView.manhole_tvRequestBodyStart.setOnClickListener(this)

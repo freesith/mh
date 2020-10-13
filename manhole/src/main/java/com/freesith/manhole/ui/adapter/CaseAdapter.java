@@ -6,7 +6,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.freesith.manhole.R;
-import com.freesith.manhole.Util;
 import com.freesith.manhole.bean.Case;
 import com.freesith.manhole.ui.adapter.base.BaseAdapter;
 import com.freesith.manhole.ui.adapter.base.BaseViewHolder;
@@ -25,7 +24,7 @@ public class CaseAdapter extends BaseAdapter<Case> {
 
     @Override
     protected int getLayoutId(int viewType) {
-        return R.layout.item_case;
+        return R.layout.manhole_item_case;
     }
 
     @Override

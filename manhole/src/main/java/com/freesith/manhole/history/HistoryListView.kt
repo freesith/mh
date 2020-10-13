@@ -9,7 +9,7 @@ import com.freesith.manhole.R
 import com.freesith.manhole.ui.adapter.base.BaseAdapter
 import com.freesith.manhole.ui.adapter.base.LoadMoreAdapterDecorator
 import com.freesith.manhole.ui.interfaces.MonitorListener
-import kotlinx.android.synthetic.main.layout_history.view.*
+import kotlinx.android.synthetic.main.manhole_layout_history.view.*
 import kotlinx.coroutines.*
 
 class HistoryListView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
@@ -25,7 +25,7 @@ class HistoryListView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int
     }
     var monitorListener: MonitorListener? = null
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_history, this)
+        LayoutInflater.from(context).inflate(R.layout.manhole_layout_history, this)
         manhole_rvHistory.layoutManager = LinearLayoutManager(context)
         manhole_rvHistory.adapter = loadMoreAdapterDecorator
         historyListAdapter.setOnItemClickListener(this)

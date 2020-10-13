@@ -12,7 +12,7 @@ class CrashListAdapter(context: Context) : BaseAdapter<CrashInfo>(context) {
 
     val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 
-    override fun getLayoutId(viewType: Int): Int = R.layout.item_crash_list
+    override fun getLayoutId(viewType: Int): Int = R.layout.manhole_item_crash_list
 
     override fun bindView(holder: BaseViewHolder<CrashInfo>?, t: CrashInfo, position: Int) {
         holder?.setText(R.id.manhole_tvName, t?.name)

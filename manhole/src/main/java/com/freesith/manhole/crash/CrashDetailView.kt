@@ -13,10 +13,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.freesith.manhole.R
 import com.freesith.manhole.crash.CrashInfo
 import com.freesith.manhole.crash.ManholeCrash
-import kotlinx.android.synthetic.main.layout_crash_detail.view.*
+import kotlinx.android.synthetic.main.manhole_layout_crash_detail.view.*
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
-import java.util.*
 
 class CrashDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
     ConstraintLayout(context, attrs, defStyleAttr), CoroutineScope by MainScope(),
@@ -29,7 +28,7 @@ class CrashDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int
 
     var crashInfo: CrashInfo? = null
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_crash_detail, this)
+        LayoutInflater.from(context).inflate(R.layout.manhole_layout_crash_detail, this)
         findViewById<View>(R.id.manhole_tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@CrashDetailView) }
         setBackgroundColor(Color.WHITE)
         manhole_tvDesc.setOnClickListener(this)

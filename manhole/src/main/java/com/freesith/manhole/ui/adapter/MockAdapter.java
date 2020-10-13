@@ -25,7 +25,7 @@ public class MockAdapter extends BaseAdapter<Mock> {
 
     @Override
     protected int getLayoutId(int viewType) {
-        return R.layout.item_mock;
+        return R.layout.manhole_item_mock;
     }
 
     @Override

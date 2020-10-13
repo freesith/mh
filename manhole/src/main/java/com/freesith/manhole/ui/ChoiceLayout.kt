@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.freesith.manhole.R
 import com.freesith.manhole.bean.MockChoice
-import kotlinx.android.synthetic.main.layout_choice_detail.view.*
-import kotlinx.android.synthetic.main.layout_choice_header.view.*
+import kotlinx.android.synthetic.main.manhole_layout_choice_detail.view.*
+import kotlinx.android.synthetic.main.manhole_layout_choice_header.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
@@ -20,10 +20,10 @@ class ChoiceLayout(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
     constructor(context: Context?) : this(context, null, 0)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    val headerView = LayoutInflater.from(context).inflate(R.layout.layout_choice_header, null)
+    val headerView = LayoutInflater.from(context).inflate(R.layout.manhole_layout_choice_header, null)
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_choice_detail, this)
+        LayoutInflater.from(context).inflate(R.layout.manhole_layout_choice_detail, this)
         findViewById<View>(R.id.manhole_tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@ChoiceLayout) }
         setBackgroundColor(Color.WHITE)
     }

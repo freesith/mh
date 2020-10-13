@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -61,7 +60,7 @@ public class CoverLayout extends ContainerLayout {
 
     private void init(Context context) {
         this.context = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_cover, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.manhole_layout_cover, this);
         vMonitorView = view.findViewById(R.id.manhole_vMonitor);
         vHistoryShortcut = view.findViewById(R.id.manhole_vHistoryShortcut);
     }

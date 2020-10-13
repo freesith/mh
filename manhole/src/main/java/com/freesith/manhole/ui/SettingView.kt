@@ -15,7 +15,7 @@ import com.freesith.manhole.R
 import com.freesith.manhole.ext.default
 import com.freesith.manhole.history.ManholeHistory
 import com.freesith.manhole.util.ManholeSp
-import kotlinx.android.synthetic.main.layout_setting.view.*
+import kotlinx.android.synthetic.main.manhole_layout_setting.view.*
 import okhttp3.*
 import java.io.*
 
@@ -56,7 +56,7 @@ class SettingView : LinearLayout, View.OnClickListener {
 
     private fun init(context: Context) {
         this.thisContext = context
-        val view = LayoutInflater.from(context).inflate(R.layout.layout_setting, this)
+        val view = LayoutInflater.from(context).inflate(R.layout.manhole_layout_setting, this)
         manhole_btnEdit?.setOnClickListener(this)
         manhole_btnRefresh?.setOnClickListener(this)
         manhole_etPath?.setText(ManholeSp.dbPath.default("http://apk.minim.red/moc.db"))

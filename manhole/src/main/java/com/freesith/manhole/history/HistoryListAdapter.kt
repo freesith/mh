@@ -11,7 +11,7 @@ class HistoryListAdapter(context: Context) : BaseAdapter<HttpHistory>(context) {
 
     val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 
-    override fun getLayoutId(viewType: Int): Int = R.layout.item_history_list
+    override fun getLayoutId(viewType: Int): Int = R.layout.manhole_item_history_list
 
     override fun bindView(holder: BaseViewHolder<HttpHistory>?, t: HttpHistory, position: Int) {
         holder?.setText(R.id.manhole_tv_url, t?.url)

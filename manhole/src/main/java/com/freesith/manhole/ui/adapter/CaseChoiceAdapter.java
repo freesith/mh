@@ -49,9 +49,9 @@ public class CaseChoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_CASE) {
-            return new CaseHolder(LayoutInflater.from(context).inflate(R.layout.item_case, parent, false));
+            return new CaseHolder(LayoutInflater.from(context).inflate(R.layout.manhole_item_case, parent, false));
         } else {
-            return new ChoiceHolder(LayoutInflater.from(context).inflate(R.layout.item_enable_choice, parent, false));
+            return new ChoiceHolder(LayoutInflater.from(context).inflate(R.layout.manhole_item_enable_choice, parent, false));
         }
     }
 

@@ -24,7 +24,7 @@ import com.freesith.manhole.ui.adapter.MockAdapter
 import com.freesith.manhole.ui.adapter.MockAdapter.MockListener
 import com.freesith.manhole.ui.interfaces.MonitorListener
 import com.freesith.manhole.ui.util.ViewUtil
-import kotlinx.android.synthetic.main.layout_mock_list.view.*
+import kotlinx.android.synthetic.main.manhole_layout_mock_list.view.*
 import java.util.*
 
 class MockListLayout : LinearLayout, View.OnClickListener, FlowListener, CaseListener,
@@ -72,7 +72,7 @@ class MockListLayout : LinearLayout, View.OnClickListener, FlowListener, CaseLis
     private fun init(context: Context) {
         this.thisContext = context
         val view =
-            LayoutInflater.from(context).inflate(R.layout.layout_mock_list, this)
+            LayoutInflater.from(context).inflate(R.layout.manhole_layout_mock_list, this)
         manhole_tvFlow.setOnClickListener(this)
         manhole_tvCase.setOnClickListener(this)
         manhole_tvMock.setOnClickListener(this)

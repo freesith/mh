@@ -1,13 +1,11 @@
 package com.freesith.manhole.ui.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.freesith.manhole.R;
-import com.freesith.manhole.Util;
 import com.freesith.manhole.bean.Flow;
 import com.freesith.manhole.ui.adapter.base.BaseAdapter;
 import com.freesith.manhole.ui.adapter.base.BaseViewHolder;
@@ -27,7 +25,7 @@ public class FlowAdapter extends BaseAdapter<Flow> {
 
     @Override
     protected int getLayoutId(int viewType) {
-        return R.layout.item_flow;
+        return R.layout.manhole_item_flow;
     }
 
     @Override

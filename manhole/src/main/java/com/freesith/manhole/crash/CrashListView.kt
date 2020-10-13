@@ -11,7 +11,7 @@ import com.freesith.manhole.crash.ManholeCrash
 import com.freesith.manhole.ui.adapter.base.BaseAdapter
 import com.freesith.manhole.ui.adapter.base.LoadMoreAdapterDecorator
 import com.freesith.manhole.ui.interfaces.MonitorListener
-import kotlinx.android.synthetic.main.layout_crash.view.*
+import kotlinx.android.synthetic.main.manhole_layout_crash.view.*
 import kotlinx.coroutines.*
 
 class CrashListView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
@@ -27,7 +27,7 @@ class CrashListView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) 
     }
     var monitorListener: MonitorListener? = null
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_crash, this)
+        LayoutInflater.from(context).inflate(R.layout.manhole_layout_crash, this)
         manhole_rvCrash.layoutManager = LinearLayoutManager(context)
         manhole_rvCrash.adapter = loadMoreAdapterDecorator
         crashListAdapter.setOnItemClickListener(this)

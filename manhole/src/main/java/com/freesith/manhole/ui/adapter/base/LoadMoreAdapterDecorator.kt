@@ -41,7 +41,7 @@ class LoadMoreAdapterDecorator<T, V: BaseAdapter<T>>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         // 通过判断显示类型，来创建不同的View
         return if (viewType == LOAD_MORE_VIEW) {
-            val view = LayoutInflater.from(context).inflate(R.layout.item_list_load_more, parent, false)
+            val view = LayoutInflater.from(context).inflate(R.layout.manhole_item_list_load_more, parent, false)
             view.setOnClickListener {
                 if (status == STATE_LOAD_FAIL) {
                     setStatus(STATE_LOADING)

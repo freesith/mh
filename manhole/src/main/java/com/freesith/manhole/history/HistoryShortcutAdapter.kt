@@ -1,7 +1,6 @@
 package com.freesith.manhole.history
 
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import android.widget.TextView
 import com.freesith.manhole.R
@@ -16,7 +15,7 @@ class HistoryShortcutAdapter(context: Context) : BaseAdapter<HttpHistory>(contex
     }
 
     override fun getLayoutId(viewType: Int): Int {
-        return R.layout.item_history_shortcut
+        return R.layout.manhole_item_history_shortcut
     }
 
     override fun bindView(holder: BaseViewHolder<HttpHistory>?, t: HttpHistory, position: Int) {

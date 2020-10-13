@@ -84,7 +84,7 @@
 
         <ViewStub
             android:id="@+id/manhole_vbSetting"
-            android:layout="@layout/stub_setting"
+            android:layout="@layout/manhole_stub_setting"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

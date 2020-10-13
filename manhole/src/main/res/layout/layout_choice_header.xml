@@ -6,7 +6,7 @@
     android:padding="15dp">
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/manhole_tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="choice_hoghaoge"
@@ -16,60 +16,60 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/manhole_tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:textColor="@color/manhole_black"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvName" />
+        app:layout_constraintTop_toBottomOf="@id/manhole_tvName" />
 
     <TextView
-        android:id="@+id/tvDesc"
+        android:id="@+id/manhole_tvDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:textColor="@color/manhole_black"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@id/manhole_tvTitle" />
 
     <TextView
         android:visibility="gone"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tvDesc"
+        app:layout_constraintTop_toBottomOf="@id/manhole_tvDesc"
         app:layout_constraintLeft_toLeftOf="parent"
         android:text="urlQuery:"
         android:textStyle="bold"
-        android:id="@+id/compare1"
+        android:id="@+id/manhole_compare1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/compare1"
+        app:layout_constraintTop_toBottomOf="@id/manhole_compare1"
         android:layout_marginTop="5dp"
-        android:id="@+id/tvQuery"
+        android:id="@+id/manhole_tvQuery"
         android:textColor="@color/manhole_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
         android:layout_marginTop="10dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/tvQuery"
+        app:layout_constraintTop_toBottomOf="@id/manhole_tvQuery"
         app:layout_constraintLeft_toLeftOf="parent"
         android:text="requestBody:"
         android:textStyle="bold"
-        android:id="@+id/compare2"
+        android:id="@+id/manhole_compare2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/compare2"
+        app:layout_constraintTop_toBottomOf="@id/manhole_compare2"
         android:layout_marginTop="5dp"
-        android:id="@+id/tvRequestBody"
+        android:id="@+id/manhole_tvRequestBody"
         android:textColor="@color/manhole_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

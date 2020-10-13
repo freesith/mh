@@ -57,48 +57,48 @@ class SettingView : LinearLayout, View.OnClickListener {
     private fun init(context: Context) {
         this.thisContext = context
         val view = LayoutInflater.from(context).inflate(R.layout.layout_setting, this)
-        btnEdit?.setOnClickListener(this)
-        btnRefresh?.setOnClickListener(this)
-        etPath?.setText(ManholeSp.dbPath.default("http://apk.minim.red/moc.db"))
-        btnEdit?.setVisibility(View.GONE)
+        manhole_btnEdit?.setOnClickListener(this)
+        manhole_btnRefresh?.setOnClickListener(this)
+        manhole_etPath?.setText(ManholeSp.dbPath.default("http://apk.minim.red/moc.db"))
+        manhole_btnEdit?.setVisibility(View.GONE)
 
-        swHistory.isChecked = ManholeSp.enableHistory
-        swHistory.setOnCheckedChangeListener { buttonView, isChecked ->
+        manhole_swHistory.isChecked = ManholeSp.enableHistory
+        manhole_swHistory.setOnCheckedChangeListener { buttonView, isChecked ->
             ManholeSp.enableHistory = isChecked
         }
-        swSummon.isChecked = ManholeSp.enableSummon
-        swSummon.setOnCheckedChangeListener { buttonView, isChecked ->
+        manhole_swSummon.isChecked = ManholeSp.enableSummon
+        manhole_swSummon.setOnCheckedChangeListener { buttonView, isChecked ->
             ManholeSp.enableSummon = isChecked
         }
-        swShortcut.isChecked = ManholeSp.enableHistoryShortcut
-        swShortcut.setOnCheckedChangeListener { buttonView, isChecked ->
+        manhole_swShortcut.isChecked = ManholeSp.enableHistoryShortcut
+        manhole_swShortcut.setOnCheckedChangeListener { buttonView, isChecked ->
             ManholeSp.enableHistoryShortcut = isChecked
         }
-        btnClear?.setOnClickListener(this)
+        manhole_btnClear?.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.btnEdit -> {
-                if (etPath!!.isEnabled) {
-                    val trim = etPath!!.text.toString().trim { it <= ' ' }
+            R.id.manhole_btnEdit -> {
+                if (manhole_etPath!!.isEnabled) {
+                    val trim = manhole_etPath!!.text.toString().trim { it <= ' ' }
                     if (lastPath != trim) {
                         //TODO 2019-11-21 by WangChao 保存
                         refresh()
                     }
-                    etPath!!.isEnabled = false
-                    btnEdit!!.text = "编辑"
+                    manhole_etPath!!.isEnabled = false
+                    manhole_btnEdit!!.text = "编辑"
                 } else {
-                    etPath!!.isEnabled = true
-                    etPath!!.setSelection(etPath!!.text.length)
-                    btnEdit!!.text = "保存"
+                    manhole_etPath!!.isEnabled = true
+                    manhole_etPath!!.setSelection(manhole_etPath!!.text.length)
+                    manhole_btnEdit!!.text = "保存"
                 }
             }
-            R.id.btnRefresh -> {
+            R.id.manhole_btnRefresh -> {
                 refresh()
             }
 
-            R.id.btnClear -> {
+            R.id.manhole_btnClear -> {
                 ManholeHistory.clearDb()
                 Toast.makeText(thisContext, "已清空", Toast.LENGTH_SHORT).show()
             }
@@ -106,7 +106,7 @@ class SettingView : LinearLayout, View.OnClickListener {
     }
 
     private fun refresh() {
-        val trim = etPath!!.text.toString().trim { it <= ' ' }
+        val trim = manhole_etPath!!.text.toString().trim { it <= ' ' }
         if (trim.startsWith("http")) {
             downloadDbFile(trim)
             ManholeSp.dbPath = trim

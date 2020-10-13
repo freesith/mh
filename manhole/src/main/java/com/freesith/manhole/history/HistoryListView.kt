@@ -26,8 +26,8 @@ class HistoryListView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int
     var monitorListener: MonitorListener? = null
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_history, this)
-        rvHistory.layoutManager = LinearLayoutManager(context)
-        rvHistory.adapter = loadMoreAdapterDecorator
+        manhole_rvHistory.layoutManager = LinearLayoutManager(context)
+        manhole_rvHistory.adapter = loadMoreAdapterDecorator
         historyListAdapter.setOnItemClickListener(this)
     }
 

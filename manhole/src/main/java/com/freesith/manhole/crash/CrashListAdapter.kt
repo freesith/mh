@@ -15,9 +15,9 @@ class CrashListAdapter(context: Context) : BaseAdapter<CrashInfo>(context) {
     override fun getLayoutId(viewType: Int): Int = R.layout.item_crash_list
 
     override fun bindView(holder: BaseViewHolder<CrashInfo>?, t: CrashInfo, position: Int) {
-        holder?.setText(R.id.tvName, t?.name)
+        holder?.setText(R.id.manhole_tvName, t?.name)
         t?.time?.let {
-            holder?.setText(R.id.tvTime, timeFormat.format(Date(it)))
+            holder?.setText(R.id.manhole_tvTime, timeFormat.format(Date(it)))
         }
     }
 }

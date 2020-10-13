@@ -1,11 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llMock"
+    android:id="@+id/manhole_llMock"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMock"
+        android:id="@+id/manhole_rvMock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
@@ -18,7 +18,7 @@
 
         <TextView
             android:background="@color/manhole_white"
-            android:id="@+id/tvEnable"
+            android:id="@+id/manhole_tvEnable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
@@ -28,7 +28,7 @@
             android:text="启用的" />
 
         <TextView
-            android:id="@+id/tvMock"
+            android:id="@+id/manhole_tvMock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
@@ -38,7 +38,7 @@
             android:text="Mock" />
 
         <TextView
-            android:id="@+id/tvCase"
+            android:id="@+id/manhole_tvCase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
@@ -49,7 +49,7 @@
 
 
         <TextView
-            android:id="@+id/tvFlow"
+            android:id="@+id/manhole_tvFlow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"

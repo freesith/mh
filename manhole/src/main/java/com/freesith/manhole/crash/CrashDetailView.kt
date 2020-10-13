@@ -30,10 +30,10 @@ class CrashDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int
     var crashInfo: CrashInfo? = null
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_crash_detail, this)
-        findViewById<View>(R.id.tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@CrashDetailView) }
+        findViewById<View>(R.id.manhole_tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@CrashDetailView) }
         setBackgroundColor(Color.WHITE)
-        tvDesc.setOnClickListener(this)
-        tvClose.setOnClickListener(this)
+        manhole_tvDesc.setOnClickListener(this)
+        manhole_tvClose.setOnClickListener(this)
     }
 
     fun showCrash(crashId: Int) {
@@ -41,8 +41,8 @@ class CrashDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int
             withContext(Dispatchers.IO) { ManholeCrash.getExceptionById(crashId) }?.let {
                 crashInfo = it
                 launch (Dispatchers.Main){
-                    tvName.text = it.name
-                    tvDesc.text = it.desc
+                    manhole_tvName.text = it.name
+                    manhole_tvDesc.text = it.desc
                 }
             }
         }
@@ -50,13 +50,13 @@ class CrashDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.tvDesc -> {
+            R.id.manhole_tvDesc -> {
                 crashInfo?.desc?.let {
                     copy(it)
                 }
             }
 
-            R.id.tvClose -> {
+            R.id.manhole_tvClose -> {
                 (parent as ViewGroup).removeView(this@CrashDetailView)
             }
         }

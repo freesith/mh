@@ -108,8 +108,8 @@ class LoadMoreAdapterDecorator<T, V: BaseAdapter<T>>(
 
         inner class LoadMoreHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val pbLoad: ProgressBar = view.findViewById(R.id.pbLoad)
-        private val tvLoad: TextView = view.findViewById(R.id.tvLoad)
+        private val pbLoad: ProgressBar = view.findViewById(R.id.manhole_pb_Load)
+        private val tvLoad: TextView = view.findViewById(R.id.manhole_tv_Load)
 
         fun status(status: Int) {
             when (status) {

@@ -30,11 +30,11 @@ public class MockChoiceAdapter extends BaseAdapter<MockChoice> {
 
     @Override
     protected void bindView(BaseViewHolder<MockChoice> holder, final MockChoice mock, final int position) {
-        holder.setText(R.id.tvName, mock.name);
-        holder.setText(R.id.tvTitle, mock.title);
-        holder.setEmptyGoneText(R.id.tvDesc, mock.desc);
+        holder.setText(R.id.manhole_tvName, mock.name);
+        holder.setText(R.id.manhole_tvTitle, mock.title);
+        holder.setEmptyGoneText(R.id.manhole_tvDesc, mock.desc);
 
-        Switch switchMock = holder.getView(R.id.switchMock);
+        Switch switchMock = holder.getView(R.id.manhole_switchMock);
         switchMock.setOnCheckedChangeListener(null);
         switchMock.setChecked(mock.enable);
         switchMock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

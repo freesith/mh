@@ -24,38 +24,38 @@ class ChoiceLayout(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
 
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_choice_detail, this)
-        findViewById<View>(R.id.tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@ChoiceLayout) }
+        findViewById<View>(R.id.manhole_tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@ChoiceLayout) }
         setBackgroundColor(Color.WHITE)
     }
 
 
     fun showChoice(mockChoice: MockChoice) {
-        headerView.tvName.text = mockChoice.name
-        headerView.tvTitle.text = mockChoice.title
+        headerView.manhole_tvName.text = mockChoice.name
+        headerView.manhole_tvTitle.text = mockChoice.title
         if (mockChoice.desc.isNullOrEmpty()) {
-            headerView.tvDesc.visibility = View.GONE
+            headerView.manhole_tvDesc.visibility = View.GONE
         } else {
-            headerView.tvDesc.text = mockChoice.desc
+            headerView.manhole_tvDesc.text = mockChoice.desc
         }
         if (!mockChoice.urlQuery.isNullOrEmpty()) {
             val stringBuilder = StringBuilder()
             mockChoice.urlQuery.forEach {
                 stringBuilder.append(it.key).append(" = ").append(it.value).append("\n")
             }
-            headerView.compare1.visibility = View.VISIBLE
-            headerView.tvQuery.visibility = View.VISIBLE
-            headerView.tvQuery.text = stringBuilder.toString().trim()
+            headerView.manhole_compare1.visibility = View.VISIBLE
+            headerView.manhole_tvQuery.visibility = View.VISIBLE
+            headerView.manhole_tvQuery.text = stringBuilder.toString().trim()
         }
         if (!mockChoice.requestBody.isNullOrEmpty()) {
             val stringBuilder = StringBuilder()
             mockChoice.requestBody.forEach {
                 stringBuilder.append(it).append("\n")
             }
-            headerView.compare2.visibility = View.VISIBLE
-            headerView.tvRequestBody.visibility = View.VISIBLE
-            headerView.tvRequestBody.text = stringBuilder.toString().trim()
+            headerView.manhole_compare2.visibility = View.VISIBLE
+            headerView.manhole_tvRequestBody.visibility = View.VISIBLE
+            headerView.manhole_tvRequestBody.text = stringBuilder.toString().trim()
         }
-        v_response_json.setHeaderView(headerView)
-        v_response_json.setJson(mockChoice.data)
+        manhole_v_response_json.setHeaderView(headerView)
+        manhole_v_response_json.setJson(mockChoice.data)
     }
 }

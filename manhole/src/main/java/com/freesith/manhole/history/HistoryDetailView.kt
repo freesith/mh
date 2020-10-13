@@ -30,10 +30,10 @@ class HistoryDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: I
     var currentHistory: HttpHistory? = null
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_history_detail, this)
-        findViewById<View>(R.id.tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@HistoryDetailView) }
+        findViewById<View>(R.id.manhole_tvClose).setOnClickListener { (parent as ViewGroup).removeView(this@HistoryDetailView) }
         setBackgroundColor(Color.WHITE)
-        headerView.tvRequestBodyStart.setOnClickListener(this)
-        headerView.tvResponseBodyStart.setOnClickListener(this)
+        headerView.manhole_tvRequestBodyStart.setOnClickListener(this)
+        headerView.manhole_tvResponseBodyStart.setOnClickListener(this)
     }
 
     fun showHistory(historyId: Int) {
@@ -41,16 +41,16 @@ class HistoryDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: I
             withContext(Dispatchers.IO) { ManholeHistory.getHistoryById(historyId) }?.let {
                 currentHistory = it
                 launch (Dispatchers.Main){
-                    headerView.tv_url.text = it.url
-                    headerView.tv_method.text = it.method
-                    headerView.tv_code.text = it.code.toString()
-                    headerView.tv_time.text = timeFormat.format(Date(it.time))
+                    headerView.manhole_tv_url.text = it.url
+                    headerView.manhole_tv_method.text = it.method
+                    headerView.manhole_tv_code.text = it.code.toString()
+                    headerView.manhole_tv_time.text = timeFormat.format(Date(it.time))
                     if (!it.requestBody.isNullOrEmpty() && it.requestBody!!.startsWith("{")) {
-                        headerView.v_request_json.setJson(it.requestBody)
+                        headerView.manhole_v_request_json.setJson(it.requestBody)
                     }
-                    v_response_json.setHeaderView(headerView)
+                    manhole_v_response_json.setHeaderView(headerView)
                     if (!it.responseBody.isNullOrEmpty() && it.responseBody!!.startsWith("{")) {
-                        v_response_json.setJson(it.responseBody)
+                        manhole_v_response_json.setJson(it.responseBody)
                     }
                 }
             }
@@ -59,13 +59,13 @@ class HistoryDetailView(context: Context?, attrs: AttributeSet?, defStyleAttr: I
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.tvRequestBodyStart -> {
+            R.id.manhole_tvRequestBodyStart -> {
                 currentHistory?.requestBody?.let {
                     copy(it)
                 }
             }
 
-            R.id.tvResponseBodyStart -> {
+            R.id.manhole_tvResponseBodyStart -> {
                 currentHistory?.responseBody?.let {
                     copy(it)
                 }

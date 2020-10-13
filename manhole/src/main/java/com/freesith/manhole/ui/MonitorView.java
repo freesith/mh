@@ -68,21 +68,21 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
         this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_monitor, this);
 
-        ll_mock = view.findViewById(R.id.ll_mock);
-        vbSetting = view.findViewById(R.id.vbSetting);
-        v_mock = view.findViewById(R.id.v_mock);
-        tabMock = view.findViewById(R.id.tabMock);
-        tabSetting = view.findViewById(R.id.tabSetting);
-        tabHistory = view.findViewById(R.id.tabHistory);
-        v_history = view.findViewById(R.id.v_history);
-        tabCrash = view.findViewById(R.id.tabCrash);
-        vCrashList = view.findViewById(R.id.vCrash);
+        ll_mock = view.findViewById(R.id.manhole_ll_mock);
+        vbSetting = view.findViewById(R.id.manhole_vbSetting);
+        v_mock = view.findViewById(R.id.manhole_v_mock);
+        tabMock = view.findViewById(R.id.manhole_tabMock);
+        tabSetting = view.findViewById(R.id.manhole_tabSetting);
+        tabHistory = view.findViewById(R.id.manhole_tabHistory);
+        v_history = view.findViewById(R.id.manhole_v_history);
+        tabCrash = view.findViewById(R.id.manhole_tabCrash);
+        vCrashList = view.findViewById(R.id.manhole_vCrash);
 
         ll_mock.setMonitorListener(this);
         v_history.setMonitorListener(this);
         vCrashList.setMonitorListener(this);
 
-        view.findViewById(R.id.tvClose).setOnClickListener(this);
+        view.findViewById(R.id.manhole_tvClose).setOnClickListener(this);
         tabSetting.setOnClickListener(this);
         tabMock.setOnClickListener(this);
         tabHistory.setOnClickListener(this);
@@ -95,22 +95,22 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tvClose) {
+        if (v.getId() == R.id.manhole_tvClose) {
             if (context instanceof SettingActivity) {
                 ((Activity) context).onBackPressed();
             } else {
                 hideMonitorView();
             }
-        } else if (v.getId() == R.id.tabSetting) {
+        } else if (v.getId() == R.id.manhole_tabSetting) {
             switchSetting();
             updateTabs(v);
-        } else if (v.getId() == R.id.tabMock) {
+        } else if (v.getId() == R.id.manhole_tabMock) {
             switchMock();
             updateTabs(v);
-        } else if (v.getId() == R.id.tabHistory) {
+        } else if (v.getId() == R.id.manhole_tabHistory) {
             switchHistory();
             updateTabs(v);
-        } else if (v.getId() == R.id.tabCrash) {
+        } else if (v.getId() == R.id.manhole_tabCrash) {
             switchCrash();
             updateTabs(v);
         }
@@ -118,10 +118,10 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
 
 
     private void updateTabs(View v) {
-        tabMock.setBackgroundColor(v.getId() == R.id.tabMock ? Color.WHITE : Color.TRANSPARENT);
-        tabSetting.setBackgroundColor(v.getId() == R.id.tabSetting ? Color.WHITE : Color.TRANSPARENT);
-        tabHistory.setBackgroundColor(v.getId() == R.id.tabHistory ? Color.WHITE : Color.TRANSPARENT);
-        tabCrash.setBackgroundColor(v.getId() == R.id.tabCrash ? Color.WHITE : Color.TRANSPARENT);
+        tabMock.setBackgroundColor(v.getId() == R.id.manhole_tabMock ? Color.WHITE : Color.TRANSPARENT);
+        tabSetting.setBackgroundColor(v.getId() == R.id.manhole_tabSetting ? Color.WHITE : Color.TRANSPARENT);
+        tabHistory.setBackgroundColor(v.getId() == R.id.manhole_tabHistory ? Color.WHITE : Color.TRANSPARENT);
+        tabCrash.setBackgroundColor(v.getId() == R.id.manhole_tabCrash ? Color.WHITE : Color.TRANSPARENT);
     }
 
     private void hideMonitorView() {
@@ -145,7 +145,7 @@ public class MonitorView extends LinearLayout implements View.OnClickListener, M
     private void switchSetting() {
         if (settingView == null) {
             vbSetting.inflate();
-            settingView = findViewById(R.id.vSetting);
+            settingView = findViewById(R.id.manhole_vSetting);
         }
         ll_mock.setVisibility(View.GONE);
         vCrashList.setVisibility(View.GONE);

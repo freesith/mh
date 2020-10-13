@@ -13,7 +13,7 @@
 
         <TextView
             android:background="@color/manhole_white"
-            android:id="@+id/tabMock"
+            android:id="@+id/manhole_tabMock"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:text="Mock" />
 
         <TextView
-            android:id="@+id/tabHistory"
+            android:id="@+id/manhole_tabHistory"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:paddingBottom="10dp"
             android:text="History" />
         <TextView
-            android:id="@+id/tabCrash"
+            android:id="@+id/manhole_tabCrash"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:text="Crash" />
 
         <TextView
-            android:id="@+id/tabSetting"
+            android:id="@+id/manhole_tabSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -61,7 +61,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/tvClose"
+            android:id="@+id/manhole_tvClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -78,29 +78,29 @@
         android:layout_height="match_parent">
 
         <com.freesith.manhole.ui.MockListLayout
-            android:id="@+id/ll_mock"
+            android:id="@+id/manhole_ll_mock"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
         <ViewStub
-            android:id="@+id/vbSetting"
+            android:id="@+id/manhole_vbSetting"
             android:layout="@layout/stub_setting"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <com.freesith.manhole.ui.MockView
-            android:id="@+id/v_mock"
+            android:id="@+id/manhole_v_mock"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
         <com.freesith.manhole.history.HistoryListView
-            android:id="@+id/v_history"
+            android:id="@+id/manhole_v_history"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         <com.freesith.manhole.history.CrashListView
-            android:id="@+id/vCrash"
+            android:id="@+id/manhole_vCrash"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

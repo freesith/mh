@@ -6,11 +6,11 @@
     android:orientation="horizontal"
     android:gravity="center">
     <ProgressBar
-        android:id="@+id/pbLoad"
+        android:id="@+id/manhole_pb_Load"
         android:layout_width="18dp"
         android:layout_height="18dp"/>
     <TextView
-        android:id="@+id/tvLoad"
+        android:id="@+id/manhole_tv_Load"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"

@@ -57,7 +57,7 @@ abstract class BaseAdapter<T>(protected var context: Context) :
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         val t = mList!![position]
-        holder.itemView.setTag(R.id.tag_id_position, position)
+        holder.itemView.setTag(R.id.manhole_tag_id_position, position)
         bindView(holder, t, position)
     }
 
@@ -70,7 +70,7 @@ abstract class BaseAdapter<T>(protected var context: Context) :
     }
 
     override fun onClick(v: View) {
-        val tag = v.getTag(R.id.tag_id_position)
+        val tag = v.getTag(R.id.manhole_tag_id_position)
         if (tag is Int) {
             val position = tag
             if (onItemClickListener != null && position >= 0 && position < mList!!.size) {

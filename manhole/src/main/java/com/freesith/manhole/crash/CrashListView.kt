@@ -28,8 +28,8 @@ class CrashListView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) 
     var monitorListener: MonitorListener? = null
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_crash, this)
-        rvCrash.layoutManager = LinearLayoutManager(context)
-        rvCrash.adapter = loadMoreAdapterDecorator
+        manhole_rvCrash.layoutManager = LinearLayoutManager(context)
+        manhole_rvCrash.adapter = loadMoreAdapterDecorator
         crashListAdapter.setOnItemClickListener(this)
     }
 

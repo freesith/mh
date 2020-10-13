@@ -9,7 +9,7 @@
 
     <TextView
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/tvName"
+        android:id="@+id/manhole_tvName"
         android:textSize="15sp"
         android:textColor="@color/manhole_black"
         android:textStyle="bold"
@@ -19,12 +19,12 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/tvTime"
+        android:id="@+id/manhole_tvTime"
         android:layout_marginTop="4dp"
         android:textColor="@color/manhole_99"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/tvName"
-        app:layout_constraintLeft_toLeftOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/manhole_tvName"
+        app:layout_constraintLeft_toLeftOf="@id/manhole_tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

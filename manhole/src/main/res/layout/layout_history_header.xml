@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_url"
+        android:id="@+id/manhole_tv_url"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_method"
+        android:id="@+id/manhole_tv_method"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -27,67 +27,67 @@
         android:textColor="@color/manhole_post"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@id/tv_url"
-        app:layout_constraintTop_toBottomOf="@id/tv_url" />
+        app:layout_constraintLeft_toLeftOf="@id/manhole_tv_url"
+        app:layout_constraintTop_toBottomOf="@id/manhole_tv_url" />
 
     <TextView
-        android:id="@+id/tv_divide1"
+        android:id="@+id/manhole_tv_divide1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="/"
         android:textColor="@color/manhole_99"
-        app:layout_constraintBottom_toBottomOf="@id/tv_method"
-        app:layout_constraintLeft_toRightOf="@id/tv_method"
-        app:layout_constraintTop_toTopOf="@id/tv_method" />
+        app:layout_constraintBottom_toBottomOf="@id/manhole_tv_method"
+        app:layout_constraintLeft_toRightOf="@id/manhole_tv_method"
+        app:layout_constraintTop_toTopOf="@id/manhole_tv_method" />
 
     <TextView
-        android:id="@+id/tv_code"
+        android:id="@+id/manhole_tv_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_method"
-        app:layout_constraintLeft_toRightOf="@id/tv_divide1"
-        app:layout_constraintTop_toTopOf="@id/tv_method" />
+        app:layout_constraintBottom_toBottomOf="@id/manhole_tv_method"
+        app:layout_constraintLeft_toRightOf="@id/manhole_tv_divide1"
+        app:layout_constraintTop_toTopOf="@id/manhole_tv_method" />
 
     <TextView
-        android:id="@+id/tv_divide2"
+        android:id="@+id/manhole_tv_divide2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="/"
         android:textColor="@color/manhole_99"
-        app:layout_constraintBottom_toBottomOf="@id/tv_method"
-        app:layout_constraintLeft_toRightOf="@id/tv_code"
-        app:layout_constraintTop_toTopOf="@id/tv_method" />
+        app:layout_constraintBottom_toBottomOf="@id/manhole_tv_method"
+        app:layout_constraintLeft_toRightOf="@id/manhole_tv_code"
+        app:layout_constraintTop_toTopOf="@id/manhole_tv_method" />
 
 
     <TextView
-        android:id="@+id/tv_time"
+        android:id="@+id/manhole_tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
         android:textColor="@color/manhole_pure_black"
-        app:layout_constraintBottom_toBottomOf="@id/tv_method"
-        app:layout_constraintLeft_toRightOf="@id/tv_divide2"
-        app:layout_constraintTop_toTopOf="@id/tv_method" />
+        app:layout_constraintBottom_toBottomOf="@id/manhole_tv_method"
+        app:layout_constraintLeft_toRightOf="@id/manhole_tv_divide2"
+        app:layout_constraintTop_toTopOf="@id/manhole_tv_method" />
 
 
     <TextView
-        android:id="@+id/tvRequestBodyStart"
+        android:id="@+id/manhole_tvRequestBodyStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:text="REQUEST BODY:"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_method" />
+        app:layout_constraintTop_toBottomOf="@id/manhole_tv_method" />
 
     <com.freesith.jsonview.JsonView
-        android:id="@+id/v_request_json"
+        android:id="@+id/manhole_v_request_json"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -95,10 +95,10 @@
         android:layout_marginRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRequestBodyStart" />
+        app:layout_constraintTop_toBottomOf="@id/manhole_tvRequestBodyStart" />
 
     <TextView
-        android:id="@+id/tvResponseBodyStart"
+        android:id="@+id/manhole_tvResponseBodyStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -107,6 +107,6 @@
         android:text="RESPONSE BODY:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/v_request_json" />
+        app:layout_constraintTop_toBottomOf="@id/manhole_v_request_json" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

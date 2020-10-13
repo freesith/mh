@@ -59,9 +59,9 @@ public class CaseChoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CaseHolder) {
             final Case caze = caseList.get(position);
-            ((CaseHolder) holder).setText(R.id.tvName, caze.name);
-            ((CaseHolder) holder).setText(R.id.tvTitle, caze.title);
-            ((CaseHolder) holder).setEmptyGoneText(R.id.tvDesc, caze.desc);
+            ((CaseHolder) holder).setText(R.id.manhole_tvName, caze.name);
+            ((CaseHolder) holder).setText(R.id.manhole_tvTitle, caze.title);
+            ((CaseHolder) holder).setEmptyGoneText(R.id.manhole_tvDesc, caze.desc);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,20 +77,20 @@ public class CaseChoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ChoiceHolder choiceHolder = (ChoiceHolder)holder;
             String method = choice.method;
 
-            choiceHolder.setText(R.id.tvMockName, choice.mockName);
-            choiceHolder.setText(R.id.tvName, choice.name);
-            choiceHolder.setText(R.id.tvTitle, choice.title);
-            choiceHolder.setEmptyGoneText(R.id.tvDesc, choice.desc);
-            choiceHolder.setText(R.id.tvMethod, method.toUpperCase());
-            choiceHolder.setText(R.id.tvPath, choice.path);
+            choiceHolder.setText(R.id.manhole_tvMockName, choice.mockName);
+            choiceHolder.setText(R.id.manhole_tvName, choice.name);
+            choiceHolder.setText(R.id.manhole_tvTitle, choice.title);
+            choiceHolder.setEmptyGoneText(R.id.manhole_tvDesc, choice.desc);
+            choiceHolder.setText(R.id.manhole_tvMethod, method.toUpperCase());
+            choiceHolder.setText(R.id.manhole_tvPath, choice.path);
 
-            TextView tvPath = choiceHolder.getView(R.id.tvPath);
+            TextView tvPath = choiceHolder.getView(R.id.manhole_tvPath);
             //only support get & post for now
             if ("get".equalsIgnoreCase(method)) {
-                choiceHolder.getView(R.id.tvMethod).setBackgroundResource(R.drawable.manhole_left_circle_get);
+                choiceHolder.getView(R.id.manhole_tvMethod).setBackgroundResource(R.drawable.manhole_left_circle_get);
                 tvPath.setBackgroundResource(R.drawable.manhole_right_circle_stroke_get);
             } else {
-                choiceHolder.getView(R.id.tvMethod).setBackgroundResource(R.drawable.manhole_left_circle_post);
+                choiceHolder.getView(R.id.manhole_tvMethod).setBackgroundResource(R.drawable.manhole_left_circle_post);
                 tvPath.setBackgroundResource(R.drawable.manhole_right_circle_stroke_post);
             }
             if (choice.passive) {
@@ -99,7 +99,7 @@ public class CaseChoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 choiceHolder.getItemView().setBackgroundColor(context.getResources().getColor(R.color.manhole_white));
             }
 
-            Switch switchMock = choiceHolder.getView(R.id.switchMock);
+            Switch switchMock = choiceHolder.getView(R.id.manhole_switchMock);
             switchMock.setOnCheckedChangeListener(null);
             switchMock.setChecked(choice.enable);
 

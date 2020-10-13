@@ -32,19 +32,19 @@ public class MockAdapter extends BaseAdapter<Mock> {
     protected void bindView(BaseViewHolder<Mock> holder, final Mock mock, final int position) {
         String method = mock.request.method;
 
-        holder.setText(R.id.tvName, mock.name);
-        holder.setText(R.id.tvTitle, mock.title);
-        holder.setEmptyGoneText(R.id.tvDesc, mock.desc);
-        holder.setText(R.id.tvMethod, method.toUpperCase());
-        holder.setText(R.id.tvPath, mock.request.path);
+        holder.setText(R.id.manhole_tvName, mock.name);
+        holder.setText(R.id.manhole_tvTitle, mock.title);
+        holder.setEmptyGoneText(R.id.manhole_tvDesc, mock.desc);
+        holder.setText(R.id.manhole_tvMethod, method.toUpperCase());
+        holder.setText(R.id.manhole_tvPath, mock.request.path);
 
-        TextView tvPath = holder.getView(R.id.tvPath);
+        TextView tvPath = holder.getView(R.id.manhole_tvPath);
         //only support get & post for now
         if ("get".equalsIgnoreCase(method)) {
-            holder.getView(R.id.tvMethod).setBackgroundResource(R.drawable.manhole_left_circle_get);
+            holder.getView(R.id.manhole_tvMethod).setBackgroundResource(R.drawable.manhole_left_circle_get);
             tvPath.setBackgroundResource(R.drawable.manhole_right_circle_stroke_get);
         } else {
-            holder.getView(R.id.tvMethod).setBackgroundResource(R.drawable.manhole_left_circle_post);
+            holder.getView(R.id.manhole_tvMethod).setBackgroundResource(R.drawable.manhole_left_circle_post);
             tvPath.setBackgroundResource(R.drawable.manhole_right_circle_stroke_post);
         }
         if (mock.passive) {
@@ -53,7 +53,7 @@ public class MockAdapter extends BaseAdapter<Mock> {
             holder.getItemView().setBackgroundColor(getContext().getResources().getColor(R.color.manhole_white));
         }
 
-        Switch switchMock = holder.getView(R.id.switchMock);
+        Switch switchMock = holder.getView(R.id.manhole_switchMock);
         switchMock.setOnCheckedChangeListener(null);
         switchMock.setChecked(mock.enable);
         switchMock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -69,15 +69,15 @@ public class MockView extends LinearLayout implements EnableChoiceAdapter.Choice
         this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_mock, this);
 
-        tvName = view.findViewById(R.id.tvName);
-        tvTitle = view.findViewById(R.id.tvTitle);
-        tvDesc = view.findViewById(R.id.tvDesc);
-        tvMethod = view.findViewById(R.id.tvMethod);
-        tvPath = view.findViewById(R.id.tvPath);
-        tvHost = view.findViewById(R.id.tvHost);
-        rvChoice = view.findViewById(R.id.rvChoice);
+        tvName = view.findViewById(R.id.manhole_tvName);
+        tvTitle = view.findViewById(R.id.manhole_tvTitle);
+        tvDesc = view.findViewById(R.id.manhole_tvDesc);
+        tvMethod = view.findViewById(R.id.manhole_tvMethod);
+        tvPath = view.findViewById(R.id.manhole_tvPath);
+        tvHost = view.findViewById(R.id.manhole_tvHost);
+        rvChoice = view.findViewById(R.id.manhole_rvChoice);
 
-        findViewById(R.id.tvClose).setOnClickListener(new OnClickListener() {
+        findViewById(R.id.manhole_tvClose).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((ViewGroup) getParent()).removeView(MockView.this);

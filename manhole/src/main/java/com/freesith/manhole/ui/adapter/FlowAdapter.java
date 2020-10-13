@@ -32,9 +32,9 @@ public class FlowAdapter extends BaseAdapter<Flow> {
 
     @Override
     protected void bindView(BaseViewHolder<Flow> holder, final Flow flow, final int position) {
-        holder.setText(R.id.tvName, flow.name);
-        holder.setEmptyGoneText(R.id.tvDesc, flow.desc);
-        holder.setText(R.id.tvTitle, flow.title);
+        holder.setText(R.id.manhole_tvName, flow.name);
+        holder.setEmptyGoneText(R.id.manhole_tvDesc, flow.desc);
+        holder.setText(R.id.manhole_tvTitle, flow.title);
 
 //        String caseText = Util.join(flow.cases, ", ");
 //        if(!TextUtils.isEmpty(caseText)) {
@@ -52,7 +52,7 @@ public class FlowAdapter extends BaseAdapter<Flow> {
 //            holder.getView(R.id.tvMocks).setVisibility(View.GONE);
 //        }
 
-        Switch switchFlow = holder.getView(R.id.switchFlow);
+        Switch switchFlow = holder.getView(R.id.manhole_switchFlow);
         switchFlow.setOnCheckedChangeListener(null);
         switchFlow.setChecked(flow.enable);
         switchFlow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

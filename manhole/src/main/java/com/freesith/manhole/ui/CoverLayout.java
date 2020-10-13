@@ -62,8 +62,8 @@ public class CoverLayout extends ContainerLayout {
     private void init(Context context) {
         this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_cover, this);
-        vMonitorView = view.findViewById(R.id.vMonitor);
-        vHistoryShortcut = view.findViewById(R.id.vHistoryShortcut);
+        vMonitorView = view.findViewById(R.id.manhole_vMonitor);
+        vHistoryShortcut = view.findViewById(R.id.manhole_vHistoryShortcut);
     }
 
     private void showMonitorView(int left, int top, int right, int bottom) {

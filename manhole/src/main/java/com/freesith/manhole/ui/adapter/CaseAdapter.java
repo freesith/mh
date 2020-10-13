@@ -30,10 +30,10 @@ public class CaseAdapter extends BaseAdapter<Case> {
 
     @Override
     protected void bindView(BaseViewHolder<Case> holder, final Case aCase, final int position) {
-        holder.setText(R.id.tvName, aCase.name);
-        holder.setText(R.id.tvDesc, aCase.desc);
-        holder.setText(R.id.tvTitle, aCase.title);
-        Switch switchCase = holder.getView(R.id.switchCase);
+        holder.setText(R.id.manhole_tvName, aCase.name);
+        holder.setText(R.id.manhole_tvDesc, aCase.desc);
+        holder.setText(R.id.manhole_tvTitle, aCase.title);
+        Switch switchCase = holder.getView(R.id.manhole_switchCase);
         switchCase.setOnCheckedChangeListener(null);
         switchCase.setChecked(aCase.enable);
         switchCase.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

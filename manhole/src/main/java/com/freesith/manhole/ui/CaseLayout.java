@@ -60,11 +60,11 @@ public class CaseLayout extends LinearLayout implements CaseAdapter.CaseListener
     private void init(Context context) {
         this.context = context;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_case, this);
-        tvName = view.findViewById(R.id.tvName);
-        tvTitle = view.findViewById(R.id.tvTitle);
-        tvDesc = view.findViewById(R.id.tvDesc);
-        tvClose = view.findViewById(R.id.tvClose);
-        rvCase = view.findViewById(R.id.rvCase);
+        tvName = view.findViewById(R.id.manhole_tvName);
+        tvTitle = view.findViewById(R.id.manhole_tvTitle);
+        tvDesc = view.findViewById(R.id.manhole_tvDesc);
+        tvClose = view.findViewById(R.id.manhole_tvClose);
+        rvCase = view.findViewById(R.id.manhole_rvCase);
         rvCase.setLayoutManager(new LinearLayoutManager(context));
         caseChoiceAdapter = new CaseChoiceAdapter(context);
         caseChoiceAdapter.setCaseListener(this);

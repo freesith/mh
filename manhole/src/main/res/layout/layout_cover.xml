@@ -5,13 +5,13 @@
     android:orientation="vertical">
 
     <com.freesith.manhole.history.HistoryShortcut
-        android:id="@+id/vHistoryShortcut"
+        android:id="@+id/manhole_vHistoryShortcut"
         android:layout_gravity="right"
         android:layout_width="150dp"
         android:layout_height="300dp"/>
 
     <com.freesith.manhole.ui.MonitorView
-        android:id="@+id/vMonitor"
+        android:id="@+id/manhole_vMonitor"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

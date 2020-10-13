@@ -6,42 +6,42 @@
 
 
     <EditText
-        android:id="@+id/etPath"
+        android:id="@+id/manhole_etPath"
         android:hint="输入文件路径或网址"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/btnEdit"
+        android:id="@+id/manhole_btnEdit"
         android:text="编辑"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btnRefresh"
+        android:id="@+id/manhole_btnRefresh"
         android:text="刷新"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Switch
-        android:id="@+id/swHistory"
+        android:id="@+id/manhole_swHistory"
         android:text="开启历史记录"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Switch
-        android:id="@+id/swShortcut"
+        android:id="@+id/manhole_swShortcut"
         android:text="开启请求提示"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Switch
         android:layout_marginTop="10dp"
-        android:id="@+id/swSummon"
+        android:id="@+id/manhole_swSummon"
         android:text="开启传送门"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btnClear"
+        android:id="@+id/manhole_btnClear"
         android:text="清空请求历史"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

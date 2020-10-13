@@ -20,12 +20,12 @@ class HistoryShortcutAdapter(context: Context) : BaseAdapter<HttpHistory>(contex
     }
 
     override fun bindView(holder: BaseViewHolder<HttpHistory>?, t: HttpHistory, position: Int) {
-        holder?.setText(R.id.tvHistory, t.url)
+        holder?.setText(R.id.manhole_tvHistory, t.url)
         Log.d("xxx", "bind position = " + position + "   code = " + t.code)
         if (t.code == null) {
-            holder?.getView<TextView>(R.id.tvHistory)?.setBackgroundColor(COLOR_LOADING)
+            holder?.getView<TextView>(R.id.manhole_tvHistory)?.setBackgroundColor(COLOR_LOADING)
         } else {
-            holder?.getView<TextView>(R.id.tvHistory)?.setBackgroundColor(COLOR_FINISH)
+            holder?.getView<TextView>(R.id.manhole_tvHistory)?.setBackgroundColor(COLOR_FINISH)
         }
     }
 }

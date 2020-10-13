@@ -14,11 +14,11 @@ class HistoryListAdapter(context: Context) : BaseAdapter<HttpHistory>(context) {
     override fun getLayoutId(viewType: Int): Int = R.layout.item_history_list
 
     override fun bindView(holder: BaseViewHolder<HttpHistory>?, t: HttpHistory, position: Int) {
-        holder?.setText(R.id.tv_url, t?.url)
-        holder?.setText(R.id.tv_method, t?.method)
-        holder?.setText(R.id.tv_code, t?.code?.toString())
+        holder?.setText(R.id.manhole_tv_url, t?.url)
+        holder?.setText(R.id.manhole_tv_method, t?.method)
+        holder?.setText(R.id.manhole_tv_code, t?.code?.toString())
         t?.time?.let {
-            holder?.setText(R.id.tv_time, timeFormat.format(Date(it)))
+            holder?.setText(R.id.manhole_tv_time, timeFormat.format(Date(it)))
         }
     }
 }

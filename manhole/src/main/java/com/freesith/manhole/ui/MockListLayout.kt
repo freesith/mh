@@ -73,16 +73,16 @@ class MockListLayout : LinearLayout, View.OnClickListener, FlowListener, CaseLis
         this.thisContext = context
         val view =
             LayoutInflater.from(context).inflate(R.layout.layout_mock_list, this)
-        tvFlow.setOnClickListener(this)
-        tvCase.setOnClickListener(this)
-        tvMock.setOnClickListener(this)
-        tvEnable.setOnClickListener(this)
-        rvMock.setLayoutManager(LinearLayoutManager(context))
+        manhole_tvFlow.setOnClickListener(this)
+        manhole_tvCase.setOnClickListener(this)
+        manhole_tvMock.setOnClickListener(this)
+        manhole_tvEnable.setOnClickListener(this)
+        manhole_rvMock.setLayoutManager(LinearLayoutManager(context))
     }
 
     fun show() {
         showEnable()
-        updateButtons(tvEnable)
+        updateButtons(manhole_tvEnable)
     }
 
     private fun showEnable() {
@@ -99,7 +99,7 @@ class MockListLayout : LinearLayout, View.OnClickListener, FlowListener, CaseLis
             }
         }
         enableAdapter!!.setList(choiceList)
-        rvMock!!.adapter = enableAdapter
+        manhole_rvMock!!.adapter = enableAdapter
         enableAdapter!!.notifyDataSetChanged()
     }
 
@@ -110,7 +110,7 @@ class MockListLayout : LinearLayout, View.OnClickListener, FlowListener, CaseLis
         }
         val flows = ManholeMock.flows
         flowAdapter!!.setList(flows)
-        rvMock!!.adapter = flowAdapter
+        manhole_rvMock!!.adapter = flowAdapter
         flowAdapter!!.notifyDataSetChanged()
     }
 
@@ -121,7 +121,7 @@ class MockListLayout : LinearLayout, View.OnClickListener, FlowListener, CaseLis
         }
         val cases = ManholeMock.cases
         caseAdapter!!.setList(cases)
-        rvMock!!.adapter = caseAdapter
+        manhole_rvMock!!.adapter = caseAdapter
         caseAdapter!!.notifyDataSetChanged()
     }
 
@@ -132,31 +132,31 @@ class MockListLayout : LinearLayout, View.OnClickListener, FlowListener, CaseLis
         }
         val mocks = ManholeMock.mocks
         mockAdapter!!.setList(mocks)
-        rvMock!!.adapter = mockAdapter
+        manhole_rvMock!!.adapter = mockAdapter
         mockAdapter!!.notifyDataSetChanged()
     }
 
     override fun onClick(v: View) {
-        if (v.id == R.id.tvFlow) {
+        if (v.id == R.id.manhole_tvFlow) {
             showFlow()
             updateButtons(v)
-        } else if (v.id == R.id.tvCase) {
+        } else if (v.id == R.id.manhole_tvCase) {
             showCase()
             updateButtons(v)
-        } else if (v.id == R.id.tvMock) {
+        } else if (v.id == R.id.manhole_tvMock) {
             showMock()
             updateButtons(v)
-        } else if (v.id == R.id.tvEnable) {
+        } else if (v.id == R.id.manhole_tvEnable) {
             showEnable()
             updateButtons(v)
         }
     }
 
     private fun updateButtons(v: View?) {
-        tvCase!!.setBackgroundColor(if (v!!.id == R.id.tvCase) Color.WHITE else Color.TRANSPARENT)
-        tvEnable!!.setBackgroundColor(if (v.id == R.id.tvEnable) Color.WHITE else Color.TRANSPARENT)
-        tvFlow!!.setBackgroundColor(if (v.id == R.id.tvFlow) Color.WHITE else Color.TRANSPARENT)
-        tvMock!!.setBackgroundColor(if (v.id == R.id.tvMock) Color.WHITE else Color.TRANSPARENT)
+        manhole_tvCase!!.setBackgroundColor(if (v!!.id == R.id.manhole_tvCase) Color.WHITE else Color.TRANSPARENT)
+        manhole_tvEnable!!.setBackgroundColor(if (v.id == R.id.manhole_tvEnable) Color.WHITE else Color.TRANSPARENT)
+        manhole_tvFlow!!.setBackgroundColor(if (v.id == R.id.manhole_tvFlow) Color.WHITE else Color.TRANSPARENT)
+        manhole_tvMock!!.setBackgroundColor(if (v.id == R.id.manhole_tvMock) Color.WHITE else Color.TRANSPARENT)
     }
 
     override fun onFlowEnableChanged(

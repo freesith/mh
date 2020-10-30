@@ -18,6 +18,10 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
+    companion object {
+        private const val TAG = "manhole_history"
+    }
+
     private val historyAdapter: HistoryShortcutAdapter
     private val recyclerView: RecyclerView = RecyclerView(context)
 
@@ -38,11 +42,13 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
     }
 
     fun onStop() {
-
+        if (HistoryShortcutPool.historyChangeListener == this) {
+            HistoryShortcutPool.historyChangeListener = null
+        }
     }
 
     override fun onHistoryReplace(list: List<HttpHistory>) {
-        Log.d("xxx", "onHistoryReplace size = " + list.size)
+        Log.d(TAG, "onHistoryReplace size = " + list.size)
         launch(Dispatchers.IO) {
             historyAdapter.clear()
             historyAdapter.addList(list)
@@ -53,7 +59,7 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
     }
 
     override fun onNewRequest(history: HttpHistory) {
-        Log.d("xxx", "onNewRequest")
+        Log.d(TAG, "onNewRequest")
         if (!historyAdapter.mList.contains(history)) {
             historyAdapter.add(history, 0)
             historyAdapter.notifyItemInserted(0)
@@ -62,7 +68,7 @@ class HistoryShortcut(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
     }
 
     override fun onRequestFinish(history: HttpHistory, position: Int) {
-        Log.d("xxx","receive finish")
+        Log.d(TAG,"receive finish")
         historyAdapter.notifyItemChanged(position)
     }
 

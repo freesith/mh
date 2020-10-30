@@ -1,7 +1,6 @@
 package com.freesith.manhole.history
 
 import android.content.Context
-import android.util.Log
 import android.widget.TextView
 import com.freesith.manhole.R
 import com.freesith.manhole.ui.adapter.base.BaseAdapter
@@ -20,7 +19,6 @@ class HistoryShortcutAdapter(context: Context) : BaseAdapter<HttpHistory>(contex
 
     override fun bindView(holder: BaseViewHolder<HttpHistory>?, t: HttpHistory, position: Int) {
         holder?.setText(R.id.manhole_tvHistory, t.url)
-        Log.d("xxx", "bind position = " + position + "   code = " + t.code)
         if (t.code == null) {
             holder?.getView<TextView>(R.id.manhole_tvHistory)?.setBackgroundColor(COLOR_LOADING)
         } else {

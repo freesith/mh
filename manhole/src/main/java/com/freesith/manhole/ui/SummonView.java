@@ -18,7 +18,7 @@ import androidx.annotation.RequiresApi;
 
 public class SummonView extends View implements View.OnTouchListener {
 
-    public static final String TAG = "xxx";
+    public static final String TAG = "manhole_summon";
     private float downX = -1;
     private float downY = -1;
     private Point left = new Point();

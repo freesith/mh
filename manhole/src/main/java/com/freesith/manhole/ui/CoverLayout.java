@@ -26,8 +26,6 @@ import com.freesith.manhole.util.ManholeSp;
 
 public class CoverLayout extends ContainerLayout {
 
-    private static final String TAG = "xxx";
-
     private float downX = -1;
     private float downY = -1;
     private Point left = new Point();

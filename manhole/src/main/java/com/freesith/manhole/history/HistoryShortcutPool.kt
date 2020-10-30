@@ -7,6 +7,7 @@ import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
 object HistoryShortcutPool : CoroutineScope by MainScope() {
+    private const val TAG = "manhole_shortcut_pool"
 
     var historyChangeListener: HistoryChangeListener? = null
         set(value) {
@@ -18,17 +19,17 @@ object HistoryShortcutPool : CoroutineScope by MainScope() {
     var size = AtomicInteger(0)
 
     fun newRequest(history: HttpHistory) {
-        Log.d("xxx", "new request")
+        Log.d(TAG, "new request")
         historyList.add(0, history)
         val incrementAndGet = size.incrementAndGet()
-        Log.d("xxx", "newSize = " + incrementAndGet)
+        Log.d(TAG, "newSize = " + incrementAndGet)
         launch {
             historyChangeListener?.onNewRequest(history)
         }
         launch(Dispatchers.IO) {
             delay(5000)
             val curSize = size.get()
-            Log.d("xxx","curSize = " + curSize)
+            Log.d(TAG,"curSize = " + curSize)
             if (curSize > 0) {
                 val decrementAndGet = size.decrementAndGet()
                 try {
@@ -44,7 +45,7 @@ object HistoryShortcutPool : CoroutineScope by MainScope() {
     }
 
     fun requestFinish(history: HttpHistory) {
-        Log.d("xxx", "requestFinish listener = " + historyChangeListener)
+        Log.d(TAG, "requestFinish listener = " + historyChangeListener)
         launch {
             historyChangeListener?.onRequestFinish(history, historyList.indexOf(history))
         }

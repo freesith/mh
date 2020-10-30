@@ -49,7 +49,6 @@ class ScaleAnimateTouchListener : View.OnTouchListener {
 
     override fun onTouch(view: View?, event: MotionEvent?): Boolean {
         if (view != null && event != null) {
-            Log.d("xxx","action = " + MotionEvent.actionToString(event.action))
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     downTime = SystemClock.elapsedRealtime()

@@ -8,6 +8,8 @@ import com.alibaba.fastjson.JSON
 import com.freesith.manhole.bean.*
 import okhttp3.Request
 import okhttp3.Response
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -58,6 +60,93 @@ object ManholeMock {
             }
         }
         return null
+    }
+
+    fun wipeResponse(jsonString: String, tamper: Map<String, Any>) : String {
+        val jsonObject : JSONObject
+        try {
+            jsonObject = JSONObject(jsonString)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            return jsonString
+        }
+        tamper.entries.forEach {
+            val key = it.key
+            val value = it.value
+
+            val split = key.split(".")
+            if (split.size <= 1) {
+                //likeToday = 10
+                //checkDisplay = 1
+                //showSuper = false
+                //location = [123.1,34.4]
+                //name = "测试十个字的显示情况"
+
+                if ("null" == value) {
+                    jsonObject.remove(key)
+                } else {
+                    jsonObject.put(key,value)
+                }
+            } else {
+                var targetObj : Any = jsonObject
+                var lastKey = ""
+                split.forEachIndexed { index, keyStep ->
+                    if (index == split.size - 1) {
+                        lastKey = keyStep
+                    } else {
+                        when(targetObj) {
+                            is JSONObject -> {
+                                ////TODO 2020/10/30 by WangChao 当前不支持添加key, 找不到对应的字段,就退出
+                                val opt = (targetObj as JSONObject).opt(keyStep)
+                                if (opt == null) {
+                                    return@forEachIndexed
+                                } else {
+                                    targetObj = opt
+                                }
+                            }
+                            is JSONArray -> {
+                                if (keyStep.startsWith("[") && keyStep.endsWith("]")) {
+                                    val subIndex = keyStep.substring(1, keyStep.length - 1)
+                                    val index = subIndex.toIntOrNull()
+                                    if (index != null && index >= 0 && index < (targetObj as JSONArray).length()) {
+                                        targetObj = (targetObj as JSONArray)[index]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!lastKey.isNullOrEmpty()) {
+                    when (targetObj) {
+                        is JSONObject -> {
+                            if ("null" == value) {
+                                (targetObj as JSONObject).remove(lastKey)
+                            } else {
+                                (targetObj as JSONObject).put(lastKey,value)
+                            }
+                        }
+
+                        is JSONArray -> {
+                            if (lastKey.startsWith("[") && lastKey.endsWith("]")) {
+                                val subIndex = lastKey.substring(1, lastKey.length - 1)
+                                val index = subIndex.toIntOrNull()
+                                if (index != null && index >= 0 && index < (targetObj as JSONArray).length()) {
+                                    (targetObj as JSONArray).put(index, value)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        val toString = jsonObject.toString()
+        if (toString.isNullOrEmpty()) {
+            return jsonString
+        } else {
+            return toString
+        }
     }
 
     /**
@@ -506,7 +595,7 @@ END;""", arrayOf()
         return mock
     }
 
-    const val TAG = "xxx_mox"
+    const val TAG = "manhole_mock"
     const val FLAG_ENABLE = 1
     const val FLAG_PASSIVE = 1 shl 1
     const val ACTION_SHOW_MOCK = 1

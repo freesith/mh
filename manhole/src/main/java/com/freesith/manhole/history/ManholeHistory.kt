@@ -57,7 +57,7 @@ object ManholeHistory {
         var responseBodyString = if (contentLength > 0) {
             response.peekBody(contentLength).string()
         } else {
-            ""
+            response.peekBody(Long.MAX_VALUE).string()
         }
 //        val case = Case()
 //        case.desc = "xgagea"

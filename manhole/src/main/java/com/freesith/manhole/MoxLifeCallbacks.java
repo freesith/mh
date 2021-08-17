@@ -28,20 +28,18 @@ public class MoxLifeCallbacks implements Application.ActivityLifecycleCallbacks 
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        if (activity.getClass().getName().startsWith(packageName)) {
-            FrameLayout content = activity.findViewById(android.R.id.content);
-            int childCount = content.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View child = content.getChildAt(i);
-                if (child instanceof CoverLayout) {
-                    ((CoverLayout)child).onStart();
-                    return;
-                }
+        FrameLayout content = activity.findViewById(android.R.id.content);
+        int childCount = content.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = content.getChildAt(i);
+            if (child instanceof CoverLayout) {
+                ((CoverLayout)child).onStart();
+                return;
             }
-            CoverLayout summonView = new CoverLayout(activity);
-            content.addView(summonView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-            summonView.onStart();
         }
+        CoverLayout summonView = new CoverLayout(activity);
+        content.addView(summonView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        summonView.onStart();
     }
 
     @Override
